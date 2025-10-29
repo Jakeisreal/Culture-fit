@@ -277,8 +277,8 @@ export default function CultureFitApp() {
 
       setSessionId(data.sessionId);
       setQuestions(data.questions || []);
-      setStage('test');
-      startTimer();
+      // 인증 성공 후 유의사항 안내 화면으로 이동
+      setStage('prestart');
       
       // URL 업데이트
       window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
@@ -463,6 +463,30 @@ export default function CultureFitApp() {
     );
   }
 
+  // 인증 후 유의사항 안내 화면
+  if (stage === 'prestart') {
+    const total = questions.length || 300;
+    const minutes = Math.round(timeLimit / 60);
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center p-4">
+        <div className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8 md:p-12 animate-in fade-in zoom-in duration-500">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">검사 유의사항</h2>
+          <ul className="space-y-3 text-gray-700 mb-6">
+            <li className="flex items-start gap-3"><span className="mt-1">•</span> 총 문항 수는 <strong>{total}문항</strong>입니다.</li>
+            <li className="flex items-start gap-3"><span className="mt-1">•</span> 응시 시간은 최대 <strong>{minutes}분</strong>입니다.</li>
+            <li className="flex items-start gap-3"><span className="mt-1">•</span> 중간에 나갈 경우 <strong>24시간 이내 재응시가 제한</strong>될 수 있습니다.</li>
+            <li className="flex items-start gap-3"><span className="mt-1">•</span> 부정 행위(복사, 다른 탭 이동 등) 발생 시 기록됩니다.</li>
+          </ul>
+          <p className="text-gray-700 mb-6">상기 내용을 이해하셨다면 검사를 시작해주십시오.</p>
+          <div className="flex gap-3">
+            <Button variant="secondary" className="flex-1" onClick={() => setStage('auth')}>뒤로가기</Button>
+            <Button className="flex-1" onClick={() => { setStage('test'); startTimer(); }}>시작</Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (stage === 'submitted') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center p-4">
@@ -563,7 +587,7 @@ export default function CultureFitApp() {
                           disabled={sidebarPage === 0}
                           onClick={() => setSidebarPage((p) => Math.max(0, p - 1))}
                         >
-                          <ChevronLeft className="w-4 h-4" /> 이전 20문항
+                          이전 20문항
                         </Button>
                         <span className="text-xs text-gray-500">{sidebarPage + 1} / {totalPages}</span>
                         <Button
@@ -572,7 +596,7 @@ export default function CultureFitApp() {
                           disabled={sidebarPage >= totalPages - 1}
                           onClick={() => setSidebarPage((p) => Math.min(totalPages - 1, p + 1))}
                         >
-                          다음 20문항 <ChevronRight className="w-4 h-4" />
+                          다음 20문항
                         </Button>
                       </div>
                     </>
@@ -660,7 +684,6 @@ export default function CultureFitApp() {
                 disabled={currentIndex === 0}
                 className="flex-1"
               >
-                <ChevronLeft className="w-5 h-5" />
                 이전
               </Button>
               <Button
@@ -680,15 +703,9 @@ export default function CultureFitApp() {
                 className="flex-1"
               >
                 {currentIndex < questions.length - 1 ? (
-                  <>
-                    다음
-                    <ChevronRight className="w-5 h-5" />
-                  </>
+                  <>다음</>
                 ) : (
-                  <>
-                    제출하기
-                    <Send className="w-5 h-5" />
-                  </>
+                  <>제출하기</>
                 )}
               </Button>
             </div>
