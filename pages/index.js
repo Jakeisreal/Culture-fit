@@ -238,7 +238,7 @@ export default function CultureFitApp() {
   
   // UI state
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const timeLimit = 30 * 60; // 30분
+  const timeLimit = 25 * 60; // 25분
   const { timeLeft, start: startTimer, stop: stopTimer } = useTimer(timeLimit, () => handleSubmit(true));
   const questionScrollRef = useRef(null);
 
@@ -409,7 +409,7 @@ export default function CultureFitApp() {
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>검사에는 약 <strong>30분</strong>이 소요됩니다.</span>
+                <span>검사에는 약 <strong>25분</strong>이 소요됩니다.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
