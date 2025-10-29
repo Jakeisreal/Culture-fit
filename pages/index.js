@@ -363,8 +363,8 @@ export default function CultureFitApp() {
             <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
               <CheckCircle className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">Culture-Fit 검사</h1>
-            <p className="text-lg text-gray-600">조직 문화 적합도를 빠르고 정확하게 확인하세요.</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">화신 Culture-Fit 검사</h1>
+            <p className="text-lg text-gray-600">모든 문항에 솔직하고 정확하게 확인하세요.</p>
           </div>
 
           <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-6 mb-8">
@@ -375,7 +375,7 @@ export default function CultureFitApp() {
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>검사에는 약 <strong>{timelimit}분</strong>이 소요됩니다.</span>
+                <span>검사에는 약 <strong>20분</strong>이 소요됩니다.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
