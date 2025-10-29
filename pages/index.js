@@ -25,6 +25,19 @@ const formatTime = (seconds) => {
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
+// 한국 전화번호 자동 하이픈 포맷팅
+const formatKoreanPhone = (value) => {
+  const digits = String(value || '').replace(/[^0-9]/g, '');
+  if (digits.startsWith('02')) {
+    if (digits.length <= 2) return digits;
+    if (digits.length <= 5) return `${digits.slice(0, 2)}-${digits.slice(2)}`;
+    return `${digits.slice(0, 2)}-${digits.slice(2, digits.length - 4)}-${digits.slice(-4)}`;
+  }
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, digits.length - 4)}-${digits.slice(-4)}`;
+};
+
 // ============= 커스텀 훅 =============
 const useTimer = (initialTime, onExpire) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
@@ -118,11 +131,11 @@ const Alert = ({ type = 'error', children, onClose }) => {
 };
 
 const Button = ({ variant = 'primary', size = 'md', loading, disabled, children, ...props }) => {
-  const baseStyles = 'font-semibold rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2 disabled:cursor-not-allowed';
+  const baseStyles = 'font-semibold rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-300 disabled:cursor-not-allowed disabled:opacity-50';
   const variants = {
-    primary: 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:shadow-lg hover:scale-105 active:scale-100 disabled:opacity-50 disabled:hover:scale-100',
-    secondary: 'bg-white text-gray-700 border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 active:bg-gray-100',
-    ghost: 'text-gray-600 hover:bg-gray-100 active:bg-gray-200',
+    primary: 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm hover:shadow-md hover:brightness-105 active:brightness-95',
+    secondary: 'bg-white text-gray-700 border border-gray-300 shadow-sm hover:bg-gray-50 active:bg-gray-100',
+    ghost: 'text-gray-700 hover:bg-gray-100 active:bg-gray-200',
   };
   const sizes = {
     sm: 'px-4 py-2 text-sm',
@@ -375,7 +388,7 @@ export default function CultureFitApp() {
 
           <Button
             size="lg"
-            className="w-full"
+            className="w-full shadow-md hover:shadow-lg"
             onClick={() => setStage('auth')}
           >
             검사 시작하기
@@ -424,9 +437,12 @@ export default function CultureFitApp() {
               <input
                 type="tel"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => setPhone(formatKoreanPhone(e.target.value))}
                 onKeyPress={(e) => e.key === 'Enter' && handleAuth()}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
+                inputMode="numeric"
+                pattern="[0-9-]*"
+                maxLength={13}
                 placeholder="010-1234-5678"
                 disabled={loading}
               />
@@ -435,7 +451,7 @@ export default function CultureFitApp() {
 
           <Button
             size="lg"
-            className="w-full mt-6"
+            className="w-full mt-6 shadow-md hover:shadow-lg"
             onClick={handleAuth}
             loading={loading}
             disabled={loading}
