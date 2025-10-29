@@ -375,7 +375,7 @@ export default function CultureFitApp() {
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>검사에는 약 <strong>30분</strong>이 소요됩니다.</span>
+                <span>검사에는 약 <strong>{timelimit}분</strong>이 소요됩니다.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
