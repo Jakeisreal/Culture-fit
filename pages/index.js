@@ -184,12 +184,17 @@ export default function CultureFitApp() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [focusOutCount, setFocusOutCount] = useState(0);
+  // Sidebar pagination (20 items per page)
+  const PAGE_SIZE = 20;
+  const [sidebarPage, setSidebarPage] = useState(0);
+  const totalPages = Math.max(1, Math.ceil((questions?.length || 0) / PAGE_SIZE));
   
   // UI state
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const timeLimit = 30 * 60; // 30분
   
   const { timeLeft, start: startTimer, stop: stopTimer } = useTimer(timeLimit, () => handleSubmit(true));
+  const questionScrollRef = useRef(null);
 
   // Anti-cheat logging
   const logEvent = useCallback(async (eventType, data = {}) => {
@@ -316,8 +321,19 @@ export default function CultureFitApp() {
     if (index >= 0 && index < questions.length) {
       setCurrentIndex(index);
       setError(null);
+      setSidebarPage(Math.floor(index / PAGE_SIZE));
+      if (questionScrollRef.current) {
+        try { questionScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' }); } catch {}
+      }
     }
   };
+
+  // Ensure current question shows at top without manual scroll
+  useEffect(() => {
+    if (questionScrollRef.current) {
+      try { questionScrollRef.current.scrollTo({ top: 0 }); } catch {}
+    }
+  }, [currentIndex, stage]);
 
   // ============= 렌더링 =============
   if (stage === 'welcome') {
@@ -495,28 +511,57 @@ export default function CultureFitApp() {
                 <ProgressBar current={answeredCount} total={questions.length} />
               </div>
 
-              {/* Question Grid */}
+              {/* Question Grid with pagination */}
               <div className="flex-1 px-6 overflow-y-auto">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">문항 목록</h3>
-                <div className="grid grid-cols-6 gap-2">
-                  {questions.map((q, idx) => {
-                    const answered = answers[q.id] !== undefined;
-                    const isCurrent = idx === currentIndex;
-                    return (
-                      <button
-                        key={idx}
-                        onClick={() => goToQuestion(idx)}
-                        className={`
-                          aspect-square rounded-lg text-sm font-semibold transition-all
-                          ${isCurrent ? 'ring-2 ring-purple-500 ring-offset-2' : ''}
-                          ${answered ? 'bg-gradient-to-br from-purple-500 to-indigo-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}
-                        `}
-                      >
-                        {idx + 1}
-                      </button>
-                    );
-                  })}
-                </div>
+                {(() => {
+                  const start = sidebarPage * PAGE_SIZE;
+                  const end = Math.min(start + PAGE_SIZE, questions.length);
+                  const slice = questions.slice(start, end);
+                  return (
+                    <>
+                      <div className="grid grid-cols-6 gap-2">
+                        {slice.map((q, i) => {
+                          const idx = start + i;
+                          const answered = answers[q.id] !== undefined;
+                          const isCurrent = idx === currentIndex;
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => goToQuestion(idx)}
+                              className={`
+                                aspect-square rounded-lg text-sm font-semibold transition-all
+                                ${isCurrent ? 'ring-2 ring-purple-500 ring-offset-2' : ''}
+                                ${answered ? 'bg-gradient-to-br from-purple-500 to-indigo-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}
+                              `}
+                            >
+                              {idx + 1}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div className="flex items-center justify-between mt-4">
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          disabled={sidebarPage === 0}
+                          onClick={() => setSidebarPage((p) => Math.max(0, p - 1))}
+                        >
+                          <ChevronLeft className="w-4 h-4" /> 이전 20문항
+                        </Button>
+                        <span className="text-xs text-gray-500">{sidebarPage + 1} / {totalPages}</span>
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          disabled={sidebarPage >= totalPages - 1}
+                          onClick={() => setSidebarPage((p) => Math.min(totalPages - 1, p + 1))}
+                        >
+                          다음 20문항 <ChevronRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </>
+                  );
+                })()}
               </div>
 
               {/* Collapse button */}
@@ -550,7 +595,7 @@ export default function CultureFitApp() {
         </div>
 
         {/* Question area */}
-        <div className="flex-1 flex items-center justify-center p-6 overflow-y-auto">
+        <div ref={questionScrollRef} className="flex-1 flex items-start justify-center p-6 overflow-y-auto">
           <div className="max-w-3xl w-full animate-in fade-in slide-in-from-bottom duration-300">
             {error && (
               <Alert type="error" onClose={() => setError(null)} className="mb-6">
@@ -592,7 +637,7 @@ export default function CultureFitApp() {
             </div>
 
             {/* Navigation */}
-            <div className="flex gap-3 mt-6">
+            <div className="mt-6 flex items-center gap-3 bg-white/70 backdrop-blur border border-gray-200 rounded-xl p-3">
               <Button
                 variant="secondary"
                 onClick={() => goToQuestion(currentIndex - 1)}
