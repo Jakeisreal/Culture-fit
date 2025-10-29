@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { AlertCircle, CheckCircle, Clock, Menu, X, ChevronLeft, ChevronRight, Send } from 'lucide-react';
 
-// ============= 유틸리티 함수 =============
+// ============= ?좏떥由ы떚 ?⑥닔 =============
 const API_BASE = '/api';
 
 const fetcher = async (url, options = {}) => {
@@ -14,7 +14,7 @@ const fetcher = async (url, options = {}) => {
   });
   const data = await response.json();
   if (!data.success && data.success !== undefined) {
-    throw new Error(data.message || '요청 처리 중 오류가 발생했습니다.');
+    throw new Error(data.message || '?붿껌 泥섎━ 以??ㅻ쪟媛 諛쒖깮?덉뒿?덈떎.');
   }
   return data;
 };
@@ -25,8 +25,7 @@ const formatTime = (seconds) => {
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
-// 한국 전화번호 자동 하이픈 포맷팅
-const formatKoreanPhone = (value) => {
+// ?쒓뎅 ?꾪솕踰덊샇 ?먮룞 ?섏씠???щ㎎??const formatKoreanPhone = (value) => {
   const digits = String(value || '').replace(/[^0-9]/g, '');
   if (digits.startsWith('02')) {
     if (digits.length <= 2) return digits;
@@ -38,7 +37,7 @@ const formatKoreanPhone = (value) => {
   return `${digits.slice(0, 3)}-${digits.slice(3, digits.length - 4)}-${digits.slice(-4)}`;
 };
 
-// ============= 커스텀 훅 =============
+// ============= 而ㅼ뒪? ??=============
 const useTimer = (initialTime, onExpire) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
@@ -101,7 +100,7 @@ const useAntiCheat = (onEvent) => {
   }, [onEvent]);
 };
 
-// ============= UI 컴포넌트 =============
+// ============= UI 而댄룷?뚰듃 =============
 const Alert = ({ type = 'error', children, onClose }) => {
   const styles = {
     error: 'bg-red-50 border-red-200 text-red-800',
@@ -152,7 +151,7 @@ const Button = ({ variant = 'primary', size = 'md', loading, disabled, children,
       {loading ? (
         <>
           <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-          처리 중...
+          泥섎━ 以?..
         </>
       ) : children}
     </button>
@@ -164,7 +163,7 @@ const ProgressBar = ({ current, total, className = '' }) => {
   return (
     <div className={`w-full ${className}`}>
       <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-semibold text-gray-700">진행률</span>
+        <span className="text-sm font-semibold text-gray-700">吏꾪뻾瑜?/span>
         <span className="text-sm font-bold text-purple-600">{percentage.toFixed(1)}%</span>
       </div>
       <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -174,13 +173,13 @@ const ProgressBar = ({ current, total, className = '' }) => {
         />
       </div>
       <div className="text-xs text-gray-500 mt-1">
-        {current} / {total} 문항 완료
+        {current} / {total} 臾명빆 ?꾨즺
       </div>
     </div>
   );
 };
 
-// ============= 메인 앱 컴포넌트 =============
+// ============= 硫붿씤 ??而댄룷?뚰듃 =============
 export default function CultureFitApp() {
   const [stage, setStage] = useState('welcome'); // welcome, auth, test, submitted
   const [loading, setLoading] = useState(false);
@@ -204,8 +203,7 @@ export default function CultureFitApp() {
   
   // UI state
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const timeLimit = 30 * 60; // 30분
-  
+  const timeLimit = 30 * 60; // 30遺?  
   const { timeLeft, start: startTimer, stop: stopTimer } = useTimer(timeLimit, () => handleSubmit(true));
   const questionScrollRef = useRef(null);
 
@@ -226,13 +224,13 @@ export default function CultureFitApp() {
         setFocusOutCount(prev => prev + 1);
       }
     } catch (err) {
-      console.warn('로그 전송 실패:', err);
+      console.warn('濡쒓렇 ?꾩넚 ?ㅽ뙣:', err);
     }
   }, [sessionId]);
 
   useAntiCheat(logEvent);
 
-  // URL에서 sessionId 복구
+  // URL?먯꽌 sessionId 蹂듦뎄
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sid = params.get('sessionId');
@@ -262,7 +260,7 @@ export default function CultureFitApp() {
 
   const handleAuth = async () => {
     if (!name.trim() || !email.trim() || !phone.trim()) {
-      setError('모든 필드를 입력해주세요.');
+      setError('紐⑤뱺 ?꾨뱶瑜??낅젰?댁＜?몄슂.');
       return;
     }
 
@@ -277,10 +275,10 @@ export default function CultureFitApp() {
 
       setSessionId(data.sessionId);
       setQuestions(data.questions || []);
-      // 인증 성공 후 유의사항 안내 화면으로 이동
+      // ?몄쬆 ?깃났 ???좎쓽?ы빆 ?덈궡 ?붾㈃?쇰줈 ?대룞
       setStage('prestart');
       
-      // URL 업데이트
+      // URL ?낅뜲?댄듃
       window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
     } catch (err) {
       setError(err.message);
@@ -299,7 +297,7 @@ export default function CultureFitApp() {
     // Auto-advance
     setTimeout(() => {
       if (currentIndex < questions.length - 1) {
-        setCurrentIndex(currentIndex + 1);
+        goToQuestion(currentIndex + 1);
       }
     }, 300);
   };
@@ -310,7 +308,7 @@ export default function CultureFitApp() {
 
     try {
       const timeSpent = timeLimit - timeLeft;
-      await fetcher(`${API_BASE}/submit`, {
+      await fetcher(`${API_BASE}/submit2`, {
         method: 'POST',
         body: JSON.stringify({
           sessionId,
@@ -348,7 +346,14 @@ export default function CultureFitApp() {
     }
   }, [currentIndex, stage]);
 
-  // ============= 렌더링 =============
+  // 에러 메시지 자동 숨김 (2.5초 뒤)
+  useEffect(() => {
+    if (!error) return;
+    const t = setTimeout(() => setError(null), 2500);
+    return () => clearTimeout(t);
+  }, [error]);
+
+  // ============= ?뚮뜑留?=============
   if (stage === 'welcome') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center p-4">
@@ -357,31 +362,31 @@ export default function CultureFitApp() {
             <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
               <CheckCircle className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">Culture-Fit 검사</h1>
-            <p className="text-lg text-gray-600">조직 문화 적합도 온라인 평가</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">Culture-Fit 寃??/h1>
+            <p className="text-lg text-gray-600">議곗쭅 臾명솕 ?곹빀???⑤씪???됯?</p>
           </div>
 
           <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-6 mb-8">
             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-purple-600" />
-              안내사항
+              ?덈궡?ы빆
             </h3>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start gap-2">
-                <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>검사는 약 <strong>30분</strong> 소요됩니다</span>
+                <span className="text-purple-600 font-bold mt-1">??/span>
+                <span>寃?щ뒗 ??<strong>30遺?/strong> ?뚯슂?⑸땲??/span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>각 문항에 <strong>솔직하게</strong> 응답해 주세요</span>
+                <span className="text-purple-600 font-bold mt-1">??/span>
+                <span>媛?臾명빆??<strong>?붿쭅?섍쾶</strong> ?묐떟??二쇱꽭??/span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>한 번 제출하면 <strong>수정할 수 없습니다</strong></span>
+                <span className="text-purple-600 font-bold mt-1">??/span>
+                <span>??踰??쒖텧?섎㈃ <strong>?섏젙?????놁뒿?덈떎</strong></span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>검사 중 <strong>다른 탭 이동</strong>이나 <strong>복사</strong>는 제한됩니다</span>
+                <span className="text-purple-600 font-bold mt-1">??/span>
+                <span>寃??以?<strong>?ㅻⅨ ???대룞</strong>?대굹 <strong>蹂듭궗</strong>???쒗븳?⑸땲??/span>
               </li>
             </ul>
           </div>
@@ -391,7 +396,7 @@ export default function CultureFitApp() {
             className="w-full shadow-md hover:shadow-lg"
             onClick={() => setStage('auth')}
           >
-            검사 시작하기
+            寃???쒖옉?섍린
             <ChevronRight className="w-5 h-5" />
           </Button>
         </div>
@@ -403,25 +408,25 @@ export default function CultureFitApp() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 animate-in fade-in slide-in-from-bottom duration-500">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">응시자 정보</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">?묒떆???뺣낫</h2>
           
           {error && <Alert type="error" onClose={() => setError(null)}>{error}</Alert>}
 
           <div className="space-y-4 mt-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">이름</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">?대쫫</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleAuth()}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
-                placeholder="홍길동"
+                placeholder="?띻만??
                 disabled={loading}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">이메일</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">?대찓??/label>
               <input
                 type="email"
                 value={email}
@@ -433,7 +438,7 @@ export default function CultureFitApp() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">전화번호</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">?꾪솕踰덊샇</label>
               <input
                 type="tel"
                 value={phone}
@@ -456,31 +461,31 @@ export default function CultureFitApp() {
             loading={loading}
             disabled={loading}
           >
-            검사 시작
+            寃???쒖옉
           </Button>
         </div>
       </div>
     );
   }
 
-  // 인증 후 유의사항 안내 화면
+  // ?몄쬆 ???좎쓽?ы빆 ?덈궡 ?붾㈃
   if (stage === 'prestart') {
     const total = questions.length || 300;
     const minutes = Math.round(timeLimit / 60);
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center p-4">
         <div className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8 md:p-12 animate-in fade-in zoom-in duration-500">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">검사 유의사항</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">寃???좎쓽?ы빆</h2>
           <ul className="space-y-3 text-gray-700 mb-6">
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 총 문항 수는 <strong>{total}문항</strong>입니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 응시 시간은 최대 <strong>{minutes}분</strong>입니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 중간에 나갈 경우 <strong>24시간 이내 재응시가 제한</strong>될 수 있습니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 부정 행위(복사, 다른 탭 이동 등) 발생 시 기록됩니다.</li>
+            <li className="flex items-start gap-3"><span className="mt-1">??/span> 珥?臾명빆 ?섎뒗 <strong>{total}臾명빆</strong>?낅땲??</li>
+            <li className="flex items-start gap-3"><span className="mt-1">??/span> ?묒떆 ?쒓컙? 理쒕? <strong>{minutes}遺?/strong>?낅땲??</li>
+            <li className="flex items-start gap-3"><span className="mt-1">??/span> 以묎컙???섍컝 寃쎌슦 <strong>24?쒓컙 ?대궡 ?ъ쓳?쒓? ?쒗븳</strong>?????덉뒿?덈떎.</li>
+            <li className="flex items-start gap-3"><span className="mt-1">??/span> 遺???됱쐞(蹂듭궗, ?ㅻⅨ ???대룞 ?? 諛쒖깮 ??湲곕줉?⑸땲??</li>
           </ul>
-          <p className="text-gray-700 mb-6">상기 내용을 이해하셨다면 검사를 시작해주십시오.</p>
+          <p className="text-gray-700 mb-6">?곴린 ?댁슜???댄빐?섏뀲?ㅻ㈃ 寃?щ? ?쒖옉?댁＜??떆??</p>
           <div className="flex gap-3">
-            <Button variant="secondary" className="flex-1" onClick={() => setStage('auth')}>뒤로가기</Button>
-            <Button className="flex-1" onClick={() => { setStage('test'); startTimer(); }}>시작</Button>
+            <Button variant="secondary" className="flex-1" onClick={() => setStage('auth')}>?ㅻ줈媛湲?/Button>
+            <Button className="flex-1" onClick={() => { setStage('test'); startTimer(); }}>?쒖옉</Button>
           </div>
         </div>
       </div>
@@ -494,10 +499,10 @@ export default function CultureFitApp() {
           <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">제출 완료!</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">?쒖텧 ?꾨즺!</h1>
           <p className="text-gray-600 text-lg">
-            검사를 완료해 주셔서 감사합니다.<br/>
-            결과는 이메일로 발송됩니다.
+            寃?щ? ?꾨즺??二쇱뀛??媛먯궗?⑸땲??<br/>
+            寃곌낵???대찓?쇰줈 諛쒖넚?⑸땲??
           </p>
         </div>
       </div>
@@ -507,7 +512,7 @@ export default function CultureFitApp() {
   // Test stage
   const currentQuestion = questions[currentIndex];
   const answeredCount = Object.keys(answers).length;
-  const isLowTime = timeLeft < 300; // 5분 미만
+  const isLowTime = timeLeft < 300; // 5遺?誘몃쭔
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -538,12 +543,12 @@ export default function CultureFitApp() {
               <div className={`m-6 p-4 rounded-xl ${isLowTime ? 'bg-red-50 border-2 border-red-200' : 'bg-blue-50 border-2 border-blue-200'}`}>
                 <div className="flex items-center gap-2 mb-2">
                   <Clock className={`w-5 h-5 ${isLowTime ? 'text-red-600' : 'text-blue-600'}`} />
-                  <span className="text-sm font-semibold text-gray-700">남은 시간</span>
+                  <span className="text-sm font-semibold text-gray-700">?⑥? ?쒓컙</span>
                 </div>
                 <div className={`text-3xl font-bold ${isLowTime ? 'text-red-600' : 'text-blue-600'}`}>
                   {formatTime(timeLeft)}
                 </div>
-                {isLowTime && <p className="text-xs text-red-600 mt-2">⚠️ 시간이 얼마 남지 않았습니다!</p>}
+                {isLowTime && <p className="text-xs text-red-600 mt-2">?좑툘 ?쒓컙???쇰쭏 ?⑥? ?딆븯?듬땲??</p>}
               </div>
 
               {/* Progress */}
@@ -553,7 +558,7 @@ export default function CultureFitApp() {
 
               {/* Question Grid with pagination */}
               <div className="flex-1 px-6 overflow-y-auto">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">문항 목록</h3>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">臾명빆 紐⑸줉</h3>
                 {(() => {
                   const start = sidebarPage * PAGE_SIZE;
                   const end = Math.min(start + PAGE_SIZE, questions.length);
@@ -587,7 +592,7 @@ export default function CultureFitApp() {
                           disabled={sidebarPage === 0}
                           onClick={() => setSidebarPage((p) => Math.max(0, p - 1))}
                         >
-                          이전 20문항
+                          ?댁쟾 20臾명빆
                         </Button>
                         <span className="text-xs text-gray-500">{sidebarPage + 1} / {totalPages}</span>
                         <Button
@@ -596,7 +601,7 @@ export default function CultureFitApp() {
                           disabled={sidebarPage >= totalPages - 1}
                           onClick={() => setSidebarPage((p) => Math.min(totalPages - 1, p + 1))}
                         >
-                          다음 20문항
+                          ?ㅼ쓬 20臾명빆
                         </Button>
                       </div>
                     </>
@@ -607,8 +612,7 @@ export default function CultureFitApp() {
               {/* Collapse button */}
               <div className="p-4 border-t border-gray-200">
                 <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(false)} className="w-full">
-                  사이드바 숨기기
-                </Button>
+                  ?ъ씠?쒕컮 ?④린湲?                </Button>
               </div>
             </>
           )}
@@ -626,7 +630,7 @@ export default function CultureFitApp() {
           )}
           <div className="flex-1">
             <span className="text-sm font-semibold text-gray-900">
-              문항 {currentIndex + 1} / {questions.length}
+              臾명빆 {currentIndex + 1} / {questions.length}
             </span>
           </div>
           <div className={`text-lg font-bold ${isLowTime ? 'text-red-600' : 'text-gray-600'}`}>
@@ -671,8 +675,8 @@ export default function CultureFitApp() {
               </div>
 
               <div className="flex justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
-                <span>전혀 아니다</span>
-                <span>매우 그렇다</span>
+                <span>?꾪? ?꾨땲??/span>
+                <span>留ㅼ슦 洹몃젃??/span>
               </div>
             </div>
 
@@ -684,12 +688,12 @@ export default function CultureFitApp() {
                 disabled={currentIndex === 0}
                 className="flex-1"
               >
-                이전
+                ?댁쟾
               </Button>
               <Button
                 onClick={() => {
                   if (!answers[currentQuestion?.id]) {
-                    setError('응답을 선택해 주세요.');
+                    setError('?묐떟???좏깮??二쇱꽭??');
                     return;
                   }
                   if (currentIndex < questions.length - 1) {
@@ -703,9 +707,9 @@ export default function CultureFitApp() {
                 className="flex-1"
               >
                 {currentIndex < questions.length - 1 ? (
-                  <>다음</>
+                  <>?ㅼ쓬</>
                 ) : (
-                  <>제출하기</>
+                  <>?쒖텧?섍린</>
                 )}
               </Button>
             </div>
@@ -755,3 +759,6 @@ export default function CultureFitApp() {
     </div>
   );
 }
+
+
+
