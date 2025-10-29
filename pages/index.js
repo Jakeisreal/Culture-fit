@@ -421,7 +421,7 @@ export default function CultureFitApp() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>중간 저장 및 <strong>24시간 이내 재접속 시 복원</strong>이 가능합니다.</span>
+                <span>중간 저장은 불가하며 중도에 나갈 경우 <strong>24시간 이후 접속 </strong> 가능합니다.</span>
               </li>
             </ul>
           </div>
