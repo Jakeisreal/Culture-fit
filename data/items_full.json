@@ -8,64 +8,24 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I002",
-    "text": "작은 이익을 위해 원칙을 훼손하지 않는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I003",
-    "text": "정보를 숨기기보다 관련자와 공유하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I004",
-    "text": "모든 사람을 같은 기준으로 대하려 노력한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I005",
-    "text": "상황이 급하면 규정을 잠시 어겨도 된다고 생각한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I006",
-    "text": "성과를 위해 사실을 조금 과장하는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I007",
-    "text": "나에게 유리하면 기준이 조금 달라져도 괜찮다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I008",
-    "text": "문제가 생겨도 보고는 나중으로 미룬다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I009",
     "text": "나는 규정이나 절차가 불편해도 지키는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I017_R",
+    "text": "나는 규정이나 절차가 불편해도 지키지 않을 때도 있다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I002",
+    "text": "작은 이익을 위해 원칙을 훼손하지 않는다.",
     "is_imc": false,
     "expected": "",
     "domain": "원칙중시",
@@ -80,8 +40,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I018_R",
+    "text": "작은 이익을 위해 원칙을 훼손하지 하는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I003",
+    "text": "정보를 숨기기보다 관련자와 공유하려 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I011",
     "text": "정보를 숨기기보다 관련자와 공유하려 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I019_R",
+    "text": "정보를 숨기기보다 관련자와 공유하지 않을 때도 있다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I004",
+    "text": "모든 사람을 같은 기준으로 대하려 노력한다.",
     "is_imc": false,
     "expected": "",
     "domain": "원칙중시",
@@ -96,8 +88,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I020_R",
+    "text": "모든 사람을 같은 기준으로 대하려 노력하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I005",
+    "text": "상황이 급하면 규정을 잠시 어겨도 된다고 생각한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I013",
     "text": "상황이 급하면 규정을 잠시 어겨도 된다고 생각한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I021_R",
+    "text": "상황이 급하면 규정을 잠시 어겨도 된다고 생각하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I006",
+    "text": "성과를 위해 사실을 조금 과장하는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "원칙중시",
@@ -112,8 +136,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I022_R",
+    "text": "성과를 위해 사실을 조금 과장하는 편이 아니다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I007",
+    "text": "나에게 유리하면 기준이 조금 달라져도 괜찮다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I015",
     "text": "나에게 유리하면 기준이 조금 달라져도 괜찮다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I023_R",
+    "text": "나에게 유리하면 기준이 조금 달라져도 괜찮다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I008",
+    "text": "문제가 생겨도 보고는 나중으로 미룬다.",
     "is_imc": false,
     "expected": "",
     "domain": "원칙중시",
@@ -128,128 +184,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I017",
-    "text": "나는 규정이나 절차가 불편해도 지키는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I018",
-    "text": "작은 이익을 위해 원칙을 훼손하지 않는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I019",
-    "text": "정보를 숨기기보다 관련자와 공유하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I020",
-    "text": "모든 사람을 같은 기준으로 대하려 노력한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I021",
-    "text": "상황이 급하면 규정을 잠시 어겨도 된다고 생각한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I022",
-    "text": "성과를 위해 사실을 조금 과장하는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I023",
-    "text": "나에게 유리하면 기준이 조금 달라져도 괜찮다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I024",
-    "text": "문제가 생겨도 보고는 나중으로 미룬다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I025",
-    "text": "나는 규정이나 절차가 불편해도 지키는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I026",
-    "text": "작은 이익을 위해 원칙을 훼손하지 않는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I027",
-    "text": "정보를 숨기기보다 관련자와 공유하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I028",
-    "text": "모든 사람을 같은 기준으로 대하려 노력한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I029",
-    "text": "상황이 급하면 규정을 잠시 어겨도 된다고 생각한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I030",
-    "text": "성과를 위해 사실을 조금 과장하는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I031",
-    "text": "나에게 유리하면 기준이 조금 달라져도 괜찮다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I032",
-    "text": "문제가 생겨도 보고는 나중으로 미룬다.",
+    "item_id": "I024_R",
+    "text": "문제가 생겨도 보고는 나중으로 미룬다 않는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "원칙중시",
@@ -264,64 +200,24 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I034",
-    "text": "작은 시범 운영으로 가설을 검증해 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I035",
-    "text": "변화가 불편해도 필요하면 기꺼이 수용한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I036",
-    "text": "감이 아닌 데이터로 의사결정을 뒷받침한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I037",
-    "text": "새로운 방식을 시도하면 괜히 일이 커진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I038",
-    "text": "일단 하던 대로 하는 것이 가장 안전하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I039",
-    "text": "근거보다 직관이 더 중요하다고 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I040",
-    "text": "실패가 생길 바엔 변화를 미루는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I041",
     "text": "업무에 필요한 새로운 방법을 스스로 찾아 적용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I049_R",
+    "text": "업무에 필요한 새로운 방법을 스스로 찾아 적용하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I034",
+    "text": "작은 시범 운영으로 가설을 검증해 본다.",
     "is_imc": false,
     "expected": "",
     "domain": "혁신성",
@@ -336,8 +232,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I050_R",
+    "text": "작은 시범 운영으로 가설을 검증해 본다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I035",
+    "text": "변화가 불편해도 필요하면 기꺼이 수용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I043",
     "text": "변화가 불편해도 필요하면 기꺼이 수용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I051_R",
+    "text": "변화가 불편해도 필요하면 기꺼이 수용하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I036",
+    "text": "감이 아닌 데이터로 의사결정을 뒷받침한다.",
     "is_imc": false,
     "expected": "",
     "domain": "혁신성",
@@ -352,8 +280,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I052_R",
+    "text": "감이 아닌 데이터로 의사결정을 뒷받침하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I037",
+    "text": "새로운 방식을 시도하면 괜히 일이 커진다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I045",
     "text": "새로운 방식을 시도하면 괜히 일이 커진다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I053_R",
+    "text": "새로운 방식을 시도하면 괜히 일이 커진다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I038",
+    "text": "일단 하던 대로 하는 것이 가장 안전하다.",
     "is_imc": false,
     "expected": "",
     "domain": "혁신성",
@@ -368,8 +328,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I054_R",
+    "text": "일단 하던 대로 하는 것이 가장 안전하다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I039",
+    "text": "근거보다 직관이 더 중요하다고 본다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I047",
     "text": "근거보다 직관이 더 중요하다고 본다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I055_R",
+    "text": "근거보다 직관이 더 중요하다고 본다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I040",
+    "text": "실패가 생길 바엔 변화를 미루는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "혁신성",
@@ -384,128 +376,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I049",
-    "text": "업무에 필요한 새로운 방법을 스스로 찾아 적용한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I050",
-    "text": "작은 시범 운영으로 가설을 검증해 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I051",
-    "text": "변화가 불편해도 필요하면 기꺼이 수용한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I052",
-    "text": "감이 아닌 데이터로 의사결정을 뒷받침한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I053",
-    "text": "새로운 방식을 시도하면 괜히 일이 커진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I054",
-    "text": "일단 하던 대로 하는 것이 가장 안전하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I055",
-    "text": "근거보다 직관이 더 중요하다고 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I056",
-    "text": "실패가 생길 바엔 변화를 미루는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I057",
-    "text": "업무에 필요한 새로운 방법을 스스로 찾아 적용한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I058",
-    "text": "작은 시범 운영으로 가설을 검증해 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I059",
-    "text": "변화가 불편해도 필요하면 기꺼이 수용한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I060",
-    "text": "감이 아닌 데이터로 의사결정을 뒷받침한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I061",
-    "text": "새로운 방식을 시도하면 괜히 일이 커진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I062",
-    "text": "일단 하던 대로 하는 것이 가장 안전하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I063",
-    "text": "근거보다 직관이 더 중요하다고 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I064",
-    "text": "실패가 생길 바엔 변화를 미루는 편이다.",
+    "item_id": "I056_R",
+    "text": "실패가 생길 바엔 변화를 미루는 편이 아니다.",
     "is_imc": false,
     "expected": "",
     "domain": "혁신성",
@@ -520,64 +392,24 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I066",
-    "text": "작은 결함도 발견되면 원인을 추적한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I067",
-    "text": "타인 약속 기한을 맞추기 위해 우선순위를 조정하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I068",
-    "text": "인수인계가 끝나도 문제 해결까지 책임을 진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I069",
-    "text": "내 업무가 아니면 타인 이슈라도 관여하지 않는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I070",
-    "text": "품질 기준은 현실적으로 낮춰야 한다고 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I071",
-    "text": "정해진 절차가 우선이라 약속 기한은 유동적이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I072",
-    "text": "인수인계하면 이후 문제는 내 책임이 아니다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I073",
     "text": "의사결정 전 타인 관점을 먼저 점검하려 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I081_R",
+    "text": "의사결정 전 타인 관점을 먼저 점검하려 하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I066",
+    "text": "작은 결함도 발견되면 원인을 추적한다.",
     "is_imc": false,
     "expected": "",
     "domain": "고객중심",
@@ -592,8 +424,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I082_R",
+    "text": "작은 결함도 발견되면 원인을 추적하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I067",
+    "text": "타인 약속 기한을 맞추기 위해 우선순위를 조정하려 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I075",
     "text": "타인 약속 기한을 맞추기 위해 우선순위를 조정하려 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I083_R",
+    "text": "타인 약속 기한을 맞추기 위해 우선순위를 조정하려 하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I068",
+    "text": "인수인계가 끝나도 문제 해결까지 책임을 진다.",
     "is_imc": false,
     "expected": "",
     "domain": "고객중심",
@@ -608,8 +472,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I084_R",
+    "text": "인수인계가 끝나도 문제 해결까지 책임을 진다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I069",
+    "text": "내 업무가 아니면 타인 이슈라도 관여하지 않는다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I077",
     "text": "내 업무가 아니면 타인 이슈라도 관여하지 않는다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I085_R",
+    "text": "내 업무가 아니면 타인 이슈라도 관여하지 하는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I070",
+    "text": "품질 기준은 현실적으로 낮춰야 한다고 본다.",
     "is_imc": false,
     "expected": "",
     "domain": "고객중심",
@@ -624,8 +520,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I086_R",
+    "text": "품질 기준은 현실적으로 낮춰야 한다고 본다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I071",
+    "text": "정해진 절차가 우선이라 약속 기한은 유동적이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I079",
     "text": "정해진 절차가 우선이라 약속 기한은 유동적이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I087_R",
+    "text": "정해진 절차가 우선이라 약속 기한은 유동적이다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I072",
+    "text": "인수인계하면 이후 문제는 내 책임이 아니다.",
     "is_imc": false,
     "expected": "",
     "domain": "고객중심",
@@ -640,128 +568,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I081",
-    "text": "의사결정 전 타인 관점을 먼저 점검하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I082",
-    "text": "작은 결함도 발견되면 원인을 추적한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I083",
-    "text": "타인 약속 기한을 맞추기 위해 우선순위를 조정하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I084",
-    "text": "인수인계가 끝나도 문제 해결까지 책임을 진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I085",
-    "text": "내 업무가 아니면 타인 이슈라도 관여하지 않는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I086",
-    "text": "품질 기준은 현실적으로 낮춰야 한다고 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I087",
-    "text": "정해진 절차가 우선이라 약속 기한은 유동적이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I088",
-    "text": "인수인계하면 이후 문제는 내 책임이 아니다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I089",
-    "text": "의사결정 전 타인 관점을 먼저 점검하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I090",
-    "text": "작은 결함도 발견되면 원인을 추적한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I091",
-    "text": "타인 약속 기한을 맞추기 위해 우선순위를 조정하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I092",
-    "text": "인수인계가 끝나도 문제 해결까지 책임을 진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I093",
-    "text": "내 업무가 아니면 타인 이슈라도 관여하지 않는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I094",
-    "text": "품질 기준은 현실적으로 낮춰야 한다고 본다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I095",
-    "text": "정해진 절차가 우선이라 약속 기한은 유동적이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I096",
-    "text": "인수인계하면 이후 문제는 내 책임이 아니다.",
+    "item_id": "I088_R",
+    "text": "인수인계하면 이후 문제는 내 책임이 아니다 않는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "고객중심",
@@ -776,8 +584,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I105",
+    "text": "상대의 의도를 확인하며 질문을 이어간다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I113_R",
+    "text": "상대의 의도를 확인하며 질문을 이어간다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I098",
     "text": "중요한 메시지는 핵심-근거-요청 순으로 전달한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I106",
+    "text": "중요한 메시지는 핵심-근거-요청 순으로 전달한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I114_R",
+    "text": "중요한 메시지는 핵심-근거-요청 순으로 전달하지 않는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
@@ -792,8 +632,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I107",
+    "text": "피드백을 요청하고 합의된 행동을 기록한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I115_R",
+    "text": "피드백을 요청하고 합의된 행동을 기록하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I100",
     "text": "타인과의 정보와 성과를 공유하려 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I108",
+    "text": "타인과의 정보와 성과를 공유하려 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I116_R",
+    "text": "타인과의 정보와 성과를 공유하지 않을 때도 있다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
@@ -816,64 +688,24 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I103",
-    "text": "피드백은 갈등을 부르므로 가능한 피한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I104",
-    "text": "타인과의 성과 공유는 경쟁에 불리하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I105",
-    "text": "상대의 의도를 확인하며 질문을 이어간다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I106",
-    "text": "중요한 메시지는 핵심-근거-요청 순으로 전달한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I107",
-    "text": "피드백을 요청하고 합의된 행동을 기록한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I108",
-    "text": "타인과의 정보와 성과를 공유하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I109",
-    "text": "상대가 다 말하기 전에 결론부터 제시한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I110",
     "text": "메일은 길수록 설득력이 있다고 생각한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I118_R",
+    "text": "메일은 길수록 설득력이 있다고 생각하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I103",
+    "text": "피드백은 갈등을 부르므로 가능한 피한다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
@@ -888,6 +720,22 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I119_R",
+    "text": "피드백은 갈등을 부르므로 가능한 피하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I104",
+    "text": "타인과의 성과 공유는 경쟁에 불리하다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I112",
     "text": "타인과의 성과 공유는 경쟁에 불리하다.",
     "is_imc": false,
@@ -896,32 +744,16 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I113",
-    "text": "상대의 의도를 확인하며 질문을 이어간다.",
+    "item_id": "I120_R",
+    "text": "타인과의 성과 공유는 경쟁에 불리하다 않는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I114",
-    "text": "중요한 메시지는 핵심-근거-요청 순으로 전달한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I115",
-    "text": "피드백을 요청하고 합의된 행동을 기록한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I116",
-    "text": "타인과의 정보와 성과를 공유하려 한다.",
+    "item_id": "I109",
+    "text": "상대가 다 말하기 전에 결론부터 제시한다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
@@ -936,88 +768,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I118",
-    "text": "메일은 길수록 설득력이 있다고 생각한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I119",
-    "text": "피드백은 갈등을 부르므로 가능한 피한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I120",
-    "text": "타인과의 성과 공유는 경쟁에 불리하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I121",
-    "text": "상대의 의도를 확인하며 질문을 이어간다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I122",
-    "text": "중요한 메시지는 핵심-근거-요청 순으로 전달한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I123",
-    "text": "피드백을 요청하고 합의된 행동을 기록한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I124",
-    "text": "타인과의 정보와 성과를 공유하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I125",
-    "text": "상대가 다 말하기 전에 결론부터 제시한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I126",
-    "text": "메일은 길수록 설득력이 있다고 생각한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I127",
-    "text": "피드백은 갈등을 부르므로 가능한 피한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I128",
-    "text": "타인과의 성과 공유는 경쟁에 불리하다.",
+    "item_id": "I125_R",
+    "text": "상대가 다 말하기 전에 결론부터 제시하지 않는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
@@ -1032,64 +784,24 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I130",
-    "text": "실패 후에도 빠르게 마음을 다잡고 재시도한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I131",
-    "text": "지시가 없어도 필요한 일을 먼저 찾아서 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I132",
-    "text": "필요한 위험은 계산하고 책임 있게 감수한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I133",
-    "text": "목표가 어렵다고 판단되면 일찍 포기하는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I134",
-    "text": "실패하면 한동안 의욕이 꺾여 손을 놓는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I135",
-    "text": "지시받은 일만 수행하는 것이 안전하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I136",
-    "text": "위험을 감수하는 결정을 최대한 피한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I137",
     "text": "어려워도 목표 달성까지 끈기 있게 밀고 간다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I145_R",
+    "text": "어려워도 목표 달성까지 끈기 있게 밀고 간다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I130",
+    "text": "실패 후에도 빠르게 마음을 다잡고 재시도한다.",
     "is_imc": false,
     "expected": "",
     "domain": "도전정신",
@@ -1104,8 +816,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I146_R",
+    "text": "실패 후에도 빠르게 마음을 다잡고 재시도하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I131",
+    "text": "지시가 없어도 필요한 일을 먼저 찾아서 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I139",
     "text": "지시가 없어도 필요한 일을 먼저 찾아서 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I147_R",
+    "text": "지시가 없어도 필요한 일을 먼저 찾아서 하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I132",
+    "text": "필요한 위험은 계산하고 책임 있게 감수한다.",
     "is_imc": false,
     "expected": "",
     "domain": "도전정신",
@@ -1120,8 +864,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I148_R",
+    "text": "필요한 위험은 계산하고 책임 있게 감수하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I133",
+    "text": "목표가 어렵다고 판단되면 일찍 포기하는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I141",
     "text": "목표가 어렵다고 판단되면 일찍 포기하는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I149_R",
+    "text": "목표가 어렵다고 판단되면 일찍 포기하는 편이 아니다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I134",
+    "text": "실패하면 한동안 의욕이 꺾여 손을 놓는다.",
     "is_imc": false,
     "expected": "",
     "domain": "도전정신",
@@ -1136,8 +912,40 @@
     "variable": "Culture-Fit"
   },
   {
+    "item_id": "I150_R",
+    "text": "실패하면 한동안 의욕이 꺾여 손을 놓는다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I135",
+    "text": "지시받은 일만 수행하는 것이 안전하다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
     "item_id": "I143",
     "text": "지시받은 일만 수행하는 것이 안전하다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I151_R",
+    "text": "지시받은 일만 수행하는 것이 안전하다 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "I136",
+    "text": "위험을 감수하는 결정을 최대한 피한다.",
     "is_imc": false,
     "expected": "",
     "domain": "도전정신",
@@ -1152,128 +960,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I145",
-    "text": "어려워도 목표 달성까지 끈기 있게 밀고 간다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I146",
-    "text": "실패 후에도 빠르게 마음을 다잡고 재시도한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I147",
-    "text": "지시가 없어도 필요한 일을 먼저 찾아서 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I148",
-    "text": "필요한 위험은 계산하고 책임 있게 감수한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I149",
-    "text": "목표가 어렵다고 판단되면 일찍 포기하는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I150",
-    "text": "실패하면 한동안 의욕이 꺾여 손을 놓는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I151",
-    "text": "지시받은 일만 수행하는 것이 안전하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I152",
-    "text": "위험을 감수하는 결정을 최대한 피한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I153",
-    "text": "어려워도 목표 달성까지 끈기 있게 밀고 간다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I154",
-    "text": "실패 후에도 빠르게 마음을 다잡고 재시도한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I155",
-    "text": "지시가 없어도 필요한 일을 먼저 찾아서 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I156",
-    "text": "필요한 위험은 계산하고 책임 있게 감수한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I157",
-    "text": "목표가 어렵다고 판단되면 일찍 포기하는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I158",
-    "text": "실패하면 한동안 의욕이 꺾여 손을 놓는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I159",
-    "text": "지시받은 일만 수행하는 것이 안전하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I160",
-    "text": "위험을 감수하는 결정을 최대한 피한다.",
+    "item_id": "I152_R",
+    "text": "위험을 감수하는 결정을 최대한 피하지 않는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "도전정신",
@@ -2001,7 +1689,7 @@
   },
   {
     "item_id": "I251",
-    "text": "이 문항에는 '매우 아니다'를 선택해 주세요.",
+    "text": "이 문항에는 '매우 아니다'를를 선택해 주세요.",
     "is_imc": true,
     "expected": "",
     "domain": "응답주의(주의력검사)",
@@ -2033,7 +1721,7 @@
   },
   {
     "item_id": "I255",
-    "text": "지금 보고 있는 요일이 월요일이면 아무 답이나, 아니라면 '매우 그렇다'를 선택해 주세요.",
+    "text": "지금 보고 있는 요일이 월요일이면 아무 답이나, 아니라면 '매우 그렇다다'을 선택해 주세요.",
     "is_imc": true,
     "expected": "",
     "domain": "응답주의(주의력검사)",
@@ -2065,7 +1753,7 @@
   },
   {
     "item_id": "I259",
-    "text": "아래 보기에서 '보통이다'를 고르세요.",
+    "text": "아래 보기에서 '보통이다'를를 고르세요.",
     "is_imc": true,
     "expected": "",
     "domain": "응답주의(주의력검사)",
@@ -2082,30 +1770,6 @@
   {
     "item_id": "I261",
     "text": "회사의 자원을 사적으로 사용하지 않는다. ",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I262",
-    "text": "작은 이익을 위해 원칙을 훼손하지 않는다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I263",
-    "text": "상황이 급하면 규정을 잠시 어겨도 된다고 생각한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "원칙중시",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I264",
-    "text": "나는 규정이나 절차가 불편해도 지키는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "원칙중시",
@@ -2176,14 +1840,6 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I273",
-    "text": "실패가 생길 바엔 변화를 미루는 편이다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I274",
     "text": "업무 자동화를 위해 도구를 탐색하고 도입한다. ",
     "is_imc": false,
@@ -2205,30 +1861,6 @@
     "is_imc": false,
     "expected": "",
     "domain": "혁신성",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I277",
-    "text": "인수인계가 끝나도 문제 해결까지 책임을 진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I278",
-    "text": "의사결정 전 타인 관점을 먼저 점검하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I279",
-    "text": "인수인계가 끝나도 문제 해결까지 책임을 진다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
     "variable": "Culture-Fit"
   },
   {
@@ -2256,22 +1888,6 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I283",
-    "text": "타인 약속 기한을 맞추기 위해 우선순위를 조정하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I284",
-    "text": "의사결정 전 타인 관점을 먼저 점검하려 한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "고객중심",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I285",
     "text": "구두로 말했으면 문서화는 불필요하다.",
     "is_imc": false,
@@ -2288,8 +1904,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I287",
-    "text": "상대가 다 말하기 전에 결론부터 제시한다.",
+    "item_id": "I289_R",
+    "text": "약속한 정보를 제시간에 제공하지 않는 편이다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
@@ -2304,32 +1920,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I289",
-    "text": "약속한 정보를 제시간에 제공한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I290",
-    "text": "피드백은 갈등을 부르므로 가능한 피한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I291",
     "text": "회의는 즉흥적으로 진행해도 문제없다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "의사소통",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I292",
-    "text": "피드백을 요청하고 합의된 행동을 기록한다.",
     "is_imc": false,
     "expected": "",
     "domain": "의사소통",
@@ -2352,32 +1944,8 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I295",
-    "text": "실패 후에도 빠르게 마음을 다잡고 재시도한다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
     "item_id": "I296",
     "text": "지시받은 일만 수행하는 것이 안전하다. ",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I297",
-    "text": "지시받은 일만 수행하는 것이 안전하다.",
-    "is_imc": false,
-    "expected": "",
-    "domain": "도전정신",
-    "variable": "Culture-Fit"
-  },
-  {
-    "item_id": "I298",
-    "text": "위험을 감수하는 결정을 최대한 피한다.",
     "is_imc": false,
     "expected": "",
     "domain": "도전정신",
@@ -2392,11 +1960,443 @@
     "variable": "Culture-Fit"
   },
   {
-    "item_id": "I300",
-    "text": "필요한 위험은 계산하고 책임 있게 감수한다.",
+    "item_id": "N001",
+    "text": "내부·외부 고객의 기대와 성공지표(KPI)를 먼저 파악한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N051_R",
+    "text": "내부·외부 고객의 기대와 성공지표(KPI)를 먼저 파악하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N002",
+    "text": "난이도 높은 목표라도 중간 성과지표를 설정해 진척을 관리한다.",
     "is_imc": false,
     "expected": "",
     "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N052_R",
+    "text": "난이도 높은 목표라도 중간 성과지표를 설정해 진척을 관리하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N003",
+    "text": "공정성을 위해 이해관계가 있을 때는 의사결정을 회피하거나 위임한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N053_R",
+    "text": "공정성을 위해 이해관계가 있을 때는 의사결정을 회피하거나 위임하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N004",
+    "text": "중요 메시지는 핵심-근거-요청 순서로 1페이지 내에 정리한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N054_R",
+    "text": "중요 메시지는 핵심-근거-요청 순서로 1페이지 내에 정리하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N005",
+    "text": "업무 불편을 발견하면 원인 가설을 세우고 간단한 실험으로 검증한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N055_R",
+    "text": "업무 불편을 발견하면 원인 가설을 세우고 간단한 실험으로 검증하지 않는 편이다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N006",
+    "text": "약속 기한을 지키기 위해 범위·우선순위를 사전에 조정한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N007",
+    "text": "실패 후 원인을 분석하고 다음 시도 계획을 세운다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N008",
+    "text": "규정이 모호할 때는 보수적으로 해석하고 기록을 남긴다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N009",
+    "text": "회의 전 안건과 기대결과를 사전 공유한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N010",
+    "text": "아이디어를 제안할 때 비용·효과·리스크를 함께 제시한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N011",
+    "text": "품질 이슈 발생 시 원인-대안-재발방지까지 책임진다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N012",
+    "text": "지시가 없어도 필요한 업무를 선제적으로 제안한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N013",
+    "text": "이익이 충돌할 가능성이 보이면 사전에 이해관계를 공개한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N014",
+    "text": "상대의 의도를 확인하는 재진술(파라프레이징)을 활용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N015",
+    "text": "작은 시범 운영(Pilot) 후 성과지표로 확장 여부를 결정한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N016",
+    "text": "고객 여정에서 마찰 구간을 찾아 개선안을 제안한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N017",
+    "text": "위험을 정량·정성으로 평가해 감수 기준을 명확히 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N018",
+    "text": "압박 상황에서도 보고 체계를 건너뛰지 않는다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N019",
+    "text": "피드백은 구체적 행동과 기대변화 수준으로 제시한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N020",
+    "text": "문제 재정의(Problem framing)를 통해 새로운 해결책을 모색한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N021",
+    "text": "단기 이익보다 장기 신뢰를 우선한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N022",
+    "text": "집중이 흔들릴 때 방해요인을 차단하는 규칙을 적용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N023",
+    "text": "사실 확인 전에는 추측으로 결론 내리지 않는다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N024",
+    "text": "갈등 시 감정과 사실을 분리해 표현한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N025",
+    "text": "데이터로 가설을 반박할 수 있으면 방향을 신속히 수정한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N026",
+    "text": "요구사항이 모호하면 확인 질문으로 범위를 명확히 한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N027",
+    "text": "긴 과제를 작은 과제로 분해해 실행한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N028",
+    "text": "데이터와 근거가 부족하면 일정이 지연돼도 보완을 요청한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N029",
+    "text": "의사결정 근거와 대안이력을 문서로 남긴다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N030",
+    "text": "아이디어 확산을 위해 이해관계자 맵을 만들고 지지자를 확보한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N031",
+    "text": "인수인계 후에도 이슈가 해결될 때까지 점검한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N032",
+    "text": "핵심역량 향상을 위해 주기적으로 연습 시간을 확보한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N033",
+    "text": "누가 보지 않아도 안전 규정을 준수한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N034",
+    "text": "중요 안내는 여러 채널로 중복 공지한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N035",
+    "text": "실패에서 학습 포인트를 기록해 재사용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N036",
+    "text": "고객 피드백을 데이터로 분류·시각화해 공유한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N037",
+    "text": "피로가 와도 마감까지 최소 기준을 지킨다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N038",
+    "text": "정책 변경 시 구성원에게 동일 기준으로 공지하고 적용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N039",
+    "text": "상대의 제약(시간·정보)을 고려해 전달 방식을 조정한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N040",
+    "text": "현장 사용자의 피드백을 정기적으로 수집해 제품을 개선한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N041",
+    "text": "품질 기준을 수치로 정의하고 일관되게 적용한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N042",
+    "text": "장기 목표에 맞지 않는 일은 과감히 줄인다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N043",
+    "text": "문제 은폐보다 조기 보고를 우선한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N044",
+    "text": "회의 후 합의사항과 액션아이템을 기록·배포한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N045",
+    "text": "업무 자동화를 통해 반복 작업 시간을 줄인다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N046",
+    "text": "업데이트 변경이 고객에게 미칠 영향과 공지 계획을 먼저 검토한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "고객중심",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N047",
+    "text": "필요한 도움을 적극적으로 요청하고 협업한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "도전정신",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N048",
+    "text": "사적 친분이 있어도 동일 기준으로 평가한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "원칙중시",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N049",
+    "text": "전달 전 불필요한 수식어를 제거해 가독성을 높인다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "의사소통",
+    "variable": "Culture-Fit"
+  },
+  {
+    "item_id": "N050",
+    "text": "외부 모범사례를 벤치마킹해 내재화한다.",
+    "is_imc": false,
+    "expected": "",
+    "domain": "혁신성",
     "variable": "Culture-Fit"
   }
 ]
