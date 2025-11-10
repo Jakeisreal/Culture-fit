@@ -713,8 +713,8 @@ export default function CultureFitApp() {
               </div>
 
               <div className="flex justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
-                <span>전혀 동의하지 않음</span>
-                <span>매우 동의</span>
+                <span>매우 아니다</span>
+                <span>매우 그렇다</span>
               </div>
             </div>
 
