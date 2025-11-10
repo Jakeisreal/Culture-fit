@@ -62,6 +62,8 @@ function validateTimeWindow(startAt, endAt) {
 }
 
 // items_full.json load helpers
+const MIN_CULTURE_FIT_GAP = 3;
+
 const shuffleArray = (array) => {
   const copied = Array.isArray(array) ? [...array] : [];
   for (let i = copied.length - 1; i > 0; i -= 1) {
@@ -77,15 +79,20 @@ function arrangeQuestionsWithSpacing(items) {
   const total = items.length;
   const domainGroups = items.reduce((acc, item) => {
     const key = String(item.domain || item.subdomain || item.variable || 'DEFAULT');
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
+    const variableName = String(item.variable || '').toLowerCase();
+    if (!acc[key]) {
+      acc[key] = { items: [], isCultureFit: false };
+    }
+    acc[key].items.push(item);
+    acc[key].isCultureFit = acc[key].isCultureFit || variableName === 'culture-fit';
     return acc;
   }, {});
 
-  const groupEntries = Object.entries(domainGroups).map(([key, list]) => ({
+  const groupEntries = Object.entries(domainGroups).map(([key, group]) => ({
     key,
-    items: shuffleArray(list),
+    items: shuffleArray(group.items),
     releaseStep: 0,
+    minGap: group.isCultureFit ? MIN_CULTURE_FIT_GAP : 0,
   }));
 
   if (groupEntries.length <= 1) {
@@ -126,7 +133,8 @@ function arrangeQuestionsWithSpacing(items) {
     arranged.push(chosen.items.shift());
 
     if (chosen.items.length > 0) {
-      chosen.releaseStep = step + spacingGap;
+      const enforcedGap = Math.max(spacingGap, chosen.minGap || 0);
+      chosen.releaseStep = step + enforcedGap;
       cooling.push(chosen);
     }
   }
