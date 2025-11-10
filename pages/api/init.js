@@ -61,31 +61,84 @@ function validateTimeWindow(startAt, endAt) {
   return { valid: true };
 }
 
-// items_full.json 로드
-function shuffleNoConsecutiveSameVariable(items) {
-  const groups = items.reduce((acc, item) => {
-    const v = String(item.variable || '');
-    if (!acc[v]) acc[v] = [];
-    acc[v].push(item);
+// items_full.json load helpers
+const shuffleArray = (array) => {
+  const copied = Array.isArray(array) ? [...array] : [];
+  for (let i = copied.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copied[i], copied[j]] = [copied[j], copied[i]];
+  }
+  return copied;
+};
+
+function arrangeQuestionsWithSpacing(items) {
+  if (!Array.isArray(items) || items.length <= 1) return items || [];
+
+  const total = items.length;
+  const domainGroups = items.reduce((acc, item) => {
+    const key = String(item.domain || item.subdomain || item.variable || 'DEFAULT');
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
     return acc;
   }, {});
-  // shuffle each group
-  for (const v of Object.keys(groups)) {
-    groups[v].sort(() => Math.random() - 0.5);
+
+  const groupEntries = Object.entries(domainGroups).map(([key, list]) => ({
+    key,
+    items: shuffleArray(list),
+    releaseStep: 0,
+  }));
+
+  if (groupEntries.length <= 1) {
+    return shuffleArray(groupEntries[0]?.items || items);
   }
-  const vars = Object.keys(groups);
-  let lastVar = null;
-  const result = [];
-  const remaining = () => vars.some(v => groups[v].length > 0);
-  while (remaining()) {
-    const candidates = vars.filter(v => groups[v].length > 0 && v !== lastVar);
-    const pickFrom = (candidates.length > 0 ? candidates : vars.filter(v => groups[v].length > 0));
-    const v = pickFrom[Math.floor(Math.random() * pickFrom.length)];
-    const item = groups[v].pop();
-    result.push(item);
-    lastVar = v;
+
+  const maxGroupSize = Math.max(...groupEntries.map((entry) => entry.items.length));
+  const diversityGap = Math.floor(groupEntries.length / 2);
+  const densityGap = Math.max(0, Math.floor(total / maxGroupSize) - 1);
+  const spacingGap = Math.max(2, Math.min(5, Math.max(diversityGap, densityGap)));
+
+  const available = [...groupEntries];
+  const cooling = [];
+  const arranged = [];
+
+  for (let step = 0; arranged.length < total; step += 1) {
+    for (let i = cooling.length - 1; i >= 0; i -= 1) {
+      if (cooling[i].releaseStep <= step) {
+        available.push(cooling.splice(i, 1)[0]);
+      }
+    }
+
+    if (available.length === 0) {
+      if (cooling.length === 0) break;
+      cooling.sort((a, b) => a.releaseStep - b.releaseStep);
+      const next = cooling.shift();
+      next.releaseStep = step;
+      available.push(next);
+    }
+
+    available.sort((a, b) => b.items.length - a.items.length);
+    const maxRemaining = available[0].items.length;
+    const topCandidates = available.filter((entry) => entry.items.length === maxRemaining);
+    const chosen = topCandidates[Math.floor(Math.random() * topCandidates.length)];
+    const chosenIndex = available.indexOf(chosen);
+    available.splice(chosenIndex, 1);
+
+    arranged.push(chosen.items.shift());
+
+    if (chosen.items.length > 0) {
+      chosen.releaseStep = step + spacingGap;
+      cooling.push(chosen);
+    }
   }
-  return result;
+
+  if (arranged.length < total) {
+    const leftovers = available.concat(cooling).flatMap((entry) => entry.items);
+    if (leftovers.length > 0) {
+      return arranged.concat(shuffleArray(leftovers));
+    }
+  }
+
+  return arranged;
 }
 
 function loadQuestions() {
@@ -99,6 +152,7 @@ function loadQuestions() {
     const raw = fs.readFileSync(filePath, 'utf-8');
     const items = Array.isArray(JSON.parse(raw || '[]')) ? JSON.parse(raw || '[]') : [];
     // 원본 아이디/변수 유지 후 셔플(같은 variable 연속 방지 시도)
+    // Base normalization + advanced shuffle for better domain spacing
     const normalized = items.map((item, index) => ({
       item_id: item.item_id || `I${String(index + 1).padStart(3, '0')}`,
       text: String(item.text || item.item_text || item.question || `문항 ${index + 1}`),
@@ -108,7 +162,7 @@ function loadQuestions() {
       variable: item.var || item.variable || null,
     }));
     const limited = normalized.slice(0, 300);
-    const shuffled = shuffleNoConsecutiveSameVariable(limited);
+    const shuffled = arrangeQuestionsWithSpacing(limited);
     return shuffled.map((it) => ({
       id: it.item_id, // 프론트에서 답변 키로 사용 → 제출 시 item_id 순으로 정렬 저장
       text: it.text,
