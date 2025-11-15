@@ -429,7 +429,7 @@ export default function CultureFitApp() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>응시 중 새 창/탭 이동이 감지되면 <strong>응시 결과과 무관하게 불합격처리됩니다.</strong>.</span>
+                <span>새 창/탭 이동이 감지되면 <strong>응시 결과과 무관하게 불합격</strong>처리됩니다.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
