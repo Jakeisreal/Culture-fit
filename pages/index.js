@@ -429,7 +429,7 @@ export default function CultureFitApp() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>새 창/탭 이동이 감지되면 <strong>자동 제출될 수 있습니다</strong>.</span>
+                <span>응시 중 새 창/탭 이동이 감지되면 <strong>응시 결과과 무관하게 불합격처리됩니다.</strong>.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
@@ -444,7 +444,6 @@ export default function CultureFitApp() {
             onClick={() => setStage('auth')}
           >
             검사 시작하기
-            <ChevronRight className="w-5 h-5" />
           </Button>
         </div>
       </div>
