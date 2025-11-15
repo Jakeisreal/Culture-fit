@@ -62,7 +62,7 @@ function validateTimeWindow(startAt, endAt) {
 }
 
 // items_full.json load helpers
-const MIN_CULTURE_FIT_GAP = 3;
+const MIN_CULTURE_FIT_GAP = 4;
 
 const shuffleArray = (array) => {
   const copied = Array.isArray(array) ? [...array] : [];
@@ -76,15 +76,17 @@ const shuffleArray = (array) => {
 function arrangeQuestionsWithSpacing(items) {
   if (!Array.isArray(items) || items.length <= 1) return items || [];
 
+  const getGroupKey = (item) => String(item?.domain || item?.subdomain || item?.variable || 'DEFAULT');
+  const isCultureFitVariable = (value) => String(value || '').toLowerCase() === 'culture-fit';
+
   const total = items.length;
   const domainGroups = items.reduce((acc, item) => {
-    const key = String(item.domain || item.subdomain || item.variable || 'DEFAULT');
-    const variableName = String(item.variable || '').toLowerCase();
+    const key = getGroupKey(item);
     if (!acc[key]) {
       acc[key] = { items: [], isCultureFit: false };
     }
     acc[key].items.push(item);
-    acc[key].isCultureFit = acc[key].isCultureFit || variableName === 'culture-fit';
+    acc[key].isCultureFit = acc[key].isCultureFit || isCultureFitVariable(item.variable);
     return acc;
   }, {});
 
@@ -93,6 +95,7 @@ function arrangeQuestionsWithSpacing(items) {
     items: shuffleArray(group.items),
     releaseStep: 0,
     minGap: group.isCultureFit ? MIN_CULTURE_FIT_GAP : 0,
+    isCultureFit: group.isCultureFit,
   }));
 
   if (groupEntries.length <= 1) {
@@ -125,8 +128,20 @@ function arrangeQuestionsWithSpacing(items) {
 
     available.sort((a, b) => b.items.length - a.items.length);
     const maxRemaining = available[0].items.length;
-    const topCandidates = available.filter((entry) => entry.items.length === maxRemaining);
-    const chosen = topCandidates[Math.floor(Math.random() * topCandidates.length)];
+    let candidatePool = available.filter((entry) => entry.items.length === maxRemaining);
+
+    const lastItem = arranged[arranged.length - 1];
+    const lastWasCultureFit = isCultureFitVariable(lastItem?.variable);
+    const lastDomainKey = lastWasCultureFit ? getGroupKey(lastItem) : null;
+
+    if (lastDomainKey) {
+      const filtered = candidatePool.filter((entry) => !(entry.isCultureFit && entry.key === lastDomainKey));
+      if (filtered.length > 0) {
+        candidatePool = filtered;
+      }
+    }
+
+    const chosen = candidatePool[Math.floor(Math.random() * candidatePool.length)];
     const chosenIndex = available.indexOf(chosen);
     available.splice(chosenIndex, 1);
 
@@ -148,6 +163,7 @@ function arrangeQuestionsWithSpacing(items) {
 
   return arranged;
 }
+
 
 function loadQuestions() {
   try {
