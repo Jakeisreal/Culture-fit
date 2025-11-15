@@ -338,6 +338,18 @@ export default function CultureFitApp() {
   };
 
   const handleSubmit = async (forced = false) => {
+    if (!forced) {
+      const unanswered = questions.filter((q) => answers[q.id] == null);
+      if (unanswered.length > 0) {
+        const firstUnansweredIndex = questions.findIndex((q) => q.id === unanswered[0].id);
+        if (firstUnansweredIndex >= 0) {
+          goToQuestion(firstUnansweredIndex);
+        }
+        setError(`아직 ${unanswered.length}개 문항에 응답하지 않았습니다.`);
+        return;
+      }
+    }
+
     setLoading(true);
     stopTimer();
 
