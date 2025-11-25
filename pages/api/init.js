@@ -403,10 +403,10 @@ export default async function handler(req, res) {
     
     if (duplicateCheck.lastStartedAt) {
       const hoursSinceStart = (Date.now() - duplicateCheck.lastStartedAt) / (1000 * 60 * 60);
-      if (hoursSinceStart < 24) {
+      if (hoursSinceStart < 6) {
         return res.status(200).json({ 
           success: false, 
-          message: '이미 검사를 진행 중입니다.\n24시간 이내 재시작은 불가능합니다.' 
+          message: '이미 검사를 진행 중입니다.\n6시간 이내 재시작은 불가능합니다.' 
         });
       }
     }
