@@ -550,7 +550,7 @@ export default function CultureFitApp() {
           <h1 className="text-3xl font-bold text-gray-900 mb-3">제출 완료!</h1>
           <p className="text-gray-600 text-lg">
             응시가 정상적으로 완료되었습니다.<br/>
-            결과는 이메일로 안내드릴 예정입니다.
+            면접 준비 잘 하셔서 면접 당일에 뵙도록 하겠습니다.
           </p>
         </div>
       </div>
