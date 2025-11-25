@@ -526,7 +526,7 @@ export default function CultureFitApp() {
           <ul className="space-y-3 text-gray-700 mb-6">
             <li className="flex items-start gap-3"><span className="mt-1">•</span> 총 문항 수는 <strong>{total}문항</strong>입니다.</li>
             <li className="flex items-start gap-3"><span className="mt-1">•</span> 예상 소요 시간은 <strong>{minutes}분</strong>입니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 중단 후 재접속하면 <strong>6시간 이후후</strong> 복구됩니다.</li>
+            <li className="flex items-start gap-3"><span className="mt-1">•</span> 중단 후 재접속하면 <strong>6시간 이후</strong> 복구됩니다.</li>
             <li className="flex items-start gap-3"><span className="mt-1">•</span> 부정행위 방지(복사/붙여넣기, 새 탭 이동 등) 이벤트를 기록합니다.</li>
           </ul>
           <p className="text-gray-700 mb-6">안내 내용을 확인하셨다면 검사를 시작해 주세요.</p>
