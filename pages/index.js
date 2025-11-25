@@ -433,7 +433,7 @@ export default function CultureFitApp() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-600 font-bold mt-1">•</span>
-                <span>중간 저장은 불가하며 중도에 나갈 경우 <strong>24시간 이후 접속 </strong> 가능합니다.</span>
+                <span>중간 저장은 불가하며 중도에 나갈 경우 <strong>6시간 이후 접속 </strong> 가능합니다.</span>
               </li>
             </ul>
           </div>
@@ -526,7 +526,7 @@ export default function CultureFitApp() {
           <ul className="space-y-3 text-gray-700 mb-6">
             <li className="flex items-start gap-3"><span className="mt-1">•</span> 총 문항 수는 <strong>{total}문항</strong>입니다.</li>
             <li className="flex items-start gap-3"><span className="mt-1">•</span> 예상 소요 시간은 <strong>{minutes}분</strong>입니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 중단 후 재접속하면 <strong>24시간 이내</strong> 복구됩니다.</li>
+            <li className="flex items-start gap-3"><span className="mt-1">•</span> 중단 후 재접속하면 <strong>6시간 이후후</strong> 복구됩니다.</li>
             <li className="flex items-start gap-3"><span className="mt-1">•</span> 부정행위 방지(복사/붙여넣기, 새 탭 이동 등) 이벤트를 기록합니다.</li>
           </ul>
           <p className="text-gray-700 mb-6">안내 내용을 확인하셨다면 검사를 시작해 주세요.</p>
