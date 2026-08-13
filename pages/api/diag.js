@@ -1,7 +1,10 @@
-// pages/api/diag.js
-import { getSheetsClient } from '../../lib/sheets'; // 경로가 ../../lib/sheets 일 수도 있습니다. 현재 프로젝트 구조에 맞춰 조정하세요.
+import { getSheetsClient } from '../../lib/sheets.js';
+import { requireAdmin } from '../../lib/admin-auth.js';
 
 export default async function handler(req, res) {
+  if (!requireAdmin(req, res)) return;
+  res.setHeader('Cache-Control', 'private, no-store, max-age=0');
+
   try {
     const spreadsheetId = process.env.SHEET_ID || process.env.SPREADSHEET_ID;
     if (!spreadsheetId) {
@@ -9,32 +12,30 @@ export default async function handler(req, res) {
     }
 
     const sheets = getSheetsClient();
-    // 탭 3개를 순서대로 점검
     const read = async (range) => {
       try {
-        const r = await sheets.spreadsheets.values.get({ spreadsheetId, range });
-        const values = r.data.values || [];
+        const result = await sheets.spreadsheets.values.get({ spreadsheetId, range });
+        const values = result.data.values || [];
         return { ok: true, rows: values.length, head: values[0] || [] };
-      } catch (e) {
-        return { ok: false, error: String(e) };
+      } catch (error) {
+        return { ok: false, error: String(error) };
       }
     };
 
     const candidates = await read('Candidates!A:Z');
     const responses = await read('Responses!A:Z');
+    const responsesV2 = await read("'Responses_V2'!A:Z");
+    const responsesV2Bank = await read("'Responses_V2_Bank'!A:Z");
     const eventlogs = await read('EventLogs!A:Z');
-
     return res.status(200).json({
       ok: candidates.ok && responses.ok && eventlogs.ok,
-      spreadsheetId,
       candidates,
       responses,
+      responsesV2,
+      responsesV2Bank,
       eventlogs,
-      serviceAccountEmail: process.env.GOOGLE_SERVICE_ACCOUNT_JSON
-        ? JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON).client_email
-        : '(환경변수 없음)',
     });
-  } catch (err) {
-    return res.status(200).json({ ok: false, error: String(err) });
+  } catch (error) {
+    return res.status(200).json({ ok: false, error: String(error) });
   }
 }

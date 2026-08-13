@@ -1,27 +1,40 @@
 {
   "name": "next-culturefit",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=20.9.0"
   },
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build:items:v2": "node scripts/build-v2-items.mjs",
+    "test": "node tests/harness.test.js",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "googleapis": "^131.0.0",
-    "lucide-react": "^0.263.1",
-    "next": "14.1.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "uuid": "^9.0.1"
+    "googleapis": "^173.0.0",
+    "lucide-react": "^1.27.0",
+    "next": "^16.2.12",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/postcss": "^4.1.16",
     "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
+    "postcss": "^8.5.25",
     "tailwindcss": "^4.1.16"
+  },
+  "overrides": {
+    "postcss": "$postcss",
+    "sharp": "0.35.3",
+    "gaxios": "7.3.0",
+    "rimraf": "6.1.3",
+    "glob": "13.0.6",
+    "minimatch": "10.2.6",
+    "brace-expansion": "5.0.8"
   }
 }
