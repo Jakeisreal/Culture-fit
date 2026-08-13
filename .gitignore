@@ -7,6 +7,7 @@ artifacts/
 test-results/
 playwright-report/
 .upstream-reference/
+backup/
 npm-debug.log*
 __pycache__/
 *.py[cod]
