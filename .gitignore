@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.local.example
+artifacts/
+test-results/
+playwright-report/
+.upstream-reference/
+npm-debug.log*
+__pycache__/
+*.py[cod]
+*.xlsx

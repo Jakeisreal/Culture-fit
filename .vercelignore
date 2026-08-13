@@ -1,0 +1,6 @@
+.upstream-reference/
+artifacts/
+test-results/
+playwright-report/
+tests/
+culture_fit_harness_review.md
