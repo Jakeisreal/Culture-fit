@@ -154,6 +154,18 @@ timestamp | sessionId | eventType | data
 
 ## 5. 환경 변수 설정
 
+### Google Apps Script로 시트 자동 준비하기
+
+필수 탭과 전체 문항 헤더를 수동으로 만들기 어렵다면 [`gas/Code.gs`](gas/Code.gs)를 사용할 수 있습니다. 스프레드시트의 `확장 프로그램 > Apps Script`에 코드를 붙여넣고 `setupCultureFitWorkbook` 함수를 한 번 실행하면 다음 항목을 자동으로 준비합니다.
+
+- V1, V2 Pilot, V2 Bank 응답 탭과 전체 문항 ID 헤더
+- Candidates와 EventLogs 탭
+- 날짜·상태·응시 허용 입력 규칙과 기본 서식
+- 지원자 추가, 허용·차단, 재응시 초기화 운영 메뉴
+- 필수 구성과 지원자 데이터 점검 기능
+
+설치 및 운영 방법은 [`gas/README.md`](gas/README.md)를 참고하세요. GAS는 Google Sheets 운영을 돕는 도구이며, Next.js 검사 웹사이트나 환경 변수를 대신하지는 않습니다.
+
 `.env.local.example`을 복사해 만든 `.env.local` 파일에 실제 값을 입력합니다.
 
 | 변수 | 필수 여부 | 설명 |
