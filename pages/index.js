@@ -105,13 +105,39 @@ const useAntiCheat = (onEvent, enabled) => {
       selectstart: (e) => { e.preventDefault(); },
       dragstart: (e) => { e.preventDefault(); },
       keydown: (e) => {
+        // 화면 캡처 단축키 차단 (Ctrl+Shift+S, Meta+Shift+S, Ctrl+Shift+I/J/C 등)
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['s', 'i', 'j', 'c'].includes(e.key.toLowerCase())) {
+          e.preventDefault();
+          e.stopPropagation();
+          onEvent('capture_blocked', `ctrl_shift_${e.key.toLowerCase()}`);
+          return;
+        }
+        // PrintScreen 키 차단 및 클립보드 무력화
+        if (e.key === 'PrintScreen' || e.keyCode === 44) {
+          e.preventDefault();
+          if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+            navigator.clipboard.writeText('').catch(() => {});
+          }
+          onEvent('capture_blocked', 'print_screen');
+          return;
+        }
+        // 브라우저 단축키 차단 (복사, 잘라내기, 인쇄, 소스보기, 저장, 전체선택)
         if ((e.ctrlKey || e.metaKey) && ['c', 'x', 's', 'p', 'u', 'a'].includes(e.key.toLowerCase())) {
           e.preventDefault();
           onEvent('shortcut_blocked', e.key);
         }
-        if ([123, 44].includes(e.keyCode)) {
+        // F12 개발자 도구 차단
+        if (e.keyCode === 123) {
           e.preventDefault();
           onEvent('devtools_key_blocked', e.keyCode);
+        }
+      },
+      keyup: (e) => {
+        if (e.key === 'PrintScreen' || e.keyCode === 44) {
+          if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+            navigator.clipboard.writeText('').catch(() => {});
+          }
+          onEvent('capture_blocked', 'print_screen_keyup');
         }
       },
       visibilitychange: () => {
@@ -794,15 +820,15 @@ export default function CultureFitApp() {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
       <div
-        className={`fixed lg:relative inset-y-0 left-0 z-50 bg-white border-r border-gray-200 transition-all duration-300 ${
-          sidebarOpen ? 'w-80' : 'w-0 lg:w-16'
+        className={`fixed lg:relative inset-y-0 left-0 z-50 bg-white transition-all duration-300 ${
+          sidebarOpen ? 'w-80 border-r border-gray-200 shadow-md' : 'w-0 overflow-hidden border-none'
         }`}
       >
-        <div className={`h-full flex flex-col ${sidebarOpen ? '' : 'items-center'}`}>
-          {/* Header */}
-          <div className="p-6 border-b border-gray-200">
-            {sidebarOpen ? (
-              <>
+        {sidebarOpen && (
+          <div className="h-full flex flex-col w-80">
+            {/* Header */}
+            <div className="p-6 border-b border-gray-200 flex items-start justify-between">
+              <div>
                 <h2 className="text-xl font-bold text-gray-900">Culture-Fit</h2>
                 <p className="text-xs font-semibold text-teal-700 mt-1">
                   {assessmentVersion === 'v2-bank-pilot'
@@ -810,95 +836,95 @@ export default function CultureFitApp() {
                     : assessmentVersion === 'v2-pilot' ? 'V2 Pilot' : 'V1'}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">{name}</p>
-              </>
-            ) : (
-              <button type="button" aria-label="문항 목록 열기" onClick={() => setSidebarOpen(true)} className="p-2 hover:bg-gray-100 rounded-md">
-                <Menu className="w-6 h-6" />
+              </div>
+              <button
+                type="button"
+                aria-label="문항 목록 닫기"
+                onClick={() => setSidebarOpen(false)}
+                className="p-1 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              >
+                <X className="w-5 h-5" />
               </button>
-            )}
+            </div>
+
+            {/* Timer */}
+            <div className={`m-6 p-4 rounded-md ${isLowTime ? 'bg-red-50 border-2 border-red-200' : 'bg-blue-50 border-2 border-blue-200'}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className={`w-5 h-5 ${isLowTime ? 'text-red-600' : 'text-blue-600'}`} />
+                <span className="text-sm font-semibold text-gray-700">남은 시간</span>
+              </div>
+              <div className={`text-3xl font-bold ${isLowTime ? 'text-red-600' : 'text-blue-600'}`}>
+                {formatTime(timeLeft)}
+              </div>
+              {isLowTime && <p className="text-xs text-red-600 mt-2">남은 시간이 많지 않습니다.</p>}
+            </div>
+
+            {/* Progress */}
+            <div className="px-6 mb-6">
+              <ProgressBar current={answeredCount} total={questions.length} />
+            </div>
+
+            {/* Question Grid with pagination */}
+            <div className="flex-1 px-6 overflow-y-auto">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">문항 목록</h3>
+              {(() => {
+                const start = sidebarPage * PAGE_SIZE;
+                const end = Math.min(start + PAGE_SIZE, questions.length);
+                const slice = questions.slice(start, end);
+                return (
+                  <>
+                    <div className="grid grid-cols-6 gap-2">
+                      {slice.map((q, i) => {
+                        const idx = start + i;
+                        const answered = answers[q.id] !== undefined;
+                        const isCurrent = idx === currentIndex;
+                        return (
+                          <button
+                            key={idx}
+                            onClick={() => goToQuestion(idx)}
+                            className={`
+                              aspect-square rounded-lg text-sm font-semibold transition-all
+                              ${isCurrent ? 'ring-2 ring-teal-600 ring-offset-2' : ''}
+                              ${answered ? 'bg-teal-700 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}
+                            `}
+                          >
+                            {idx + 1}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <div className="flex items-center justify-between mt-4">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        disabled={sidebarPage === 0}
+                        onClick={() => setSidebarPage((p) => Math.max(0, p - 1))}
+                      >
+                        이전 20문항
+                      </Button>
+                      <span className="text-xs text-gray-500">{sidebarPage + 1} / {totalPages}</span>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        disabled={sidebarPage >= totalPages - 1}
+                        onClick={() => setSidebarPage((p) => Math.min(totalPages - 1, p + 1))}
+                      >
+                        다음 20문항
+                      </Button>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+
+            {/* Collapse button */}
+            <div className="p-4 border-t border-gray-200">
+              <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(false)} className="w-full">
+                사이드바 접기
+              </Button>
+            </div>
           </div>
-
-          {sidebarOpen && (
-            <>
-              {/* Timer */}
-              <div className={`m-6 p-4 rounded-md ${isLowTime ? 'bg-red-50 border-2 border-red-200' : 'bg-blue-50 border-2 border-blue-200'}`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <Clock className={`w-5 h-5 ${isLowTime ? 'text-red-600' : 'text-blue-600'}`} />
-                  <span className="text-sm font-semibold text-gray-700">남은 시간</span>
-                </div>
-                <div className={`text-3xl font-bold ${isLowTime ? 'text-red-600' : 'text-blue-600'}`}>
-                  {formatTime(timeLeft)}
-                </div>
-                {isLowTime && <p className="text-xs text-red-600 mt-2">남은 시간이 많지 않습니다.</p>}
-              </div>
-
-              {/* Progress */}
-              <div className="px-6 mb-6">
-                <ProgressBar current={answeredCount} total={questions.length} />
-              </div>
-
-              {/* Question Grid with pagination */}
-              <div className="flex-1 px-6 overflow-y-auto">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">문항 목록</h3>
-                {(() => {
-                  const start = sidebarPage * PAGE_SIZE;
-                  const end = Math.min(start + PAGE_SIZE, questions.length);
-                  const slice = questions.slice(start, end);
-                  return (
-                    <>
-                      <div className="grid grid-cols-6 gap-2">
-                        {slice.map((q, i) => {
-                          const idx = start + i;
-                          const answered = answers[q.id] !== undefined;
-                          const isCurrent = idx === currentIndex;
-                          return (
-                            <button
-                              key={idx}
-                              onClick={() => goToQuestion(idx)}
-                              className={`
-                                aspect-square rounded-lg text-sm font-semibold transition-all
-                                ${isCurrent ? 'ring-2 ring-teal-600 ring-offset-2' : ''}
-                                ${answered ? 'bg-teal-700 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}
-                              `}
-                            >
-                              {idx + 1}
-                            </button>
-                          );
-                        })}
-                      </div>
-                      <div className="flex items-center justify-between mt-4">
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          disabled={sidebarPage === 0}
-                          onClick={() => setSidebarPage((p) => Math.max(0, p - 1))}
-                        >
-                          이전 20문항
-                        </Button>
-                        <span className="text-xs text-gray-500">{sidebarPage + 1} / {totalPages}</span>
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          disabled={sidebarPage >= totalPages - 1}
-                          onClick={() => setSidebarPage((p) => Math.min(totalPages - 1, p + 1))}
-                        >
-                          다음 20문항
-                        </Button>
-                      </div>
-                    </>
-                  );
-                })()}
-              </div>
-
-              {/* Collapse button */}
-              <div className="p-4 border-t border-gray-200">
-                <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(false)} className="w-full">
-                  사이드바 접기
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
+        )}
       </div>
 
       {/* Main content */}
