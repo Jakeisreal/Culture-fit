@@ -224,9 +224,10 @@ const ProgressBar = ({ current, total, className = '' }) => {
 
 // ============= 메인 컴포넌트 =============
 export default function CultureFitApp() {
-  const [stage, setStage] = useState('welcome'); // welcome, auth, prestart, test, submitted
+  const [stage, setStage] = useState('welcome'); // welcome, consent, auth, prestart, test, submitted
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [consentAgreed, setConsentAgreed] = useState(false);
   
   // Auth data
   const [name, setName] = useState('');
@@ -549,10 +550,85 @@ export default function CultureFitApp() {
           <Button
             size="lg"
             className="w-full shadow-md hover:shadow-lg"
-            onClick={() => setStage('auth')}
+            onClick={() => setStage('consent')}
           >
             검사 시작하기
           </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // ============= 개인정보 수집·이용 동의 화면 =============
+  if (stage === 'consent') {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <div className="max-w-2xl w-full bg-white rounded-lg border border-gray-200 shadow-sm p-7 md:p-10 animate-in fade-in zoom-in duration-500">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">개인정보 수집 및 이용 동의</h2>
+          <p className="text-sm text-gray-600 mb-6">
+            Culture-Fit 검사 진행을 위해 아래의 개인정보 수집 및 이용 내역을 확인하신 후 동의해 주시기 바랍니다.
+          </p>
+
+          <div className="bg-gray-50 border border-gray-200 rounded-md p-4 md:p-5 max-h-72 overflow-y-auto space-y-4 text-xs md:text-sm text-gray-700 mb-6 leading-relaxed">
+            <div>
+              <h4 className="font-bold text-gray-900 mb-1">1. 개인정보 수집 및 이용 목적</h4>
+              <p>• 신입사원 채용 전형 시 지원자의 업무행동 성향 파악 및 구조화 면접 질문 생성 보조자료 활용</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-gray-900 mb-1">2. 수집하는 개인정보 항목</h4>
+              <p>• 기본 식별정보: 성명, 이메일, 휴대전화번호</p>
+              <p>• 검사 응시 데이터: 문항별 응답값, 응시 소요시간, 화면 이탈 및 세션 로그</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-gray-900 mb-1">3. 개인정보의 보유 및 이용 기간</h4>
+              <p className="font-semibold text-teal-800">• 당해 채용 전형 종료일로부터 6개월간 보관 후 복구 불가능한 방법으로 영구 파기</p>
+              <p className="text-gray-500 text-xs mt-0.5">(단, 채용서류 반환 및 관련 법령에 따른 의무 보관 기준 준수)</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-gray-900 mb-1">4. 자동화된 결정에 대한 안내 (개인정보 보호법 제37조의2)</h4>
+              <p>• 본 검사 결과는 AI/알고리즘을 통해 자동으로 합격 또는 불합격을 결정하는 용도로 사용되지 않으며, 면접관이 지원자의 행동 사례를 직접 확인하기 위한 면접 참고자료로만 활용됩니다.</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-gray-900 mb-1">5. 동의 거부 권리 및 거부 시 불이익</h4>
+              <p>• 지원자는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다. 단, 본 동의는 채용 전형 응시 본인 확인 및 면접자료 생성을 위한 필수 항목이므로 동의 거부 시 검사 응시 및 채용 전형 진행이 제한될 수 있습니다.</p>
+            </div>
+            <div className="pt-2 border-t border-gray-200">
+              <h4 className="font-bold text-gray-900 mb-1">6. 개인정보 열람·정정·삭제 및 문의처</h4>
+              <p>• 개인정보 관리 담당: <strong>김지석 주임 (ji-suk.kim@hwashin.co.kr)</strong></p>
+              <p className="text-gray-500 text-xs mt-1">근거 법령: 개인정보 보호법 제15조(개인정보의 수집·이용), 제21조(개인정보의 파기), 제37조의2</p>
+            </div>
+          </div>
+
+          <div className="bg-teal-50 border border-teal-200 rounded-md p-4 mb-6">
+            <label className="flex items-start gap-3 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={consentAgreed}
+                onChange={(e) => setConsentAgreed(e.target.checked)}
+                className="mt-1 h-5 w-5 rounded border-gray-300 text-teal-700 focus:ring-teal-500"
+              />
+              <span className="text-sm font-semibold text-gray-900">
+                [필수] 개인정보 수집 및 이용 내역을 확인하였으며 이에 동의합니다.
+              </span>
+            </label>
+          </div>
+
+          <div className="flex gap-3">
+            <Button
+              variant="secondary"
+              className="flex-1"
+              onClick={() => setStage('welcome')}
+            >
+              이전으로
+            </Button>
+            <Button
+              className="flex-1"
+              disabled={!consentAgreed}
+              onClick={() => setStage('auth')}
+            >
+              동의하고 계속하기
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -612,15 +688,24 @@ export default function CultureFitApp() {
             </div>
           </div>
 
-          <Button
-            size="lg"
-            className="w-full mt-6 shadow-md hover:shadow-lg"
-            onClick={handleAuth}
-            loading={loading}
-            disabled={loading}
-          >
-            검사 시작
-          </Button>
+          <div className="flex gap-3 mt-6">
+            <Button
+              variant="secondary"
+              className="w-1/3"
+              onClick={() => setStage('consent')}
+            >
+              이전
+            </Button>
+            <Button
+              size="lg"
+              className="flex-1 shadow-md hover:shadow-lg"
+              onClick={handleAuth}
+              loading={loading}
+              disabled={loading}
+            >
+              확인
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -633,17 +718,46 @@ export default function CultureFitApp() {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
         <div className="max-w-2xl w-full bg-white rounded-lg border border-gray-200 shadow-sm p-7 md:p-10 animate-in fade-in zoom-in duration-500">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">검사 유의사항</h2>
-          <ul className="space-y-3 text-gray-700 mb-6">
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 총 문항 수는 <strong>{total}문항</strong>입니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 예상 소요 시간은 <strong>{minutes}분</strong>입니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 응답은 자동 저장되며 본인 확인 후 이어서 응시할 수 있습니다.</li>
-            <li className="flex items-start gap-3"><span className="mt-1">•</span> 부정행위 방지(복사/붙여넣기, 새 탭 이동 등) 이벤트를 기록합니다.</li>
-          </ul>
-          <p className="text-gray-700 mb-6">안내 내용을 확인하셨다면 검사를 시작해 주세요.</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-5">검사 유의사항 및 응시 안내</h2>
+          
+          <div className="space-y-4 mb-6 text-gray-700 text-sm md:text-base">
+            <div className="bg-teal-50 border border-teal-100 rounded-md p-4">
+              <h3 className="font-bold text-teal-900 mb-2 flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-teal-700" />
+                신입 지원자 경험 범위 안내
+              </h3>
+              <p className="text-teal-950 text-sm leading-relaxed">
+                문항 중 업무나 조직 경험에 관한 내용은 회사 경력뿐만 아니라 <strong>학교 수업, 팀 프로젝트, 동아리, 봉사활동, 아르바이트, 인턴십, 군 복무 및 개인 프로젝트 경험</strong>을 모두 포함합니다. 과거 활동 경험에 비추어 솔직하게 응답해 주세요.
+              </p>
+            </div>
+
+            <ul className="space-y-2.5 text-sm">
+              <li className="flex items-start gap-2.5">
+                <span className="text-teal-700 font-bold mt-0.5">•</span>
+                <span>총 문항 수는 <strong>{total}문항</strong>이며, 제한 시간은 <strong>{minutes}분</strong>입니다.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-teal-700 font-bold mt-0.5">•</span>
+                <span>응답은 실시간으로 자동 저장되며, 네트워크 불안정 등으로 중단 시 재접속하여 이어서 응시할 수 있습니다.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-teal-700 font-bold mt-0.5">•</span>
+                <span>공정한 전형 관리를 위해 화면 이탈, 복사/붙여넣기 방지 이벤트가 기록됩니다.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-teal-700 font-bold mt-0.5">•</span>
+                <span>본 검사는 단순 점수로 줄세우거나 탈락시키는 용도가 아니며, 면접에서 지원자님의 경험과 강점을 확인하는 참고자료로 활용됩니다.</span>
+              </li>
+            </ul>
+
+            <div className="bg-gray-50 border border-gray-200 rounded-md p-3.5 text-xs text-gray-600 leading-relaxed">
+              <strong className="text-gray-800">접근성 및 편의제공 안내:</strong> 장애, 시각/읽기 보조 도구 사용, 시간 연장 등의 편의가 필요하신 경우 채용 담당자(ji-suk.kim@hwashin.co.kr)에게 문의해 주시면 안내해 드립니다.
+            </div>
+          </div>
+
           <div className="flex gap-3">
             <Button variant="secondary" className="flex-1" onClick={() => setStage('auth')}>이전으로</Button>
-            <Button className="flex-1" onClick={() => { setStage('test'); startTimer(0, timeLimit); }}>시작</Button>
+            <Button className="flex-1" onClick={() => { setStage('test'); startTimer(0, timeLimit); }}>검사 시작</Button>
           </div>
         </div>
       </div>
@@ -821,7 +935,7 @@ export default function CultureFitApp() {
               </h3>
 
               {/* Answer options */}
-              <div className="grid grid-cols-5 gap-3 mb-8">
+              <div className="grid grid-cols-5 gap-3 mb-4">
                 {[1, 2, 3, 4, 5].map((value) => {
                   const isSelected = answers[currentQuestion?.id] === value;
                   return (
@@ -840,7 +954,7 @@ export default function CultureFitApp() {
                       `}
                     >
                       <span className="text-2xl">{value}</span>
-                      <span className="mt-1 text-[11px] leading-tight font-medium">
+                      <span className="mt-1 text-[11px] leading-tight font-medium text-center">
                         {responseScaleLabels[value - 1]}
                       </span>
                     </button>
@@ -848,6 +962,32 @@ export default function CultureFitApp() {
                 })}
               </div>
 
+              {/* OCB / CWB 문항용 '해당 경험 없음' 선택지 */}
+              {(currentQuestion?.domain?.includes('OCB') ||
+                currentQuestion?.domain?.includes('CWB') ||
+                currentQuestion?.id?.includes('OCB') ||
+                currentQuestion?.id?.includes('CWB') ||
+                currentQuestion?.responseScale === 'frequency_12m') && (
+                <div className="pt-2 border-t border-gray-100">
+                  <button
+                    type="button"
+                    aria-pressed={answers[currentQuestion?.id] === 0}
+                    onClick={() => handleAnswer(0)}
+                    className={`
+                      w-full py-2.5 px-4 rounded-md text-xs font-semibold transition-all flex items-center justify-center gap-2 border
+                      ${answers[currentQuestion?.id] === 0
+                        ? 'bg-slate-700 text-white border-slate-700 ring-2 ring-slate-300'
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      }
+                    `}
+                  >
+                    <span>해당 상황을 경험해 본 적 없음 (무경험)</span>
+                  </button>
+                  <p className="text-[11px] text-gray-400 text-center mt-1">
+                    * 신입 지원자로서 해당 상황을 겪어볼 기회가 없었던 경우 선택해 주세요. (점수에 불이익 없음)
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Navigation */}

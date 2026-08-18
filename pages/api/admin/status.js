@@ -1,6 +1,7 @@
 import { getSheetsClient } from '../../../lib/sheets.js';
 import { requireAdmin } from '../../../lib/admin-auth.js';
 import { withRetry } from '../../../lib/http.js';
+import { formatQualityForAdmin } from '../../../lib/response-quality.js';
 
 function createHeaderMap(headers = []) {
   return headers.reduce((map, header, index) => {
@@ -51,17 +52,32 @@ export default async function handler(req, res) {
     }));
     const parseResponses = (rows, assessmentVersion) => {
       const responseHeaders = createHeaderMap(rows[0]);
-      return rows.slice(1).map((row) => ({
-        sessionId: getCell(row, responseHeaders, 'sessionid', 0),
-        name: getCell(row, responseHeaders, 'name', 1),
-        email: getCell(row, responseHeaders, 'email', 2),
-        timestamp: getCell(row, responseHeaders, 'timestamp', 4),
-        status: String(getCell(row, responseHeaders, 'status', 5)).toUpperCase(),
-        completionRate: getCell(row, responseHeaders, 'completionrate', 7),
-        suspicious: getCell(row, responseHeaders, 'suspicious', 10),
-        score: getCell(row, responseHeaders, 'score', 12),
-        assessmentVersion,
-      })).filter((row) => row.sessionId);
+      return rows.slice(1).map((row) => {
+        const rawFlags = getCell(row, responseHeaders, 'suspicious', 10);
+        const flags = String(rawFlags || '')
+          .split(',')
+          .map((f) => f.trim())
+          .filter(Boolean);
+        const completionRateStr = getCell(row, responseHeaders, 'completionrate', 7);
+        const [answeredStr, totalStr] = String(completionRateStr || '').split('/');
+        const answeredCount = parseInt(answeredStr, 10) || 0;
+        const totalItems = parseInt(totalStr, 10) || 0;
+
+        const quality = formatQualityForAdmin(flags, answeredCount, totalItems);
+
+        return {
+          sessionId: getCell(row, responseHeaders, 'sessionid', 0),
+          name: getCell(row, responseHeaders, 'name', 1),
+          email: getCell(row, responseHeaders, 'email', 2),
+          timestamp: getCell(row, responseHeaders, 'timestamp', 4),
+          status: String(getCell(row, responseHeaders, 'status', 5)).toUpperCase(),
+          completionRate: completionRateStr,
+          suspicious: rawFlags,
+          responseQuality: quality,
+          score: getCell(row, responseHeaders, 'score', 12),
+          assessmentVersion,
+        };
+      }).filter((row) => row.sessionId);
     };
     const responses = [
       ...parseResponses(responseV1Result.data.values || [], 'v1'),
