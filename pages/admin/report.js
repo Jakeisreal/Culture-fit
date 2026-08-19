@@ -8,13 +8,20 @@ export default function AdminReportPage() {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState('');
 
+  const [inputToken, setInputToken] = useState('');
+
   const loadReport = useCallback(async (adminToken, sessionId) => {
+    setLoading(true);
+    setError('');
     try {
       const response = await fetch(`/api/admin/report?sessionId=${encodeURIComponent(sessionId)}`, {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       const body = await response.json();
       if (!response.ok || !body.ok) throw new Error(body.message || '리포트 조회에 실패했습니다.');
+      localStorage.setItem('culture_fit_admin_token', adminToken);
+      sessionStorage.setItem('culture_fit_admin_token', adminToken);
+      setToken(adminToken);
       setData(body.report);
     } catch (err) {
       setError(err.message);
@@ -24,18 +31,15 @@ export default function AdminReportPage() {
   }, []);
 
   useEffect(() => {
-    const savedToken = sessionStorage.getItem('culture_fit_admin_token') || '';
-    setToken(savedToken);
-    
     if (typeof window !== 'undefined') {
+      const savedToken =
+        localStorage.getItem('culture_fit_admin_token') ||
+        sessionStorage.getItem('culture_fit_admin_token') ||
+        '';
+      setToken(savedToken);
+      
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get('sessionId');
-      
-      if (!savedToken) {
-        setError('관리자 인증이 필요합니다. 관리자 대시보드에서 먼저 로그인해주세요.');
-        setLoading(false);
-        return;
-      }
       
       if (!sessionId) {
         setError('유효하지 않은 접근입니다 (sessionId 누락).');
@@ -43,9 +47,25 @@ export default function AdminReportPage() {
         return;
       }
 
-      loadReport(savedToken, sessionId);
+      if (savedToken) {
+        loadReport(savedToken, sessionId);
+      } else {
+        setLoading(false);
+      }
     }
   }, [loadReport]);
+
+  const handleManualAuth = (e) => {
+    e.preventDefault();
+    if (!inputToken) return;
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('sessionId');
+    if (!sessionId) {
+      setError('sessionId가 누락되었습니다.');
+      return;
+    }
+    loadReport(inputToken, sessionId);
+  };
 
   if (loading) {
     return (
@@ -55,18 +75,73 @@ export default function AdminReportPage() {
     );
   }
 
+  if (!token && !data) {
+    return (
+      <main className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <form
+          onSubmit={handleManualAuth}
+          className="w-full max-w-sm rounded-lg border border-gray-200 bg-white p-7 shadow-sm"
+        >
+          <ShieldCheck className="h-9 w-9 text-teal-700 mb-4" />
+          <h1 className="text-2xl font-bold text-gray-950">면접 리포트 인증</h1>
+          <p className="mt-2 text-sm text-gray-600">리포트 열람을 위해 관리자 토큰을 입력해 주세요.</p>
+          <label htmlFor="report-admin-token" className="mt-6 block text-sm font-semibold text-gray-700">
+            관리자 토큰
+          </label>
+          <input
+            id="report-admin-token"
+            type="password"
+            autoComplete="current-password"
+            value={inputToken}
+            onChange={(e) => setInputToken(e.target.value)}
+            placeholder="관리자 토큰 입력"
+            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-3 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100"
+          />
+          {error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}
+          <button
+            type="submit"
+            disabled={!inputToken}
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-teal-700 px-4 py-3 font-semibold text-white hover:bg-teal-800 disabled:opacity-50"
+          >
+            리포트 열람
+          </button>
+          <div className="mt-4 text-center">
+            <a href="/admin" className="text-xs text-gray-500 hover:text-teal-700 inline-flex items-center gap-1">
+              <ArrowLeft className="w-3 h-3" /> 관리자 대시보드로 이동
+            </a>
+          </div>
+        </form>
+      </main>
+    );
+  }
+
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gray-100 p-8">
-        <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+      <div className="min-h-screen bg-gray-100 p-8 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-sm border border-gray-200">
           <div className="flex items-center text-red-700 mb-4">
             <AlertTriangle className="mr-2" />
-            <h1 className="text-xl font-bold">오류 발생</h1>
+            <h1 className="text-xl font-bold">리포트 조회 실패</h1>
           </div>
-          <p className="text-gray-700">{error}</p>
-          <a href="/admin" className="mt-6 inline-flex items-center text-teal-700 hover:underline">
-            <ArrowLeft className="w-4 h-4 mr-1" /> 목록으로 돌아가기
-          </a>
+          <p className="text-gray-700 text-sm mb-6">{error}</p>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setToken('');
+                setError('');
+              }}
+              className="flex-1 rounded-md bg-teal-700 py-2.5 text-sm font-semibold text-white hover:bg-teal-800"
+            >
+              토큰 다시 입력
+            </button>
+            <a
+              href="/admin"
+              className="flex-1 inline-flex items-center justify-center rounded-md border border-gray-300 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            >
+              <ArrowLeft className="w-4 h-4 mr-1" /> 목록으로
+            </a>
+          </div>
         </div>
       </div>
     );

@@ -31,6 +31,7 @@ export default function AdminDashboard() {
       });
       const body = await response.json();
       if (!response.ok || !body.ok) throw new Error(body.message || '현황 조회에 실패했습니다.');
+      localStorage.setItem('culture_fit_admin_token', adminToken);
       sessionStorage.setItem('culture_fit_admin_token', adminToken);
       setData(body);
     } catch (loadError) {
@@ -42,7 +43,11 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    const savedToken = sessionStorage.getItem('culture_fit_admin_token') || '';
+    const savedToken =
+      (typeof window !== 'undefined' &&
+        (localStorage.getItem('culture_fit_admin_token') ||
+          sessionStorage.getItem('culture_fit_admin_token'))) ||
+      '';
     if (savedToken) {
       setToken(savedToken);
       loadStatus(savedToken);
