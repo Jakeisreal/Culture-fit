@@ -241,24 +241,29 @@ export default function AdminReportPage() {
           <h2 className="text-xl font-bold mb-6 border-b pb-2">핵심 가치 프로파일 및 면접 질문</h2>
           
           {domains.map((domain, idx) => {
-            const avg = Number(domain.average) || 1;
-            const barWidth = Math.max(0, Math.min(100, ((avg - 1) / 4) * 100));
+            const hasScore = domain.average != null && !isNaN(Number(domain.average));
+            const avg = hasScore ? Number(domain.average) : null;
+            const barWidth = hasScore ? Math.max(0, Math.min(100, ((avg - 1) / 4) * 100)) : 0;
 
             return (
               <article key={idx} className="mb-10 page-break-inside-avoid">
                 <div className="flex justify-between items-baseline mb-2">
                   <h3 className="text-lg font-bold text-teal-800">{domain.domainName}</h3>
                   <span className="text-sm font-semibold bg-gray-100 px-2 py-1 rounded">
-                    Score: {avg.toFixed(1)} / 5.0
+                    {hasScore ? `Score: ${avg.toFixed(1)} / 5.0` : '해당 경험 없음'}
                   </span>
                 </div>
                 
                 <p className="text-sm text-gray-600 mb-4">{domain.definition}</p>
                 
                 {/* Chart */}
-                <div className="w-full bg-gray-200 h-2 rounded-full mb-4 overflow-hidden">
-                  <div className="bg-teal-600 h-full rounded-full" style={{ width: `${barWidth}%` }} />
-                </div>
+                {hasScore ? (
+                  <div className="w-full bg-gray-200 h-2 rounded-full mb-4 overflow-hidden">
+                    <div className="bg-teal-600 h-full rounded-full" style={{ width: `${barWidth}%` }} />
+                  </div>
+                ) : (
+                  <p className="text-xs text-gray-400 mb-3 italic">* 무경험 응답으로 점수를 산출하지 않았습니다.</p>
+                )}
                 
                 <p className="text-sm font-medium mb-4 leading-relaxed bg-gray-50 p-3 rounded">
                   {domain.interpretation}

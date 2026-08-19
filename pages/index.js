@@ -427,7 +427,11 @@ export default function CultureFitApp() {
     try {
       const data = await fetcher(`${API_BASE}/init`, {
         method: 'POST',
-        body: JSON.stringify({ name, email, phone }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+        }),
       });
 
       setSessionId(data.sessionId);

@@ -41,8 +41,9 @@ export default async function handler(req, res) {
     for (let i = 0; i < definition.items.length; i++) {
       const itemId = definition.items[i].item_id;
       const colIndex = 13 + i;
-      if (rawRow[colIndex] !== undefined && rawRow[colIndex] !== '') {
-        answers[itemId] = rawRow[colIndex];
+      const cellVal = rawRow[colIndex];
+      if (cellVal !== undefined && cellVal !== '') {
+        answers[itemId] = cellVal === 'N/E' ? 0 : cellVal;
       }
     }
 

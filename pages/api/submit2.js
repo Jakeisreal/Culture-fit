@@ -140,9 +140,11 @@ export default async function handler(req, res) {
 
     const completionRate = `${scoreResult.answeredCount}/${totalQuestions}`;
     const suspiciousFlags = scoreResult.flags || [];
-    const orderedAnswers = bankItemIds.map(
-      (id) => scoreResult.normalizedAnswers[id] ?? '',
-    );
+    const orderedAnswers = bankItemIds.map((id) => {
+      const val = scoreResult.normalizedAnswers[id];
+      if (val === 0) return 'N/E';
+      return val ?? '';
+    });
     const notesJson = JSON.stringify({
       assessmentVersion,
       administeredItemIds: selectedItems.map((item) => item.item_id),
