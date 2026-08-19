@@ -560,7 +560,11 @@ export default function CultureFitApp() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-teal-700 font-bold mt-1">•</span>
-                <span>모든 문항에 <strong>정직하게</strong> 응답해 주세요.</span>
+                <span>문항 선택 시 <strong>자동으로 다음 문항으로 이동</strong>하므로 신중하게 응답해 주세요.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-teal-700 font-bold mt-1">•</span>
+                <span>모든 문항에 응답을 완료하면 최종 <strong>[제출하기]</strong> 버튼이 활성화됩니다.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-teal-700 font-bold mt-1">•</span>
@@ -764,6 +768,14 @@ export default function CultureFitApp() {
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-teal-700 font-bold mt-0.5">•</span>
+                <span>문항 선택 시 <strong>자동으로 다음 문항으로 이동</strong>합니다. 이전 문항으로 되돌아가지 않으므로 신중하게 응답해 주세요.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-teal-700 font-bold mt-0.5">•</span>
+                <span>모든 문항에 응답을 완료하면 화면 하단에 <strong>[최종 제출하기]</strong> 버튼이 생성됩니다.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-teal-700 font-bold mt-0.5">•</span>
                 <span>응답은 실시간으로 자동 저장되며, 네트워크 불안정 등으로 중단 시 재접속하여 이어서 응시할 수 있습니다.</span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -956,7 +968,7 @@ export default function CultureFitApp() {
             )}
 
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 md:p-10">
-              <h3 className="text-2xl font-semibold text-gray-900 leading-relaxed mb-8">
+              <h3 className="text-lg md:text-[19px] font-semibold text-gray-900 leading-relaxed mb-6">
                 {currentQuestion?.text}
               </h3>
 
@@ -1016,35 +1028,43 @@ export default function CultureFitApp() {
               )}
             </div>
 
-            {/* Navigation */}
-            <div className="mt-6 flex items-center gap-3 bg-white border border-gray-200 rounded-md p-3">
-              <Button
-                variant="secondary"
-                onClick={() => goToQuestion(currentIndex - 1)}
-                disabled={currentIndex === 0}
-                className="flex-1"
-              >
-                이전
-              </Button>
-              <Button
-                onClick={() => {
-                  if (answers[currentQuestion?.id] == null) {
-                    setError('응답을 선택해 주세요.');
-                    return;
-                  }
-                  if (currentIndex < questions.length - 1) {
-                    goToQuestion(currentIndex + 1);
-                  } else {
-                    handleSubmit();
-                  }
-                }}
-                loading={loading}
-                disabled={loading}
-                className="flex-1"
-              >
-                {currentIndex < questions.length - 1 ? '다음' : '제출하기'}
-              </Button>
-            </div>
+            {/* 모든 문항 완료 시 제출 영역 */}
+            {questions.length > 0 && answeredCount >= questions.length ? (
+              <div className="mt-6 bg-white border border-teal-200 rounded-lg p-5 shadow-sm text-center animate-in fade-in slide-in-from-bottom duration-300">
+                <div className="flex items-center justify-center gap-2 text-teal-800 font-bold text-base mb-1">
+                  <CheckCircle className="w-5 h-5 text-teal-700" />
+                  모든 문항({questions.length}문항)에 응답을 완료하셨습니다.
+                </div>
+                <p className="text-xs text-gray-600 mb-4">
+                  응답 내용을 최종 확인하셨다면 아래 버튼을 눌러 제출을 완료해 주세요.
+                </p>
+                <Button
+                  size="lg"
+                  onClick={() => handleSubmit()}
+                  loading={loading}
+                  disabled={loading}
+                  className="w-full max-w-md shadow-md hover:shadow-lg bg-teal-700 text-white font-bold py-3.5"
+                >
+                  검사 최종 제출하기
+                </Button>
+              </div>
+            ) : currentIndex === questions.length - 1 && answeredCount < questions.length ? (
+              <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4 text-center">
+                <p className="text-sm font-semibold text-amber-900 mb-2">
+                  아직 응답하지 않은 문항이 {questions.length - answeredCount}개 남아있습니다.
+                </p>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => {
+                    const unanswered = questions.findIndex((q) => answers[q.id] == null);
+                    if (unanswered >= 0) goToQuestion(unanswered);
+                  }}
+                >
+                  미응답 문항으로 이동
+                </Button>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
