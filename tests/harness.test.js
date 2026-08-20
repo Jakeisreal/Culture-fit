@@ -216,22 +216,22 @@ test('Likert 중립값을 50점으로 환산한다', () => {
   assert.equal(result.domainScores['원칙중시'].scorePercent, 50);
 });
 
-test('V2는 300문항 은행 구성과 명시적 채점 메타데이터를 충족한다', () => {
+test('V2는 320문항 은행 구성과 명시적 채점 메타데이터를 충족한다', () => {
   const items = loadAssessmentItems('v2-bank-pilot');
-  assert.equal(items.length, 300);
+  assert.equal(items.length, 320);
   assert.equal(items.filter((item) => item.score_group === 'core').length, 200);
-  assert.equal(items.filter((item) => item.score_group === 'supplemental').length, 40);
+  assert.equal(items.filter((item) => item.score_group === 'supplemental').length, 60);
   assert.equal(items.filter((item) => item.score_group === 'response_quality').length, 45);
   assert.equal(items.filter((item) => item.is_imc).length, 5);
   assert.equal(items.filter((item) => item.score_group === 'consistency').length, 10);
-  assert.equal(new Set(items.map((item) => item.item_id)).size, 300);
+  assert.equal(new Set(items.map((item) => item.item_id)).size, 320);
   assert.ok(items.every((item) => ['direct', 'reverse', 'imc'].includes(item.scoring_key)));
   assert.ok(items.every((item) => item.facet && item.response_scale && item.version === 'v2-bank-pilot'));
 
   const normalizedTexts = items.map(
     (item) => item.text.replace(/[^\p{L}\p{N}]+/gu, '').toLowerCase(),
   );
-  assert.equal(new Set(normalizedTexts).size, 290);
+  assert.equal(new Set(normalizedTexts).size, 310);
   assert.equal(items.filter((item) => item.consistency_role === 'anchor').length, 10);
   assert.equal(items.filter((item) => item.consistency_role === 'repeat').length, 10);
 });
@@ -257,16 +257,17 @@ test('V2 총점은 선별된 핵심 150문항만 반영하고 보조척도는 �
   });
   assert.equal(result.assessmentVersion, 'v2-bank-pilot');
   assert.equal(result.totalScore, 50);
-  assert.equal(result.answeredCount, 230);
+  assert.equal(result.answeredCount, 250);
   assert.equal(result.imcPassed, true);
   assert.equal(result.consistency.exactAgreementRate, 1);
   assert.equal(result.domainScores['조직시민성(OCB)'].average, 5);
+  assert.equal(result.domainScores['팀적합도(Team-Fit)'].average, 5);
   assert.equal(result.flags.includes('INCOMPLETE_RESPONSE'), false);
 });
 
 test('V2 저장 헤더와 레거시 세션 버전 판별을 분리한다', () => {
   const headers = getResponseHeaders('v2-bank-pilot');
-  assert.equal(headers.length, 313);
+  assert.equal(headers.length, 333);
   assert.equal(headers[13], 'V2-PR-01');
   assert.equal(getAssessmentDefinition('v2-bank-pilot').responseSheet, 'Responses_V2_Bank');
   assert.equal(getAssessmentDefinition('v2-pilot').items.length, 192);
@@ -288,7 +289,7 @@ test('V2 일관성 반복문항은 원문항에서 충분히 떨어져 배치된
   const mainItems = items.filter((item) => item.score_group !== 'consistency');
   const repeats = items.filter((item) => item.score_group === 'consistency');
   const arranged = insertConsistencyRepeats(mainItems, repeats);
-  assert.equal(arranged.length, 230);
+  assert.equal(arranged.length, 250);
   for (const repeat of repeats) {
     const anchorIndex = arranged.findIndex(
       (item) => item.consistency_pair_id === repeat.consistency_pair_id
@@ -330,7 +331,7 @@ test('V2 선별은 세션별로 재현되며 동일한 척도 할당을 유지�
   const first = selectAssessmentItems(bank, 'v2-bank-pilot', 'candidate-a');
   const repeated = selectAssessmentItems(bank, 'v2-bank-pilot', 'candidate-a');
   const second = selectAssessmentItems(bank, 'v2-bank-pilot', 'candidate-b');
-  assert.equal(first.length, 230);
+  assert.equal(first.length, 250);
   assert.deepEqual(
     first.map((item) => item.item_id),
     repeated.map((item) => item.item_id),
@@ -345,6 +346,7 @@ test('V2 선별은 세션별로 재현되며 동일한 척도 할당을 유지�
     고객중심: 30,
     의사소통: 30,
     도전정신: 30,
+    '팀적합도(Team-Fit)': 20,
     '조직시민성(OCB)': 10,
     '역기능행동(CWB)': 10,
     '정직성/무결성': 15,
@@ -566,7 +568,10 @@ test('면접 리포트: generateInterviewReport가 완전한 구조화 리포트
   );
 
   assert.ok(Array.isArray(report.supplementaryScales));
-  assert.equal(report.supplementaryScales.length, 3);
+  assert.equal(report.supplementaryScales.length, 4);
+  const teamFitScale = report.supplementaryScales.find((d) => d.domain === '팀적합도(Team-Fit)');
+  assert.ok(teamFitScale);
+  assert.equal(teamFitScale.supplementary, true);
   const ocbScale = report.supplementaryScales.find((d) => d.domain === '조직시민성(OCB)');
   assert.ok(ocbScale);
   assert.equal(ocbScale.supplementary, true);
