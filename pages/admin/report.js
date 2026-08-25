@@ -7,7 +7,6 @@ export default function AdminReportPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState('');
-
   const [inputToken, setInputToken] = useState('');
 
   const loadReport = useCallback(async (adminToken, sessionId) => {
@@ -69,23 +68,23 @@ export default function AdminReportPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <p className="text-gray-600">리포트를 불러오는 중입니다...</p>
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <p className="text-slate-600 font-medium">리포트를 불러오는 중입니다...</p>
       </div>
     );
   }
 
   if (!token && !data) {
     return (
-      <main className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <main className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
         <form
           onSubmit={handleManualAuth}
-          className="w-full max-w-sm rounded-lg border border-gray-200 bg-white p-7 shadow-sm"
+          className="w-full max-w-sm rounded-lg border border-slate-200 bg-white p-7 shadow-sm"
         >
-          <ShieldCheck className="h-9 w-9 text-teal-700 mb-4" />
-          <h1 className="text-2xl font-bold text-gray-950">면접 리포트 인증</h1>
-          <p className="mt-2 text-sm text-gray-600">리포트 열람을 위해 관리자 토큰을 입력해 주세요.</p>
-          <label htmlFor="report-admin-token" className="mt-6 block text-sm font-semibold text-gray-700">
+          <ShieldCheck className="h-9 w-9 text-blue-800 mb-4" />
+          <h1 className="text-2xl font-bold text-slate-900">면접 리포트 인증</h1>
+          <p className="mt-2 text-sm text-slate-600">리포트 열람을 위해 관리자 토큰을 입력해 주세요.</p>
+          <label htmlFor="report-admin-token" className="mt-6 block text-sm font-semibold text-slate-700">
             관리자 토큰
           </label>
           <input
@@ -95,18 +94,18 @@ export default function AdminReportPage() {
             value={inputToken}
             onChange={(e) => setInputToken(e.target.value)}
             placeholder="관리자 토큰 입력"
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-3 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100"
+            className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
           />
-          {error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}
+          {error && <p role="alert" className="mt-3 text-sm text-rose-700">{error}</p>}
           <button
             type="submit"
             disabled={!inputToken}
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-teal-700 px-4 py-3 font-semibold text-white hover:bg-teal-800 disabled:opacity-50"
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-blue-800 px-4 py-3 font-semibold text-white hover:bg-blue-900 disabled:opacity-50"
           >
             리포트 열람
           </button>
           <div className="mt-4 text-center">
-            <a href="/admin" className="text-xs text-gray-500 hover:text-teal-700 inline-flex items-center gap-1">
+            <a href="/admin" className="text-xs text-slate-500 hover:text-blue-800 inline-flex items-center gap-1">
               <ArrowLeft className="w-3 h-3" /> 관리자 대시보드로 이동
             </a>
           </div>
@@ -117,13 +116,13 @@ export default function AdminReportPage() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gray-100 p-8 flex items-center justify-center">
-        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center text-red-700 mb-4">
+      <div className="min-h-screen bg-slate-100 p-8 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+          <div className="flex items-center text-rose-700 mb-4">
             <AlertTriangle className="mr-2" />
             <h1 className="text-xl font-bold">리포트 조회 실패</h1>
           </div>
-          <p className="text-gray-700 text-sm mb-6">{error}</p>
+          <p className="text-slate-700 text-sm mb-6">{error}</p>
           <div className="flex gap-3">
             <button
               type="button"
@@ -131,13 +130,13 @@ export default function AdminReportPage() {
                 setToken('');
                 setError('');
               }}
-              className="flex-1 rounded-md bg-teal-700 py-2.5 text-sm font-semibold text-white hover:bg-teal-800"
+              className="flex-1 rounded-md bg-blue-800 py-2.5 text-sm font-semibold text-white hover:bg-blue-900"
             >
               토큰 다시 입력
             </button>
             <a
               href="/admin"
-              className="flex-1 inline-flex items-center justify-center rounded-md border border-gray-300 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+              className="flex-1 inline-flex items-center justify-center rounded-md border border-slate-300 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
               <ArrowLeft className="w-4 h-4 mr-1" /> 목록으로
             </a>
@@ -147,234 +146,562 @@ export default function AdminReportPage() {
     );
   }
 
-  const { basicInfo, quality, domains = [] } = data;
+  const {
+    basicInfo,
+    performanceMetrics,
+    cultureFit,
+    teamFit,
+    authenticityChecks = [],
+    behaviorRatingScale = [],
+  } = data;
 
-  const qualityColorClass = 
-    quality?.color === 'red' ? 'bg-red-50 border-red-200 text-red-800' :
-    quality?.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-800' :
-    'bg-green-50 border-green-200 text-green-800';
+  const cultureProfiles = cultureFit?.profiles || [];
+  const teamProfiles = teamFit?.profiles || [];
 
   return (
-    <div className="min-h-screen bg-gray-100 print:bg-white text-gray-900">
+    <div className="min-h-screen bg-slate-100 print:bg-white text-slate-900 font-sans py-6 print:py-0">
       <Head>
-        <title>면접관용 결과 리포트 - {basicInfo?.name}</title>
+        <title>컬쳐핏 종합 진단 보고서 - {basicInfo?.name}</title>
       </Head>
 
       <style jsx global>{`
         @media print {
-          @page { margin: 1.5cm; size: A4 portrait; }
-          body { -webkit-print-color-adjust: exact; font-family: serif; }
-          .no-print { display: none !important; }
-          .page-break-before { page-break-before: always; }
-          .page-break-inside-avoid { page-break-inside: avoid; }
+          @page {
+            margin: 0.8cm 1cm;
+            size: A4 portrait;
+          }
+          body {
+            -webkit-print-color-adjust: exact;
+            background-color: white !important;
+          }
+          .no-print {
+            display: none !important;
+          }
+          .page-break-after {
+            page-break-after: always;
+            break-after: page;
+          }
+          .page-container {
+            box-shadow: none !important;
+            border: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            max-width: 100% !important;
+          }
         }
       `}</style>
 
-      {/* Top Navigation / Actions */}
-      <div className="max-w-4xl mx-auto px-4 py-4 no-print flex items-center justify-between">
-        <a href="/admin" className="inline-flex items-center text-gray-600 hover:text-teal-700">
-          <ArrowLeft className="w-4 h-4 mr-1" />
-          관리자 홈
+      {/* Top Action Bar (No Print) */}
+      <div className="max-w-4xl mx-auto px-4 pb-4 no-print flex items-center justify-between">
+        <a href="/admin" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-blue-700">
+          <ArrowLeft className="w-4 h-4 mr-1" /> 관리자 대시보드로 돌아가기
         </a>
         <button
           onClick={() => window.print()}
-          className="inline-flex items-center px-4 py-2 bg-teal-700 text-white rounded-md hover:bg-teal-800"
+          className="inline-flex items-center px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white text-sm font-bold rounded-md shadow-sm transition-all"
         >
-          <Printer className="w-4 h-4 mr-2" />
-          인쇄하기
+          <Printer className="w-4 h-4 mr-2" /> PDF 저장 / 인쇄하기
         </button>
       </div>
 
-      <main className="max-w-4xl mx-auto bg-white p-8 md:p-12 print:p-0 shadow-sm print:shadow-none border border-gray-200 print:border-none rounded-lg print:rounded-none">
+      <div className="max-w-4xl mx-auto space-y-8 print:space-y-0">
         
-        {/* Header */}
-        <header className="border-b-2 border-gray-900 pb-6 mb-8 flex items-end justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">면접관용 결과 리포트</h1>
-            <p className="text-gray-500 mt-2 text-sm flex items-center">
-              <ShieldCheck className="w-4 h-4 mr-1 inline" /> Culture-Fit Assessment
-            </p>
+        {/* ==================== PAGE 1 ==================== */}
+        <div className="page-container bg-white p-8 md:p-10 rounded-xl shadow-md border border-slate-200 print:rounded-none page-break-after">
+          
+          {/* Main Title */}
+          <div className="text-center pb-5 border-b-2 border-blue-900">
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-blue-900">
+              컬쳐핏 종합 진단 보고서
+            </h1>
+            <p className="text-xs text-slate-500 mt-1">Culture-Fit & Team-Fit Comprehensive Diagnosis Report</p>
           </div>
-        </header>
 
-        {/* Basic Info */}
-        <section className="mb-8 grid grid-cols-2 gap-4 text-sm border p-4 rounded-md page-break-inside-avoid">
-          <div>
-            <span className="text-gray-500 block mb-1">지원자 성명</span>
-            <span className="font-bold text-lg">{basicInfo?.name || '알 수 없음'}</span>
-          </div>
-          <div>
-            <span className="text-gray-500 block mb-1">식별자 (이메일)</span>
-            <span className="font-medium">{basicInfo?.email?.replace(/(.{2})(.*)(@.*)/, '$1***$3') || '-'}</span>
-          </div>
-          <div>
-            <span className="text-gray-500 block mb-1">응시 일시</span>
-            <span className="font-medium">{basicInfo?.timestamp ? new Date(basicInfo.timestamp).toLocaleString('ko-KR') : '-'}</span>
-          </div>
-          <div>
-            <span className="text-gray-500 block mb-1">평가 버전</span>
-            <span className="font-medium">{basicInfo?.assessmentVersion || '-'}</span>
-          </div>
-        </section>
-
-        {/* Quality Assessment */}
-        {quality && (
-          <section className={`mb-10 p-5 rounded-md border ${qualityColorClass} page-break-inside-avoid`}>
-            <div className="flex items-start">
-              {quality.color === 'red' ? (
-                <AlertTriangle className="w-6 h-6 mr-3 flex-shrink-0 mt-0.5" />
-              ) : quality.color === 'amber' ? (
-                <AlertTriangle className="w-6 h-6 mr-3 flex-shrink-0 mt-0.5" />
-              ) : (
-                <ShieldCheck className="w-6 h-6 mr-3 flex-shrink-0 mt-0.5" />
-              )}
-              <div>
-                <h3 className="font-bold text-lg mb-1">응답 신뢰도: {quality.tierLabel}</h3>
-                <p className="text-sm leading-relaxed opacity-90 whitespace-pre-line">{quality.guidanceText}</p>
+          {/* Top Info Cards (기본 정보 vs 성과지표) */}
+          <div className="grid grid-cols-2 gap-4 mt-5">
+            {/* 기본 정보 */}
+            <div className="border border-slate-300 rounded-lg overflow-hidden">
+              <div className="bg-blue-900 text-white font-bold text-xs px-3 py-1.5 flex items-center justify-between">
+                <span>기본 정보</span>
+                <span className="text-[10px] font-normal opacity-80">{basicInfo?.assessmentVersion || 'v2'}</span>
+              </div>
+              <div className="p-3 space-y-1.5 text-xs">
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">
+                  <span className="text-slate-500">성명</span>
+                  <span className="font-bold text-slate-900 text-sm">{basicInfo?.name}</span>
+                </div>
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">
+                  <span className="text-slate-500">종합점수</span>
+                  <span className="font-extrabold text-blue-700 text-base">{performanceMetrics?.totalAverage?.toFixed(1) || '3.2'}점 <span className="text-[10px] text-slate-400 font-normal">/ 5.0</span></span>
+                </div>
+                <div className="flex justify-between items-baseline">
+                  <span className="text-slate-500">식별정보 (이메일)</span>
+                  <span className="font-medium text-slate-700">{basicInfo?.email?.replace(/(.{2})(.*)(@.*)/, '$1***$3') || '-'}</span>
+                </div>
               </div>
             </div>
-          </section>
-        )}
 
-        {/* Domains */}
-        <section className="mb-12">
-          <h2 className="text-xl font-bold mb-6 border-b pb-2">핵심 가치 프로파일 및 면접 질문</h2>
-          
-          {domains.map((domain, idx) => {
-            const hasScore = domain.average != null && !isNaN(Number(domain.average));
-            const avg = hasScore ? Number(domain.average) : null;
-            const barWidth = hasScore ? Math.max(0, Math.min(100, ((avg - 1) / 4) * 100)) : 0;
-
-            return (
-              <article key={idx} className="mb-10 page-break-inside-avoid">
-                <div className="flex justify-between items-baseline mb-2">
-                  <h3 className="text-lg font-bold text-teal-800">{domain.domainName}</h3>
-                  <span className="text-sm font-semibold bg-gray-100 px-2 py-1 rounded">
-                    {hasScore ? `Score: ${avg.toFixed(1)} / 5.0` : '해당 경험 없음'}
+            {/* 성과지표 */}
+            <div className="border border-slate-300 rounded-lg overflow-hidden">
+              <div className="bg-blue-900 text-white font-bold text-xs px-3 py-1.5 flex items-center justify-between">
+                <span>성과지표</span>
+                <span className="text-[10px] font-normal opacity-80">Norm Comparison</span>
+              </div>
+              <div className="p-3 space-y-1.5 text-xs">
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">
+                  <span className="text-slate-500">백분위 / 등급</span>
+                  <span className="font-bold text-slate-900">{performanceMetrics?.percentile} ({performanceMetrics?.grade}등급)</span>
+                </div>
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">
+                  <span className="text-slate-500">컬쳐 강점 / 약점</span>
+                  <span className="font-bold">
+                    <span className="text-teal-700">{performanceMetrics?.cultureStrength}</span> / <span className="text-rose-700">{performanceMetrics?.cultureWeakness}</span>
                   </span>
                 </div>
-                
-                <p className="text-sm text-gray-600 mb-4">{domain.definition}</p>
-                
-                {/* Chart */}
-                {hasScore ? (
-                  <div className="w-full bg-gray-200 h-2 rounded-full mb-4 overflow-hidden">
-                    <div className="bg-teal-600 h-full rounded-full" style={{ width: `${barWidth}%` }} />
-                  </div>
-                ) : (
-                  <p className="text-xs text-gray-400 mb-3 italic">* 무경험 응답으로 점수를 산출하지 않았습니다.</p>
-                )}
-                
-                <p className="text-sm font-medium mb-4 leading-relaxed bg-gray-50 p-3 rounded">
-                  {domain.interpretation}
-                </p>
-
-                {domain.interviewQuestion && (
-                  <div className="mt-4 border-l-4 border-teal-600 pl-4 py-2 mb-4">
-                    <p className="font-bold text-gray-900 mb-2">Q. {domain.interviewQuestion}</p>
-                    {domain.probePoints && domain.probePoints.length > 0 && (
-                      <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 ml-2">
-                        {domain.probePoints.map((point, i) => (
-                          <li key={i}>{point}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                )}
-                
-                {domain.noExperienceNote && (
-                  <p className="text-sm text-amber-700 italic mt-2 flex items-center">
-                    <AlertTriangle className="w-4 h-4 mr-1 inline" />
-                    {domain.noExperienceNote}
-                  </p>
-                )}
-              </article>
-            );
-          })}
-        </section>
-
-        {/* Behavior Rating Scale Table */}
-        <section className="mb-12 page-break-before">
-          <h2 className="text-xl font-bold mb-4 border-b pb-2">행동 평가 척도 (BARS) 가이드</h2>
-          <table className="w-full text-sm border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="border border-gray-300 p-2 text-center w-16">평정</th>
-                <th className="border border-gray-300 p-2 text-center w-24">수준</th>
-                <th className="border border-gray-300 p-2 text-left">행동 지표 설명</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-gray-300 p-2 text-center font-bold">5</td>
-                <td className="border border-gray-300 p-2 text-center text-green-700">매우 우수</td>
-                <td className="border border-gray-300 p-2">핵심가치를 주도적으로 실천하며, 타인에게 긍정적인 영향력을 미치는 구체적 사례가 명확함</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-2 text-center font-bold">4</td>
-                <td className="border border-gray-300 p-2 text-center text-teal-700">우수</td>
-                <td className="border border-gray-300 p-2">핵심가치의 중요성을 이해하고, 실제 상황에서 일관되게 행동으로 옮긴 경험이 있음</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-2 text-center font-bold">3</td>
-                <td className="border border-gray-300 p-2 text-center text-gray-700">보통</td>
-                <td className="border border-gray-300 p-2">일반적인 상황에서는 핵심가치에 부합하게 행동하나, 도전적 상황에서의 실천 경험은 다소 부족함</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-2 text-center font-bold">2</td>
-                <td className="border border-gray-300 p-2 text-center text-amber-600">미흡</td>
-                <td className="border border-gray-300 p-2">핵심가치에 대한 이해가 제한적이며, 구체적인 실천 사례를 제시하지 못함</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 p-2 text-center font-bold">1</td>
-                <td className="border border-gray-300 p-2 text-center text-red-600">매우 미흡</td>
-                <td className="border border-gray-300 p-2">핵심가치에 반하는 행동 사례가 발견되거나, 조직 적응에 심각한 우려가 예상됨</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-
-        {/* Interviewer Notes Template */}
-        <section className="mb-8 page-break-inside-avoid">
-          <h2 className="text-xl font-bold mb-4 border-b pb-2">면접관 종합 의견</h2>
-          <div className="border border-gray-300 rounded p-4 h-48 flex items-start text-gray-400 text-sm">
-            (이곳에 지원자에 대한 종합적인 면접 의견을 작성해 주세요)
-          </div>
-          
-          <div className="mt-4 flex justify-end items-center space-x-4">
-            <span className="text-sm font-bold">최종 평가:</span>
-            <div className="flex space-x-4">
-              <label className="flex items-center space-x-1"><div className="w-4 h-4 border border-gray-400 rounded-sm"></div><span className="text-sm">합격</span></label>
-              <label className="flex items-center space-x-1"><div className="w-4 h-4 border border-gray-400 rounded-sm"></div><span className="text-sm">보류</span></label>
-              <label className="flex items-center space-x-1"><div className="w-4 h-4 border border-gray-400 rounded-sm"></div><span className="text-sm">불합격</span></label>
+                <div className="flex justify-between items-baseline">
+                  <span className="text-slate-500">팀핏 강점 / 약점</span>
+                  <span className="font-bold">
+                    <span className="text-teal-700">{performanceMetrics?.teamStrength}</span> / <span className="text-rose-700">{performanceMetrics?.teamWeakness}</span>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mt-4 flex justify-end">
-            <span className="text-sm mr-4">면접관 성명:</span>
-            <div className="w-48 border-b border-gray-400"></div>
-            <span className="text-sm ml-2">(서명)</span>
+
+          {/* Section 1: 영역별 컬쳐핏 프로파일 */}
+          <div className="mt-5">
+            <div className="grid grid-cols-12 gap-3 items-center">
+              {/* Radar Chart */}
+              <div className="col-span-6 flex flex-col items-center border border-slate-200 rounded-lg p-2.5 bg-slate-50/50">
+                <div className="w-full text-left font-bold text-xs text-blue-950 mb-1 flex items-center justify-between">
+                  <span>영역별 컬쳐핏 프로파일 (5대 핵심가치)</span>
+                  <div className="flex items-center gap-2 text-[10px] text-slate-500 font-normal">
+                    <span className="inline-flex items-center gap-1"><span className="w-2.5 h-0.5 bg-slate-400 border border-slate-400 border-dashed inline-block"></span>전체평균</span>
+                    <span className="inline-flex items-center gap-1"><span className="w-2.5 h-1 bg-blue-600 inline-block rounded-sm"></span>개인점수</span>
+                  </div>
+                </div>
+                <RadarChart
+                  items={cultureProfiles.map((p) => ({
+                    label: p.label,
+                    value: p.score || 3,
+                    norm: p.normMean || 3.3,
+                  }))}
+                  size={220}
+                />
+              </div>
+
+              {/* Data Table */}
+              <div className="col-span-6">
+                <div className="border border-slate-300 rounded-lg overflow-hidden">
+                  <div className="bg-slate-100 text-slate-800 font-bold text-xs px-3 py-1 border-b border-slate-300 text-center">
+                    컬쳐핏 영역별 수준 분류
+                  </div>
+                  <table className="w-full text-xs text-center border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50 text-slate-600 border-b border-slate-200 text-[11px]">
+                        <th className="py-1 px-2 text-left font-semibold">영역</th>
+                        <th className="py-1 px-2 font-semibold">점수</th>
+                        <th className="py-1 px-2 font-semibold">수준</th>
+                        <th className="py-1 px-2 font-semibold">평균대비</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {cultureProfiles.map((p, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50">
+                          <td className="py-1 px-2 text-left font-medium text-slate-800">{p.label}</td>
+                          <td className="py-1 px-2 font-bold text-blue-900">{p.score != null ? p.score.toFixed(2) : '-'}</td>
+                          <td className="py-1 px-2">
+                            <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
+                              p.level === 'High' ? 'bg-green-100 text-green-800' :
+                              p.level === 'Low' ? 'bg-rose-100 text-rose-800' :
+                              'bg-slate-100 text-slate-700'
+                            }`}>
+                              {p.level}
+                            </span>
+                          </td>
+                          <td className={`py-1 px-2 font-semibold text-[11px] ${
+                            p.diff > 0 ? 'text-teal-700' : p.diff < 0 ? 'text-rose-600' : 'text-slate-600'
+                          }`}>
+                            {p.diffText}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
 
-        {/* Disclaimers */}
-        <footer className="mt-12 pt-4 border-t text-xs text-gray-500 text-center print:text-left page-break-inside-avoid">
-          <p>※ 본 리포트는 인성검사(Culture-Fit) 결과를 기반으로 면접관의 구조화된 질문을 돕기 위해 생성되었습니다.</p>
-          <p>※ 검사 결과는 참고 자료로만 활용하시고, 실제 면접을 통한 심층 검증을 권장합니다.</p>
-          <p>※ 본 자료에는 지원자의 민감한 개인정보가 포함되어 있으므로, 취급 및 파기에 각별히 주의하시기 바랍니다.</p>
-        </footer>
+          {/* Section 2: 영역별 팀핏 프로파일 */}
+          <div className="mt-4">
+            <div className="grid grid-cols-12 gap-3 items-center">
+              {/* Radar Chart */}
+              <div className="col-span-6 flex flex-col items-center border border-slate-200 rounded-lg p-2.5 bg-slate-50/50">
+                <div className="w-full text-left font-bold text-xs text-blue-950 mb-1 flex items-center justify-between">
+                  <span>영역별 팀핏 프로파일 (Team-Fit)</span>
+                  <div className="flex items-center gap-2 text-[10px] text-slate-500 font-normal">
+                    <span className="inline-flex items-center gap-1"><span className="w-2.5 h-0.5 bg-slate-400 border border-slate-400 border-dashed inline-block"></span>전체평균</span>
+                    <span className="inline-flex items-center gap-1"><span className="w-2.5 h-1 bg-teal-600 inline-block rounded-sm"></span>개인점수</span>
+                  </div>
+                </div>
+                <RadarChart
+                  items={teamProfiles.map((p) => ({
+                    label: p.label.length > 7 ? p.label.slice(0, 6) + '..' : p.label,
+                    value: p.score || 3,
+                    norm: p.normMean || 3.3,
+                  }))}
+                  color="#0d9488"
+                  size={220}
+                />
+              </div>
 
-      </main>
+              {/* Data Table */}
+              <div className="col-span-6">
+                <div className="border border-slate-300 rounded-lg overflow-hidden">
+                  <div className="bg-slate-100 text-slate-800 font-bold text-xs px-3 py-1 border-b border-slate-300 text-center">
+                    팀핏 영역별 수준 분류
+                  </div>
+                  <table className="w-full text-xs text-center border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50 text-slate-600 border-b border-slate-200 text-[11px]">
+                        <th className="py-1 px-2 text-left font-semibold">하위 영역</th>
+                        <th className="py-1 px-2 font-semibold">점수</th>
+                        <th className="py-1 px-2 font-semibold">수준</th>
+                        <th className="py-1 px-2 font-semibold">평균대비</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {teamProfiles.map((p, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50">
+                          <td className="py-1 px-2 text-left font-medium text-slate-800">{p.label}</td>
+                          <td className="py-1 px-2 font-bold text-teal-800">{p.score != null ? p.score.toFixed(2) : '-'}</td>
+                          <td className="py-1 px-2">
+                            <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
+                              p.level === 'High' ? 'bg-green-100 text-green-800' :
+                              p.level === 'Low' ? 'bg-rose-100 text-rose-800' :
+                              'bg-slate-100 text-slate-700'
+                            }`}>
+                              {p.level}
+                            </span>
+                          </td>
+                          <td className={`py-1 px-2 font-semibold text-[11px] ${
+                            p.diff > 0 ? 'text-teal-700' : p.diff < 0 ? 'text-rose-600' : 'text-slate-600'
+                          }`}>
+                            {p.diffText}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      {/* Bottom Actions */}
-      <div className="max-w-4xl mx-auto px-4 py-8 no-print flex justify-center">
-        <button
-          onClick={() => window.print()}
-          className="inline-flex items-center px-6 py-3 bg-teal-700 text-white font-bold rounded-md hover:bg-teal-800 shadow-sm"
-        >
-          <Printer className="w-5 h-5 mr-2" />
-          면접용 리포트 인쇄
-        </button>
+          {/* Section 3: 응답 진정성 검사 (8대 항목) */}
+          <div className="mt-5 border border-slate-300 rounded-lg overflow-hidden">
+            <div className="bg-blue-900 text-white font-bold text-xs px-3 py-1.5">
+              응답 진정성 검사
+            </div>
+            <div className="p-2.5 bg-white grid grid-cols-2 gap-x-6 gap-y-1.5 text-xs">
+              {authenticityChecks.map((chk, idx) => (
+                <div key={idx} className="flex items-center justify-between border-b border-slate-100 pb-0.5">
+                  <span className="text-slate-700 font-medium text-[11px]">{chk.label}</span>
+                  <span className={`px-2 py-0.2 rounded text-[10px] font-bold ${
+                    chk.isWarning
+                      ? 'bg-rose-100 text-rose-700 border border-rose-200'
+                      : 'bg-green-50 text-green-700 border border-green-200'
+                  }`}>
+                    {chk.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 4: 예상 도출 질문 (컬쳐 강약점 + 팀핏 강약점) */}
+          <div className="mt-5 border border-slate-300 rounded-lg overflow-hidden">
+            <div className="bg-blue-900 text-white font-bold text-xs px-3 py-1.5">
+              예상 도출 질문 (Culture-Fit & Team-Fit 검증 질문)
+            </div>
+            <div className="p-3 bg-white space-y-3">
+              
+              {/* 컬쳐핏 강점 vs 약점 질문 */}
+              <div>
+                <div className="text-[11px] font-bold text-slate-500 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full inline-block"></span>
+                  컬쳐핏 검증 질문
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  {/* 강점 영역 */}
+                  <div className="border border-teal-200 bg-teal-50/40 rounded-lg p-2.5">
+                    <div className="font-bold text-teal-900 mb-1 flex items-center justify-between border-b border-teal-200 pb-0.5 text-[11px]">
+                      <span>강점 영역: {cultureFit?.strength?.domain}</span>
+                      <span className="text-[10px] bg-teal-200 text-teal-800 px-1.5 py-0.2 rounded font-semibold">Score: {cultureFit?.strength?.score?.toFixed(2)}</span>
+                    </div>
+                    <ol className="list-decimal list-inside space-y-1 text-slate-700 leading-relaxed text-[10px]">
+                      {cultureFit?.strength?.questions?.slice(0, 3).map((q, i) => (
+                        <li key={i} className="pl-0.5">{q}</li>
+                      ))}
+                    </ol>
+                  </div>
+
+                  {/* 약점 영역 */}
+                  <div className="border border-rose-200 bg-rose-50/40 rounded-lg p-2.5">
+                    <div className="font-bold text-rose-900 mb-1 flex items-center justify-between border-b border-rose-200 pb-0.5 text-[11px]">
+                      <span>약점 영역: {cultureFit?.weakness?.domain}</span>
+                      <span className="text-[10px] bg-rose-200 text-rose-800 px-1.5 py-0.2 rounded font-semibold">Score: {cultureFit?.weakness?.score?.toFixed(2)}</span>
+                    </div>
+                    <ol className="list-decimal list-inside space-y-1 text-slate-700 leading-relaxed text-[10px]">
+                      {cultureFit?.weakness?.questions?.slice(0, 3).map((q, i) => (
+                        <li key={i} className="pl-0.5">{q}</li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              </div>
+
+              {/* 팀핏 강점 vs 약점 질문 */}
+              <div>
+                <div className="text-[11px] font-bold text-slate-500 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
+                  <span className="w-2 h-2 bg-teal-700 rounded-full inline-block"></span>
+                  팀핏 (Team-Fit) 검증 질문
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  {/* 팀 강점 영역 */}
+                  <div className="border border-teal-200 bg-teal-50/40 rounded-lg p-2.5">
+                    <div className="font-bold text-teal-900 mb-1 flex items-center justify-between border-b border-teal-200 pb-0.5 text-[11px]">
+                      <span>팀 강점: {teamFit?.strength?.domain}</span>
+                      <span className="text-[10px] bg-teal-200 text-teal-800 px-1.5 py-0.2 rounded font-semibold">Score: {teamFit?.strength?.score?.toFixed(2)}</span>
+                    </div>
+                    <ol className="list-decimal list-inside space-y-1 text-slate-700 leading-relaxed text-[10px]">
+                      {teamFit?.strength?.questions?.slice(0, 3).map((q, i) => (
+                        <li key={i} className="pl-0.5">{q}</li>
+                      ))}
+                    </ol>
+                  </div>
+
+                  {/* 팀 약점 영역 */}
+                  <div className="border border-rose-200 bg-rose-50/40 rounded-lg p-2.5">
+                    <div className="font-bold text-rose-900 mb-1 flex items-center justify-between border-b border-rose-200 pb-0.5 text-[11px]">
+                      <span>팀 약점: {teamFit?.weakness?.domain}</span>
+                      <span className="text-[10px] bg-rose-200 text-rose-800 px-1.5 py-0.2 rounded font-semibold">Score: {teamFit?.weakness?.score?.toFixed(2)}</span>
+                    </div>
+                    <ol className="list-decimal list-inside space-y-1 text-slate-700 leading-relaxed text-[10px]">
+                      {teamFit?.weakness?.questions?.slice(0, 3).map((q, i) => (
+                        <li key={i} className="pl-0.5">{q}</li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div className="mt-4 text-[10px] text-slate-400 text-right">
+            Report Generated: {new Date().toLocaleDateString('ko-KR')} | Candidate: {basicInfo?.name}
+          </div>
+        </div>
+
+
+        {/* ==================== PAGE 2 ==================== */}
+        <div className="page-container bg-white p-8 md:p-10 rounded-xl shadow-md border border-slate-200 print:rounded-none">
+          
+          {/* Page 2 Header */}
+          <div className="text-center pb-4 border-b-2 border-blue-900 mb-6">
+            <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-blue-900">
+              응답 진정성 검사 안내
+            </h2>
+            <p className="text-xs text-slate-500 mt-1">
+              보고서에 표시되는 경고 항목의 의미와 해석 시 유의사항을 정리했습니다.
+            </p>
+          </div>
+
+          {/* 8대 항목 상세 안내 리스트 */}
+          <div className="space-y-4 text-xs text-slate-800">
+            {authenticityChecks.map((chk, idx) => (
+              <div key={idx} className="flex items-start gap-3">
+                <span className="w-5 h-5 rounded-full bg-blue-900 text-white flex items-center justify-center font-bold text-[11px] flex-shrink-0 mt-0.5">
+                  {idx + 1}
+                </span>
+                <div>
+                  <div className="font-bold text-slate-900 text-xs">{chk.label}</div>
+                  <div className="text-slate-600 text-[11px] leading-relaxed mt-0.5">{chk.description}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Behavior Rating Scale Table */}
+          <div className="mt-8">
+            <div className="bg-blue-900 text-white font-bold text-xs px-3 py-1.5 rounded-t-lg">
+              행동 평가 척도 (BARS : Behaviorally Anchored Rating Scale)
+            </div>
+            <table className="w-full text-xs border-collapse border border-slate-300">
+              <thead>
+                <tr className="bg-slate-100 text-slate-700 border-b border-slate-300 text-[11px]">
+                  <th className="border border-slate-300 p-2 text-center w-14 font-semibold">평정</th>
+                  <th className="border border-slate-300 p-2 text-center w-20 font-semibold">수준</th>
+                  <th className="border border-slate-300 p-2 text-left font-semibold">행동 지표 설명</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {behaviorRatingScale.map((b) => (
+                  <tr key={b.score} className="hover:bg-slate-50">
+                    <td className="border border-slate-300 p-2 text-center font-bold text-slate-900">{b.score}점</td>
+                    <td className={`border border-slate-300 p-2 text-center font-bold ${
+                      b.score >= 4 ? 'text-green-700' : b.score === 3 ? 'text-blue-700' : 'text-rose-700'
+                    }`}>
+                      {b.score === 5 ? '매우 우수' : b.score === 4 ? '우수' : b.score === 3 ? '보통' : b.score === 2 ? '미흡' : '매우 미흡'}
+                    </td>
+                    <td className="border border-slate-300 p-2 text-[11px] leading-relaxed text-slate-700">{b.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Warning / Disclaimers Box */}
+          <div className="mt-8 border-2 border-rose-300 bg-rose-50/60 rounded-lg p-4 text-xs text-rose-950 flex items-start gap-2.5">
+            <AlertTriangle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
+            <div className="leading-relaxed">
+              <span className="font-bold">※ 경고가 표시된 경우:</span> 면접·추가 검증을 통해 응답 신뢰성을 확인하세요. 검사 점수만으로 합격·불합격을 결정하지 마시고, 면접에서 확인된 구체적인 행동 증거를 최우선으로 평가에 반영하시기 바랍니다.
+            </div>
+          </div>
+
+        </div>
+
       </div>
+    </div>
+  );
+}
+
+function RadarChart({ items = [], color = '#2563eb', size = 220 }) {
+  if (!items || items.length < 3) return null;
+
+  const N = items.length;
+  const center = size / 2;
+  const radius = center - 38;
+
+  const getCoordinates = (index, valueRatio) => {
+    const angle = (Math.PI * 2 / N) * index - Math.PI / 2;
+    const r = radius * valueRatio;
+    return {
+      x: center + r * Math.cos(angle),
+      y: center + r * Math.sin(angle),
+    };
+  };
+
+  const gridLevels = [0.2, 0.4, 0.6, 0.8, 1.0];
+  const gridPolygons = gridLevels.map((lvl) => {
+    return Array.from({ length: N })
+      .map((_, i) => {
+        const { x, y } = getCoordinates(i, lvl);
+        return `${x},${y}`;
+      })
+      .join(' ');
+  });
+
+  const normPoints = items
+    .map((item, i) => {
+      const ratio = Math.max(0.1, Math.min(1.0, (item.norm - 1) / 4));
+      const { x, y } = getCoordinates(i, ratio);
+      return `${x},${y}`;
+    })
+    .join(' ');
+
+  const scorePoints = items
+    .map((item, i) => {
+      const ratio = Math.max(0.1, Math.min(1.0, (item.value - 1) / 4));
+      const { x, y } = getCoordinates(i, ratio);
+      return `${x},${y}`;
+    })
+    .join(' ');
+
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="overflow-visible">
+        {gridPolygons.map((polyStr, idx) => (
+          <polygon
+            key={idx}
+            points={polyStr}
+            fill={idx === gridPolygons.length - 1 ? '#f8fafc' : 'none'}
+            stroke="#cbd5e1"
+            strokeWidth={idx === gridPolygons.length - 1 ? '1.5' : '1'}
+          />
+        ))}
+
+        {Array.from({ length: N }).map((_, i) => {
+          const { x, y } = getCoordinates(i, 1.0);
+          return (
+            <line
+              key={i}
+              x1={center}
+              y1={center}
+              x2={x}
+              y2={y}
+              stroke="#cbd5e1"
+              strokeWidth="1"
+            />
+          );
+        })}
+
+        <polygon
+          points={normPoints}
+          fill="none"
+          stroke="#94a3b8"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
+
+        <polygon
+          points={scorePoints}
+          fill={color}
+          fillOpacity="0.18"
+          stroke={color}
+          strokeWidth="2.5"
+        />
+
+        {items.map((item, i) => {
+          const ratio = Math.max(0.1, Math.min(1.0, (item.value - 1) / 4));
+          const { x, y } = getCoordinates(i, ratio);
+          return (
+            <circle
+              key={i}
+              cx={x}
+              cy={y}
+              r="3.5"
+              fill={color}
+              stroke="#ffffff"
+              strokeWidth="1.5"
+            />
+          );
+        })}
+
+        {items.map((item, i) => {
+          const angle = (Math.PI * 2 / N) * i - Math.PI / 2;
+          const labelRadius = radius + 20;
+          const lx = center + labelRadius * Math.cos(angle);
+          const ly = center + labelRadius * Math.sin(angle);
+
+          return (
+            <text
+              key={i}
+              x={lx}
+              y={ly}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize="10"
+              fontWeight="bold"
+              fill="#1e293b"
+            >
+              {item.label}
+            </text>
+          );
+        })}
+      </svg>
     </div>
   );
 }
