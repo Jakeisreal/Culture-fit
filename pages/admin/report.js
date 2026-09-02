@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, Printer, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Printer, ShieldCheck, AlertTriangle, CheckCircle2, ChevronDown, ChevronUp, Eye, EyeOff } from 'lucide-react';
 import Head from 'next/head';
 
 export default function AdminReportPage() {
@@ -8,6 +8,7 @@ export default function AdminReportPage() {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState('');
   const [inputToken, setInputToken] = useState('');
+  const [showAuthPanel, setShowAuthPanel] = useState(false);
 
   const loadReport = useCallback(async (adminToken, sessionId) => {
     setLoading(true);
@@ -151,10 +152,13 @@ export default function AdminReportPage() {
     performanceMetrics,
     cultureFit,
     teamFit,
+    qualityAssessment,
+    authenticityChecks = [],
   } = data;
 
   const cultureProfiles = cultureFit?.profiles || [];
   const teamProfiles = teamFit?.profiles || [];
+  const hasWarning = authenticityChecks.some((c) => c.isWarning) || qualityAssessment?.tier !== 'interpretable';
 
   return (
     <div className="min-h-screen bg-slate-100 print:bg-white text-slate-900 font-sans py-6 print:py-0">
@@ -186,21 +190,134 @@ export default function AdminReportPage() {
       `}</style>
 
       {/* Top Action Bar (No Print) */}
-      <div className="max-w-4xl mx-auto px-4 pb-4 no-print flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-4 pb-4 no-print flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <a href="/admin" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-blue-700">
           <ArrowLeft className="w-4 h-4 mr-1" /> 관리자 대시보드로 돌아가기
         </a>
-        <button
-          onClick={() => window.print()}
-          className="inline-flex items-center px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white text-sm font-bold rounded-md shadow-sm transition-all"
-        >
-          <Printer className="w-4 h-4 mr-2" /> PDF 저장 / 인쇄하기
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setShowAuthPanel(!showAuthPanel)}
+            className={`inline-flex items-center px-3.5 py-2 text-xs font-bold rounded-md border shadow-sm transition-all ${
+              showAuthPanel
+                ? 'bg-slate-800 text-white border-slate-800'
+                : hasWarning
+                  ? 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100'
+                  : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+            }`}
+          >
+            {showAuthPanel ? <EyeOff className="w-3.5 h-3.5 mr-1.5" /> : <Eye className="w-3.5 h-3.5 mr-1.5" />}
+            <span>응답 진정성 검증 (담당자용)</span>
+            {hasWarning && !showAuthPanel && (
+              <span className="ml-1.5 px-1.5 py-0.2 bg-amber-500 text-white rounded-full text-[10px] font-extrabold animate-pulse">
+                주의
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => window.print()}
+            className="inline-flex items-center px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white text-xs font-bold rounded-md shadow-sm transition-all"
+          >
+            <Printer className="w-3.5 h-3.5 mr-1.5" /> PDF 저장 / 인쇄하기
+          </button>
+        </div>
       </div>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto space-y-4">
+
+        {/* ==================== 채용담당자 전용: 응답 진정성 검증 패널 (No Print) ==================== */}
+        {showAuthPanel && (
+          <div className="no-print bg-slate-900 text-white p-5 rounded-xl shadow-lg border border-slate-800 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-700 mb-4">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-teal-400" />
+                <h3 className="font-bold text-sm tracking-wide text-white">
+                  채용담당자 전용: 응답 진정성 및 신뢰도 검증 결과
+                </h3>
+              </div>
+              <span className="text-[11px] text-slate-400">
+                ※ 인쇄 시 이 패널은 출력물에 포함되지 않습니다.
+              </span>
+            </div>
+
+            {/* 신뢰도 요약 카드 */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+              <div className="bg-slate-800/80 border border-slate-700 rounded-lg p-3">
+                <span className="text-[11px] text-slate-400 block mb-1">종합 신뢰도 등급</span>
+                <div className="flex items-center gap-2">
+                  <span className={`px-2 py-0.5 rounded text-xs font-extrabold ${
+                    qualityAssessment?.tier === 'interpretable'
+                      ? 'bg-green-500/20 text-green-400 border border-green-500/40'
+                      : qualityAssessment?.tier === 'caution'
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                        : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                  }`}>
+                    {qualityAssessment?.label || '해석 가능'}
+                  </span>
+                  <span className="text-xs text-slate-300">
+                    ({qualityAssessment?.tier || 'normal'})
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700 rounded-lg p-3 sm:col-span-2">
+                <span className="text-[11px] text-slate-400 block mb-1">담당자 권고 및 유의사항</span>
+                <p className="text-xs text-slate-200 leading-relaxed">
+                  {qualityAssessment?.guidance || '응답 품질에 중대한 문제가 발견되지 않았습니다. 프로파일을 신뢰하고 해석할 수 있습니다.'}
+                </p>
+              </div>
+            </div>
+
+            {/* 8대 세부 진정성 검사 지표 그리드 */}
+            <div>
+              <span className="text-[11px] font-bold text-slate-400 block mb-2">
+                8대 진정성 검사 세부 항목 (Authenticity Indicators)
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {authenticityChecks.map((chk) => (
+                  <div
+                    key={chk.id}
+                    className={`p-2.5 rounded-lg border transition-all ${
+                      chk.isWarning
+                        ? 'bg-rose-950/40 border-rose-800/80 text-rose-100'
+                        : 'bg-slate-800/60 border-slate-700/80 text-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-bold text-xs truncate mr-1">{chk.label}</span>
+                      <span className={`px-1.5 py-0.2 rounded text-[10px] font-extrabold flex-shrink-0 ${
+                        chk.isWarning
+                          ? 'bg-rose-600 text-white'
+                          : 'bg-slate-700 text-teal-300'
+                      }`}>
+                        {chk.status}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 leading-tight">
+                      {chk.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 주의 플래그 목록 (있을 때만 표시) */}
+            {qualityAssessment?.caveats && qualityAssessment.caveats.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-slate-800">
+                <span className="text-[11px] text-amber-300 font-bold block mb-1">
+                  감지된 주의 플래그 목록:
+                </span>
+                <ul className="list-disc list-inside text-[11px] text-slate-300 space-y-0.5">
+                  {qualityAssessment.caveats.map((cav, idx) => (
+                    <li key={idx}>{cav}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
         
-        {/* ==================== 1 PAGE 진단 보고서 ==================== */}
+        {/* ==================== 1 PAGE 진단 보고서 (면접관 제공용 인쇄물) ==================== */}
         <div className="page-container bg-white p-7 md:p-9 rounded-xl shadow-md border border-slate-200 print:rounded-none print:p-0">
           
           {/* Main Title */}
