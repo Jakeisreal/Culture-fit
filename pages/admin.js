@@ -102,7 +102,33 @@ export default function AdminPage() {
     );
   }
 
-  const completedList = data.completedCandidates || [];
+  const completedList = (data.completedCandidates && data.completedCandidates.length > 0)
+    ? data.completedCandidates
+    : (data.recent || []).filter((r) => ['COMPLETED', '완료', 'DONE'].includes(String(r.status || '').toUpperCase())).map((r) => ({
+        sessionId: r.sessionId,
+        name: r.name,
+        email: r.email,
+        timestamp: r.timestamp,
+        timeSpentMinutes: r.timeSpent ? (typeof r.timeSpent === 'string' && r.timeSpent.includes(':') ? Number(r.timeSpent.split(':')[1]) : Math.round(Number(r.timeSpent) / 60)) : 0,
+        totalScore: r.score ? Math.round(Number(String(r.score).replace(/[^0-9.]/g, '')) || 0) : null,
+        totalAverage: null,
+        grade: '-',
+        percentile: '-',
+        cultureStrength: '-',
+        cultureWeakness: '-',
+        teamStrength: '-',
+        teamWeakness: '-',
+        sdsAvg: null,
+        imAvg: null,
+        sdeAvg: null,
+        cwbAvg: null,
+        imcFailedCount: 0,
+        repeatDiffPairs: 0,
+        qualityTier: r.responseQuality?.tier || 'interpretable',
+        qualityLabel: r.responseQuality?.label || '해석 가능',
+        hasAuthenticityWarning: Boolean(r.suspicious),
+      }));
+
   const filteredCompleted = completedList.filter((candidate) => {
     const matchesKeyword =
       !searchKeyword.trim() ||
