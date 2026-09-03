@@ -225,13 +225,13 @@ export default function AdminPage() {
           <div className="border-b border-slate-200 p-4 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <span>📋 응시 완료자 상세 수치 비교표</span>
+                <span>📋 지원자 역량 점수 및 진정성 종합 비교표</span>
                 <span className="bg-teal-100 text-teal-800 text-xs font-extrabold px-2 py-0.5 rounded-full">
-                  총 {completedList.length}명 완료
+                  총 {completedList.length}명
                 </span>
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
-                지원자별 컬쳐핏·팀핏 역량 점수와 8대 응답 진정성 수치를 한눈에 비교합니다.
+                완료자 및 임시저장 지원자의 컬쳐핏·팀핏 역량 점수와 8대 응답 진정성 수치를 비교합니다.
               </p>
             </div>
 
@@ -266,7 +266,7 @@ export default function AdminPage() {
               <thead>
                 {/* 상단 그룹 헤더 */}
                 <tr className="bg-slate-100 text-slate-600 text-[11px] border-b border-slate-200">
-                  <th colSpan="3" className="px-3 py-2 text-center font-bold border-r border-slate-200">기본 정보</th>
+                  <th colSpan="3" className="px-3 py-2 text-center font-bold border-r border-slate-200">기본 정보 & 상태</th>
                   <th colSpan="2" className="px-3 py-2 text-center font-bold border-r border-slate-200 bg-blue-50/60 text-blue-900">종합 결과</th>
                   <th colSpan="2" className="px-3 py-2 text-center font-bold border-r border-slate-200 bg-teal-50/60 text-teal-900">컬쳐핏 & 팀핏 강/약점</th>
                   <th colSpan="7" className="px-3 py-2 text-center font-bold border-r border-slate-200 bg-amber-50/60 text-amber-900">
@@ -276,7 +276,7 @@ export default function AdminPage() {
                 </tr>
                 {/* 세부 컬럼 헤더 */}
                 <tr className="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200 text-[11px]">
-                  <th className="px-3 py-2.5">성명</th>
+                  <th className="px-3 py-2.5">성명 / 상태</th>
                   <th className="px-3 py-2.5">이메일</th>
                   <th className="px-3 py-2.5 border-r border-slate-200">응시일시 (소요)</th>
                   
@@ -309,12 +309,29 @@ export default function AdminPage() {
                   const isCwbLow = c.cwbAvg != null && c.cwbAvg < 2.8;
                   const isImcFail = c.imcFailedCount > 0;
                   const isRepeatFail = c.repeatDiffPairs >= 4;
+                  const isSubmitted = c.status === 'COMPLETED';
 
                   return (
                     <tr key={c.sessionId} className="hover:bg-slate-50/80 transition-colors">
-                      {/* 성명 */}
+                      {/* 성명 및 상태 뱃지 */}
                       <td className="px-3 py-3 font-bold text-slate-900 whitespace-nowrap">
-                        {c.name || '-'}
+                        <div className="flex items-center gap-1.5">
+                          <span>{c.name || '-'}</span>
+                          <span
+                            className={`px-1.5 py-0.2 rounded text-[9.5px] font-extrabold ${
+                              isSubmitted
+                                ? 'bg-teal-100 text-teal-800'
+                                : 'bg-amber-100 text-amber-800'
+                            }`}
+                          >
+                            {isSubmitted ? '완료' : '임시저장'}
+                          </span>
+                        </div>
+                        {!isSubmitted && c.completionRate && (
+                          <div className="text-[10px] text-amber-700 font-normal">
+                            {c.completionRate}
+                          </div>
+                        )}
                       </td>
                       {/* 이메일 */}
                       <td className="px-3 py-3 text-slate-500 font-mono text-[11px] whitespace-nowrap">

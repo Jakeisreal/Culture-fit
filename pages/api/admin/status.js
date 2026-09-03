@@ -2,7 +2,10 @@ import { getSheetsClient } from '../../../lib/sheets.js';
 import { requireAdmin } from '../../../lib/admin-auth.js';
 import { withRetry } from '../../../lib/http.js';
 import { formatQualityForAdmin, classifyResponseQuality } from '../../../lib/response-quality.js';
-import { parseSessionNotes } from '../../../lib/assessment-versions.js';
+import { getAssessmentDefinition, parseSessionNotes } from '../../../lib/assessment-versions.js';
+import { resolveSessionItems } from '../../../lib/item-selection.js';
+import { calculateAssessmentScore } from '../../../lib/scoring.js';
+import { generateInterviewReport } from '../../../lib/interview-report.js';
 
 function createHeaderMap(headers = []) {
   return headers.reduce((map, header, index) => {
@@ -40,7 +43,7 @@ export default async function handler(req, res) {
       }
     };
 
-    // A:ZZ 대신 시트 이름 자체를 넘겨 시트의 실제 존재하는 모든 열/행을 안전하게 조회
+    // 시트 이름 자체를 넘겨 실제 존재하는 모든 열/행을 안전하게 조회
     const [candidateResult, responseV1Result, responseV2Result, responseV2BankResult] = await Promise.all([
       readOptional('Candidates'),
       readOptional('Responses'),
@@ -111,119 +114,99 @@ export default async function handler(req, res) {
       ...parseResponses(responseV1Result.data.values || [], 'v1'),
     ];
 
-    // 응시 완료자(COMPLETED 또는 완료) 목록 추출 및 수치 계산
+    // 응시자 목록 추출 (COMPLETED 완료자 + IN_PROGRESS 임시저장 답안 보유자)
     const completedCandidates = [];
     for (const record of allResponses) {
       const isCompleted = ['COMPLETED', '완료', 'DONE', 'SUBMITTED'].includes(record.status);
-      if (!isCompleted) continue;
+      const isInProgress = ['IN_PROGRESS', 'STARTED'].includes(record.status);
+      
+      // 완전히 아무것도 안 푼 미응시는 제외하되, COMPLETED이거나 IN_PROGRESS(임시저장/소요시간 있음)인 경우 포함
+      if (!isCompleted && !isInProgress) continue;
 
       try {
-        let domainScores = {};
-        let imcFailedCount = 0;
-        let repeatDiffPairs = 0;
-        let parsedFlags = [];
+        const sessionNotes = parseSessionNotes(record.notes, record.assessmentVersion);
+        const assessmentVersion = sessionNotes.assessmentVersion || record.assessmentVersion || 'v2-bank-pilot';
+        const definition = getAssessmentDefinition(assessmentVersion);
 
-        // 1. notes 컬럼의 JSON에서 계산된 지표 우선 추출 (가장 빠르고 정확함)
-        if (record.notes) {
-          try {
-            const parsedNotes = typeof record.notes === 'string' ? JSON.parse(record.notes) : record.notes;
-            if (parsedNotes && typeof parsedNotes === 'object') {
-              if (parsedNotes.domainScores) domainScores = parsedNotes.domainScores;
-              if (parsedNotes.imcFailedCount != null) imcFailedCount = Number(parsedNotes.imcFailedCount);
-              if (parsedNotes.consistency?.largeDifferencePairs != null) {
-                repeatDiffPairs = Number(parsedNotes.consistency.largeDifferencePairs);
-              }
-              if (Array.isArray(parsedNotes.flags)) parsedFlags = parsedNotes.flags;
-            }
-          } catch (e) {
-            // ignore json parse error
+        const sessionItems = resolveSessionItems(
+          definition.items,
+          assessmentVersion,
+          record.sessionId,
+          sessionNotes.administeredItemIds
+        );
+
+        // 답안 추출 (rawRow 또는 notes.answers)
+        const rawRow = record.rawRow || [];
+        let answers = {};
+        for (let i = 0; i < definition.items.length; i++) {
+          const itemId = definition.items[i].item_id;
+          const colIndex = 13 + i;
+          const cellVal = rawRow[colIndex];
+          if (cellVal !== undefined && cellVal !== '') {
+            answers[itemId] = cellVal === 'N/E' ? 0 : cellVal;
           }
         }
 
-        // 2. 점수 및 도메인 수치 도출
+        if (Object.keys(answers).length === 0 && sessionNotes.answers && typeof sessionNotes.answers === 'object') {
+          answers = { ...sessionNotes.answers };
+        }
+
+        // 응답 답안 수가 0개이고 소요시간도 없으면(단순 접속 후 즉시 나감) 제외
+        const answerCount = Object.keys(answers).length;
+        if (!isCompleted && answerCount === 0 && (!record.timeSpent || record.timeSpent === '0')) {
+          continue;
+        }
+
+        // 시간 파싱 (초)
+        let verifiedTimeSpent = 0;
+        if (typeof record.timeSpent === 'string' && record.timeSpent.includes(':')) {
+          const parts = record.timeSpent.split(':').map(Number);
+          verifiedTimeSpent = parts.length === 3 ? parts[0] * 3600 + parts[1] * 60 + parts[2] : parts[0] * 60 + parts[1];
+        } else if (Number(record.timeSpent)) {
+          verifiedTimeSpent = Number(record.timeSpent);
+        }
+
+        const meta = {
+          assessmentVersion,
+          items: sessionItems,
+          timeSpent: verifiedTimeSpent,
+          focusOutCount: record.focusOutCount,
+          now: record.timestamp ? new Date(record.timestamp) : new Date(),
+        };
+
+        const scoreResult = calculateAssessmentScore(answers, meta);
+        const quality = classifyResponseQuality(
+          scoreResult.flags,
+          scoreResult.completionRate,
+          scoreResult.answeredCount,
+          scoreResult.totalItems
+        );
+        const report = generateInterviewReport(
+          {
+            sessionId: record.sessionId,
+            name: record.name,
+            email: record.email,
+            startedAt: record.timestamp,
+            status: record.status,
+            assessmentVersion,
+          },
+          scoreResult,
+          quality
+        );
+
+        const domainScores = scoreResult.domainScores || {};
         const sdsAvg = domainScores['반응왜곡(사회적바람직성)']?.average ?? null;
         const imAvg = domainScores['반응왜곡(인상관리)']?.average ?? null;
         const sdeAvg = domainScores['반응왜곡(자기기만)']?.average ?? null;
         const cwbAvg = domainScores['역기능행동(CWB)']?.average ?? null;
-
-        // 컬쳐 5대 영역 평균
-        const cultureKeys = ['원칙중시', '혁신성', '고객중심', '의사소통', '도전정신'];
-        let cultureSum = 0;
-        let cultureCount = 0;
-        let cultureMax = { domain: '도전정신', score: -1 };
-        let cultureMin = { domain: '고객중심', score: 999 };
-
-        cultureKeys.forEach((k) => {
-          const val = domainScores[k]?.average;
-          if (typeof val === 'number') {
-            cultureSum += val;
-            cultureCount += 1;
-            if (val > cultureMax.score) cultureMax = { domain: k, score: val };
-            if (val < cultureMin.score) cultureMin = { domain: k, score: val };
-          }
-        });
-
-        // 팀핏 4대 영역
-        const teamKeys = [
-          '상호 협력 및 지원',
-          '피드백 수용 및 열린 소통',
-          '공동 목표 몰입 및 책임감',
-          '갈등 조율 및 적응성',
-        ];
-        let teamMax = { domain: '공동 목표 몰입', score: -1 };
-        let teamMin = { domain: '갈등 조율', score: 999 };
-        teamKeys.forEach((k) => {
-          const val = domainScores[k]?.average;
-          if (typeof val === 'number') {
-            if (val > teamMax.score) teamMax = { domain: k.slice(0, 5), score: val };
-            if (val < teamMin.score) teamMin = { domain: k.slice(0, 5), score: val };
-          }
-        });
-
-        // 종합 평균 및 백분위 산출
-        let totalAvg = cultureCount > 0 ? cultureSum / cultureCount : null;
-        let totalScore100 = totalAvg ? Math.round((totalAvg / 5) * 100) : null;
-        
-        // score 열에서 숫자 추출 시도 (예: "총점: 78점 / 100점")
-        if (!totalScore100 && record.score) {
-          const match = String(record.score).match(/(\d+(?:\.\d+)?)\s*점/);
-          if (match) {
-            totalScore100 = Math.round(Number(match[1]));
-            totalAvg = Number((totalScore100 / 20).toFixed(2));
-          }
-        }
-
-        let grade = 'B+';
-        let percentile = '65%';
-        if (totalAvg >= 4.2) { grade = 'S'; percentile = '96%'; }
-        else if (totalAvg >= 3.8) { grade = 'A'; percentile = '85%'; }
-        else if (totalAvg >= 3.4) { grade = 'B+'; percentile = '65%'; }
-        else if (totalAvg >= 3.0) { grade = 'B'; percentile = '48%'; }
-        else if (totalAvg) { grade = 'C'; percentile = '25%'; }
-
-        // 소요시간 (분)
-        let timeMinutes = 0;
-        if (typeof record.timeSpent === 'string' && record.timeSpent.includes(':')) {
-          const parts = record.timeSpent.split(':').map(Number);
-          timeMinutes = parts.length === 3 ? parts[0] * 60 + parts[1] : Math.round(parts[0]);
-        } else if (Number(record.timeSpent)) {
-          timeMinutes = Math.round(Number(record.timeSpent) / 60);
-        }
-
-        const quality = classifyResponseQuality(
-          parsedFlags.length > 0 ? parsedFlags : (record.suspicious ? String(record.suspicious).split(',') : []),
-          1.0,
-          250,
-          250
-        );
 
         const hasWarning =
           (sdsAvg != null && sdsAvg >= 4.2) ||
           (imAvg != null && imAvg >= 4.0) ||
           (sdeAvg != null && sdeAvg >= 4.2) ||
           (cwbAvg != null && cwbAvg < 2.8) ||
-          imcFailedCount > 0 ||
-          repeatDiffPairs >= 4 ||
+          scoreResult.imcFailedCount > 0 ||
+          (scoreResult.consistency?.largeDifferencePairs || 0) >= 4 ||
           quality.tier !== 'interpretable';
 
         completedCandidates.push({
@@ -231,32 +214,36 @@ export default async function handler(req, res) {
           name: record.name,
           email: record.email,
           timestamp: record.timestamp,
-          timeSpentMinutes: timeMinutes,
-          totalScore: totalScore100,
-          totalAverage: totalAvg,
-          grade,
-          percentile,
-          cultureStrength: cultureMax.score >= 0 ? cultureMax.domain : '도전정신',
-          cultureWeakness: cultureMin.score < 900 ? cultureMin.domain : '고객중심',
-          teamStrength: teamMax.score >= 0 ? teamMax.domain : '공동 목표',
-          teamWeakness: teamMin.score < 900 ? teamMin.domain : '갈등 조율',
+          status: isCompleted ? 'COMPLETED' : 'IN_PROGRESS',
+          completionRate: isCompleted ? '250/250' : `${scoreResult.answeredCount}/250 (임시저장)`,
+          timeSpentMinutes: Math.round(verifiedTimeSpent / 60),
+          totalScore: report.performanceMetrics?.totalScorePercent ?? Math.round(Number(record.score) || 0),
+          totalAverage: report.performanceMetrics?.totalAverage ?? null,
+          grade: report.performanceMetrics?.grade ?? '-',
+          percentile: report.performanceMetrics?.percentile ?? '-',
+          cultureStrength: report.cultureFit?.strength?.domain ?? '-',
+          cultureWeakness: report.cultureFit?.weakness?.domain ?? '-',
+          teamStrength: report.teamFit?.strength?.domain ?? '-',
+          teamWeakness: report.teamFit?.weakness?.domain ?? '-',
           sdsAvg: typeof sdsAvg === 'number' ? Number(sdsAvg.toFixed(2)) : null,
           imAvg: typeof imAvg === 'number' ? Number(imAvg.toFixed(2)) : null,
           sdeAvg: typeof sdeAvg === 'number' ? Number(sdeAvg.toFixed(2)) : null,
           cwbAvg: typeof cwbAvg === 'number' ? Number(cwbAvg.toFixed(2)) : null,
-          imcFailedCount,
-          repeatDiffPairs,
+          imcFailedCount: scoreResult.imcFailedCount || 0,
+          repeatDiffPairs: scoreResult.consistency?.largeDifferencePairs || 0,
           qualityTier: quality.tier,
           qualityLabel: quality.label,
           hasAuthenticityWarning: hasWarning,
         });
-      } catch (err) {
-        console.error('완료자 행 처리 예외:', record.name, err);
+      } catch (calcError) {
+        console.error('응시자 세부 계산 오류:', record.name, calcError);
         completedCandidates.push({
           sessionId: record.sessionId,
           name: record.name,
           email: record.email,
           timestamp: record.timestamp,
+          status: isCompleted ? 'COMPLETED' : 'IN_PROGRESS',
+          completionRate: record.completionRate || (isCompleted ? '250/250' : '진행중'),
           timeSpentMinutes: 0,
           totalScore: null,
           totalAverage: null,
@@ -279,8 +266,26 @@ export default async function handler(req, res) {
       }
     }
 
+    // 동일 이메일이 여러 개 있는 경우 최신 세션 우선 유지
+    const candidateMap = new Map();
+    for (const c of completedCandidates) {
+      const key = String(c.email || c.sessionId).toLowerCase();
+      const prev = candidateMap.get(key);
+      if (!prev) {
+        candidateMap.set(key, c);
+      } else {
+        // COMPLETED 우선, 둘 다 같으면 최신 시각 우선
+        if (c.status === 'COMPLETED' && prev.status !== 'COMPLETED') {
+          candidateMap.set(key, c);
+        } else if (c.status === prev.status && (Date.parse(c.timestamp) || 0) > (Date.parse(prev.timestamp) || 0)) {
+          candidateMap.set(key, c);
+        }
+      }
+    }
+    const finalCandidates = [...candidateMap.values()];
+
     // 최신 응시일시 기준 정렬
-    completedCandidates.sort(
+    finalCandidates.sort(
       (a, b) => (Date.parse(b.timestamp) || 0) - (Date.parse(a.timestamp) || 0)
     );
 
@@ -289,27 +294,17 @@ export default async function handler(req, res) {
       .slice(0, 30)
       .map(({ rawRow, notes, ...rest }) => rest);
 
-    const latestByCandidate = new Map();
-    for (const response of allResponses) {
-      const key = String(response.email || response.sessionId).toLowerCase();
-      const previous = latestByCandidate.get(key);
-      if (!previous || (Date.parse(response.timestamp) || 0) > (Date.parse(previous.timestamp) || 0)) {
-        latestByCandidate.set(key, response);
-      }
-    }
-    const latestResponses = [...latestByCandidate.values()];
-
     return res.status(200).json({
       ok: true,
       generatedAt: new Date().toISOString(),
       summary: {
         totalCandidates: candidates.length,
         allowedCandidates: candidates.filter((candidate) => candidate.allowed).length,
-        inProgress: latestResponses.filter((response) => ['STARTED', 'IN_PROGRESS'].includes(response.status)).length,
-        completed: completedCandidates.length,
-        flagged: completedCandidates.filter((c) => c.hasAuthenticityWarning).length,
+        inProgress: finalCandidates.filter((response) => response.status === 'IN_PROGRESS').length,
+        completed: finalCandidates.filter((response) => response.status === 'COMPLETED').length,
+        flagged: finalCandidates.filter((c) => c.hasAuthenticityWarning).length,
       },
-      completedCandidates,
+      completedCandidates: finalCandidates,
       recent,
     });
   } catch (error) {

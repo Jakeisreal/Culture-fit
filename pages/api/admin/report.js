@@ -22,11 +22,11 @@ export default async function handler(req, res) {
   try {
     const record = await findResponseBySessionId(sessionId);
     if (!record) {
-      return res.status(404).json({ ok: false, message: '응답을 찾을 수 없습니다.' });
+      return res.status(404).json({ ok: false, message: '응시 기록을 찾을 수 없습니다.' });
     }
 
     const sessionNotes = parseSessionNotes(record.notes);
-    const assessmentVersion = sessionNotes.assessmentVersion;
+    const assessmentVersion = sessionNotes.assessmentVersion || record.assessmentVersion || 'v2-bank-pilot';
     const definition = getAssessmentDefinition(assessmentVersion);
     
     const sessionItems = resolveSessionItems(
@@ -37,7 +37,9 @@ export default async function handler(req, res) {
     );
 
     const rawRow = record.rawRow || [];
-    const answers = {};
+    let answers = {};
+    
+    // 1. rawRow의 13열 이후에서 답안 추출
     for (let i = 0; i < definition.items.length; i++) {
       const itemId = definition.items[i].item_id;
       const colIndex = 13 + i;
@@ -45,6 +47,11 @@ export default async function handler(req, res) {
       if (cellVal !== undefined && cellVal !== '') {
         answers[itemId] = cellVal === 'N/E' ? 0 : cellVal;
       }
+    }
+
+    // 2. IN_PROGRESS 세션이거나 rawRow에 답안이 없는 경우 notes의 answers(임시저장 답안)에서 보강
+    if (Object.keys(answers).length === 0 && sessionNotes.answers && typeof sessionNotes.answers === 'object') {
+      answers = { ...sessionNotes.answers };
     }
 
     const meta = {
@@ -78,6 +85,6 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('리포트 조회 실패:', error);
-    return res.status(500).json({ ok: false, message: '리포트 생성 중 오류가 발생했습니다.' });
+    return res.status(500).json({ ok: false, message: '리포트 생성 중 오류가 발생했습니다: ' + error.message });
   }
 }
