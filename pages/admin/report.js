@@ -361,10 +361,10 @@ export default function AdminReportPage() {
               </div>
               <div className="p-3 space-y-1.5 text-xs md:text-[12.5px]">
                 <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">
-                  <span className="text-slate-500 font-medium">백분위 / 등급</span>
+                  <span className="text-slate-500 font-medium">상대 백분위 / 등급</span>
                   <span className="font-extrabold text-slate-900 text-sm">
                     {performanceMetrics?.percentile}
-                    <span className="ml-1 text-blue-900 font-black">({performanceMetrics?.grade}등급)</span>
+                    <span className="ml-1.5 text-blue-900 font-black">· {performanceMetrics?.grade}등급</span>
                   </span>
                 </div>
                 <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">

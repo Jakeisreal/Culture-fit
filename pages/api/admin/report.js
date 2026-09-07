@@ -145,28 +145,38 @@ async function computeCohortStats(spreadsheetId, currentCandidateAvg, currentSes
       }
     }
 
-    // 3. 실제 응시자 내 백분위(Percentile Rank) 및 등급(Grade) 산출
-    const allAvgs = candidatesData.map((c) => c.totalAvg).sort((a, b) => a - b);
+    // 3. 실제 응시자 내 석차(Rank), 상위 누적 비율(Top Percent) 및 상대 등급(Grade) 산출
+    const sortedAvgs = candidatesData.map((c) => c.totalAvg).sort((a, b) => b - a); // 내림차순 (1위가 첫 번째)
     const myScore = currentCandidateAvg || 3.3;
-    
-    // 자신보다 낮은 점수 수 + 0.5 * 동점자 수
-    const lowerCount = allAvgs.filter((s) => s < myScore).length;
-    const sameCount = allAvgs.filter((s) => s === myScore).length;
-    const percentile = Math.min(99, Math.max(1, Math.round(((lowerCount + sameCount * 0.5) / cohortCount) * 100)));
 
-    // 상대 등급 매핑 (상위 백분위 기준)
+    // 자신보다 점수가 높은 응시자 수 (더 높은 점수 = 상위 석차)
+    const betterCount = sortedAvgs.filter((s) => s > myScore).length;
+    const sameCount = sortedAvgs.filter((s) => s === myScore).length;
+    
+    // 실제 석차 (동점자 감안 1위 ~ N위)
+    const rank = betterCount + 1;
+    
+    // 상위 누적 퍼센트 (Top %: 1위에 가까울수록 숫자가 작음. 예: 1위 -> 상위 7%)
+    const topPercent = Math.max(1, Math.min(99, Math.round(((betterCount + sameCount * 0.5) / cohortCount) * 100)));
+    
+    // 통계적 백분위수 (Percentile: 100 - 상위%)
+    const percentile = 100 - topPercent;
+
+    // 상대 등급 매핑 (상위 누적 기준: S 상위 10%, A 상위 30%, B+ 상위 50%, B 상위 70%, C+ 상위 90%, C 하위 10%)
     let grade = 'B';
-    if (percentile >= 90) grade = 'S';
-    else if (percentile >= 75) grade = 'A';
-    else if (percentile >= 55) grade = 'B+';
-    else if (percentile >= 35) grade = 'B';
-    else if (percentile >= 15) grade = 'C+';
+    if (topPercent <= 10) grade = 'S';
+    else if (topPercent <= 30) grade = 'A';
+    else if (topPercent <= 50) grade = 'B+';
+    else if (topPercent <= 70) grade = 'B';
+    else if (topPercent <= 90) grade = 'C+';
     else grade = 'C';
 
     return {
       cohortCount,
       cultureNormMeans,
       teamNormMeans,
+      rank,
+      topPercent,
       percentile,
       grade,
     };
