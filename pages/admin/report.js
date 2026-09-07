@@ -152,7 +152,8 @@ export default function AdminReportPage() {
 
   const cultureProfiles = cultureFit?.profiles || [];
   const teamProfiles = teamFit?.profiles || [];
-  const hasWarning = authenticityChecks.some((c) => c.isWarning) || qualityAssessment?.tier !== 'interpretable';
+  const warningChecks = authenticityChecks.filter((c) => c.isWarning);
+  const hasWarning = warningChecks.length > 0 || qualityAssessment?.tier !== 'interpretable';
   const isCohort = performanceMetrics?.isCohortBased;
   const benchmarkLabel = isCohort ? '응시자평균' : '전체평균';
   const cohortBadgeText = isCohort
@@ -318,12 +319,33 @@ export default function AdminReportPage() {
         {/* ==================== 1 PAGE 진단 보고서 (면접관 제공용 인쇄물) ==================== */}
         <div className="page-container bg-white p-7 md:p-8 rounded-xl shadow-md border border-slate-200 print:rounded-none print:p-0">
           
-          {/* Main Title */}
-          <div className="text-center pb-2.5 border-b-2 border-blue-900">
-            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-blue-950">
-              컬쳐핏 & 팀핏 종합 진단 보고서
-            </h1>
-            <p className="text-[11px] text-slate-500 mt-0.5">Culture-Fit & Team-Fit Comprehensive Diagnosis Report</p>
+          {/* Main Title & 본문 우측 진정성 주의 배너/아이콘 */}
+          <div className="pb-2.5 border-b-2 border-blue-900 flex flex-col sm:flex-row sm:items-end justify-between gap-2.5">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-black tracking-tight text-blue-950">
+                컬쳐핏 & 팀핏 종합 진단 보고서
+              </h1>
+              <p className="text-[11px] text-slate-500 mt-0.5">Culture-Fit & Team-Fit Comprehensive Diagnosis Report</p>
+            </div>
+
+            {/* 진정성 검증 상 정상이 아닌 경우: 본문 우측에 아이콘 식으로 표시 */}
+            {warningChecks.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 sm:justify-end pb-0.5">
+                <div className="inline-flex items-center gap-1 bg-rose-50 border border-rose-300 text-rose-800 px-2.5 py-1 rounded-md text-[11px] font-black shadow-2xs">
+                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                  <span>진정성 주의:</span>
+                </div>
+                {warningChecks.map((w) => (
+                  <span
+                    key={w.id}
+                    className="inline-flex items-center gap-1 bg-amber-50 border border-amber-300 text-amber-900 px-2 py-1 rounded-md text-[10.5px] font-bold shadow-2xs"
+                  >
+                    <AlertCircle className="w-3 h-3 text-amber-600 flex-shrink-0" />
+                    <span>{w.label}</span>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Top Info Cards (기본 정보 vs 성과지표) */}
@@ -361,10 +383,9 @@ export default function AdminReportPage() {
               </div>
               <div className="p-3 space-y-1.5 text-xs md:text-[12.5px]">
                 <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">
-                  <span className="text-slate-500 font-medium">상대 백분위 / 등급</span>
-                  <span className="font-extrabold text-slate-900 text-sm">
-                    {performanceMetrics?.percentile}
-                    <span className="ml-1.5 text-blue-900 font-black">· {performanceMetrics?.grade}등급</span>
+                  <span className="text-slate-500 font-medium">종합 등급</span>
+                  <span className="font-black text-blue-900 text-base">
+                    {performanceMetrics?.grade}등급
                   </span>
                 </div>
                 <div className="flex justify-between items-baseline border-b border-slate-100 pb-1">
