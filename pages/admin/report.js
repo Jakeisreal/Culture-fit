@@ -328,22 +328,16 @@ export default function AdminReportPage() {
               <p className="text-[11px] text-slate-500 mt-0.5">Culture-Fit & Team-Fit Comprehensive Diagnosis Report</p>
             </div>
 
-            {/* 진정성 검증 상 정상이 아닌 경우: 본문 우측에 아이콘 식으로 표시 */}
-            {warningChecks.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 sm:justify-end pb-0.5">
-                <div className="inline-flex items-center gap-1 bg-rose-50 border border-rose-300 text-rose-800 px-2.5 py-1 rounded-md text-[11px] font-black shadow-2xs">
-                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-                  <span>진정성 주의:</span>
-                </div>
-                {warningChecks.map((w) => (
-                  <span
-                    key={w.id}
-                    className="inline-flex items-center gap-1 bg-amber-50 border border-amber-300 text-amber-900 px-2 py-1 rounded-md text-[10.5px] font-bold shadow-2xs"
-                  >
-                    <AlertCircle className="w-3 h-3 text-amber-600 flex-shrink-0" />
-                    <span>{w.label}</span>
+            {/* 진정성 검증 상 정상이 아닌 경우: 본문 우측에 단일 아이콘 뱃지 표기 */}
+            {hasWarning && (
+              <div className="flex items-center gap-1.5 sm:justify-end pb-0.5">
+                <div className="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-300 text-amber-900 px-3 py-1.5 rounded-md text-xs font-bold shadow-2xs">
+                  <Eye className="w-3.5 h-3.5 text-amber-800 flex-shrink-0" />
+                  <span className="tracking-tight">검사 응답 의심</span>
+                  <span className="ml-0.5 px-1.5 py-0.2 bg-amber-500 text-white rounded-full text-[10px] font-extrabold shadow-2xs">
+                    주의
                   </span>
-                ))}
+                </div>
               </div>
             )}
           </div>

@@ -12,6 +12,7 @@ import {
   ChevronDown,
   ChevronUp,
   Info,
+  Printer,
 } from 'lucide-react';
 import Head from 'next/head';
 
@@ -168,6 +169,16 @@ export default function AdminPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="/admin/reports-all"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-teal-600 bg-teal-700 px-3.5 py-2 text-xs font-bold text-white hover:bg-teal-800 transition-colors shadow-xs"
+              title="전체 응시자의 1페이지 진단 보고서를 일괄 조회하여 인쇄하거나 PDF로 저장합니다."
+            >
+              <Printer className="h-3.5 w-3.5" />
+              전체 리포트 일괄 출력 / PDF 저장
+            </a>
             <button
               type="button"
               onClick={() => loadStatus(token)}
@@ -235,8 +246,8 @@ export default function AdminPage() {
               </p>
             </div>
 
-            {/* 필터 및 검색 */}
-            <div className="flex items-center gap-2.5">
+            {/* 필터 및 검색 & 일괄 인쇄 */}
+            <div className="flex items-center gap-2.5 flex-wrap">
               <div className="relative">
                 <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                 <input
@@ -258,6 +269,16 @@ export default function AdminPage() {
               >
                 {filterWarningOnly ? '✓ 주의 대상만 보기' : '주의 대상 필터'}
               </button>
+              <a
+                href="/admin/reports-all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-bold transition-all shadow-xs"
+                title="전체 응시자의 1페이지 진단 보고서를 일괄 조회하여 인쇄하거나 PDF로 저장합니다."
+              >
+                <Printer className="w-3.5 h-3.5" />
+                전체 리포트 일괄 출력 / PDF 저장
+              </a>
             </div>
           </div>
 
