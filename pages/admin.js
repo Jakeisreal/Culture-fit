@@ -211,9 +211,9 @@ export default function AdminPage() {
           <div className="leading-relaxed">
             <span className="font-bold">💡 인사담당자 진단 수치 활용 가이드:</span>
             <span className="ml-1 text-blue-900">
-              아래 표는 <strong>현재까지 응시를 완료한 전체 지원자들의 역량 점수 및 응답 진정성 세부 수치 비교표</strong>입니다.
+              아래 표와 개별 리포트의 모든 프로파일 평균, 백분위, 등급은 <strong>현재 실제 응시한 지원자 집단(총 {completedList.length}명)의 실시간 통계</strong>를 기준으로 산출됩니다.
               바람직성(SDS ≥4.2), 인상관리(IM ≥4.0), 자기기만(SDE ≥4.2), 역기능(CWB &lt;2.8), 주의력 실패(IMC &gt;0) 등 이상 기준치 초과 시
-              자동으로 <strong>'주의'</strong>가 표시됩니다. 지원자 우측의 <strong>[진단 리포트]</strong>를 클릭하면 개별 1페이지 진단 보고서로 바로 이동합니다.
+              자동으로 <strong>'주의'</strong>가 표시됩니다. 지원자 우측의 <strong>[진단 리포트]</strong>를 클릭하면 A4 1페이지 최적화 진단 보고서로 바로 이동합니다.
             </span>
           </div>
         </div>
