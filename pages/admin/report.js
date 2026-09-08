@@ -632,7 +632,7 @@ export default function AdminReportPage() {
                   <div className="flex items-center justify-between border-b border-amber-200/80 pb-1 mb-1.5">
                     <div className="flex items-center gap-1.5 font-bold text-[11.5px] text-amber-900">
                       <Eye className="w-3.5 h-3.5 text-amber-700 flex-shrink-0" />
-                      <span>[검사 응답 의심] 뱃지 표기 사유 및 면접 확인 가이드</span>
+                      <span>[검사 응답 의심] 뱃지 표기 사유</span>
                     </div>
                     <span className="text-[10px] bg-amber-500 text-white font-extrabold px-1.5 py-0.2 rounded-full">
                       주의 사유 {effectiveCautionReasons.length}건
@@ -645,9 +645,6 @@ export default function AdminReportPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-[10px] text-amber-800/90 mt-1.5 pt-1 border-t border-amber-200/60 leading-tight">
-                    💡 <strong>면접관 확인 가이드:</strong> 위 항목에서 신뢰도 저해 또는 응답 왜곡 가능성이 감지되었습니다. 면접 시 지원자가 진술하는 구체적 과거 행동 사례의 사실관계와 일관성을 중점적으로 교차 검증하시기 바랍니다.
-                  </p>
                 </div>
               )}
 
