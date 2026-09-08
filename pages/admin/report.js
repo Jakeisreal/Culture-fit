@@ -148,12 +148,23 @@ export default function AdminReportPage() {
     teamFit,
     qualityAssessment,
     authenticityChecks = [],
+    cautionReasons = [],
+    hasAuthenticityWarning,
   } = data;
 
   const cultureProfiles = cultureFit?.profiles || [];
   const teamProfiles = teamFit?.profiles || [];
-  const warningChecks = authenticityChecks.filter((c) => c.isWarning);
-  const hasWarning = warningChecks.length > 0 || qualityAssessment?.tier !== 'interpretable';
+
+  // 응답 속도가 너무 빠른 경우(FAST_RESPONSE)를 제외한 진정성 검증 이상 사유 추출
+  const effectiveCautionReasons = cautionReasons && cautionReasons.length > 0
+    ? cautionReasons
+    : authenticityChecks
+        .filter((c) => c.isWarning && c.id !== 'fast_response')
+        .map((c) => `${c.label}: ${c.description}`);
+
+  const hasWarning = hasAuthenticityWarning !== undefined
+    ? Boolean(hasAuthenticityWarning)
+    : effectiveCautionReasons.length > 0;
   const isCohort = performanceMetrics?.isCohortBased;
   const benchmarkLabel = isCohort ? '응시자평균' : '전체평균';
   const cohortBadgeText = isCohort
@@ -614,6 +625,31 @@ export default function AdminReportPage() {
                   </div>
                 </div>
               </div>
+
+              {/* 주의 아이콘 뱃지를 표기한 경우: 예상 도출 질문 하단에 뱃지가 표기된 이유 기술 */}
+              {hasWarning && effectiveCautionReasons.length > 0 && (
+                <div className="mt-2.5 border border-amber-300 bg-amber-50/80 rounded-lg p-2.5 text-amber-950">
+                  <div className="flex items-center justify-between border-b border-amber-200/80 pb-1 mb-1.5">
+                    <div className="flex items-center gap-1.5 font-bold text-[11.5px] text-amber-900">
+                      <Eye className="w-3.5 h-3.5 text-amber-700 flex-shrink-0" />
+                      <span>[검사 응답 의심] 뱃지 표기 사유 및 면접 확인 가이드</span>
+                    </div>
+                    <span className="text-[10px] bg-amber-500 text-white font-extrabold px-1.5 py-0.2 rounded-full">
+                      주의 사유 {effectiveCautionReasons.length}건
+                    </span>
+                  </div>
+                  <ul className="list-disc list-inside space-y-0.5 text-[11px] text-amber-900 leading-snug">
+                    {effectiveCautionReasons.map((reason, idx) => (
+                      <li key={idx} className="pl-0.5 font-medium">
+                        {reason}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-[10px] text-amber-800/90 mt-1.5 pt-1 border-t border-amber-200/60 leading-tight">
+                    💡 <strong>면접관 확인 가이드:</strong> 위 항목에서 신뢰도 저해 또는 응답 왜곡 가능성이 감지되었습니다. 면접 시 지원자가 진술하는 구체적 과거 행동 사례의 사실관계와 일관성을 중점적으로 교차 검증하시기 바랍니다.
+                  </p>
+                </div>
+              )}
 
             </div>
           </div>

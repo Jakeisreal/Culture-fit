@@ -610,6 +610,44 @@ test('OCB/CWB 무경험(0) 응답은 결측으로 처리되어 점수 계산에�
   assert.equal(result.domainScores['조직시민성(OCB)'].noExperienceCount, 1);
 });
 
+test('면접 리포트: FAST_RESPONSE 단독 발생 시 상단 주의 경고는 제외되며, 진정성 이상 발생 시 사유가 정확히 추출된다', () => {
+  const session = { name: '테스터', email: 'test@example.com' };
+  
+  // 1. 응답 속도 과속(FAST_RESPONSE) 단독 발생 -> hasAuthenticityWarning = false, cautionReasons = []
+  const fastOnly = generateInterviewReport(session, {
+    flags: ['FAST_RESPONSE'],
+    domainScores: {},
+    totalAverage: 3.5,
+    answeredCount: 150,
+    totalItems: 150,
+  });
+  assert.equal(fastOnly.hasAuthenticityWarning, false);
+  assert.equal(fastOnly.cautionReasons.length, 0);
+
+  // 2. IMC 실패 발생 -> hasAuthenticityWarning = true, 이유 포함
+  const imcFail = generateInterviewReport(session, {
+    flags: ['IMC_FAILED_1'],
+    imcFailedCount: 1,
+    domainScores: {},
+    totalAverage: 3.5,
+    answeredCount: 150,
+    totalItems: 150,
+  });
+  assert.equal(imcFail.hasAuthenticityWarning, true);
+  assert.ok(imcFail.cautionReasons.some((r) => r.includes('주의력검사(IMC)')));
+
+  // 3. 인상관리 과다 발생 -> 이유에 인상관리 점수 포함
+  const imExcess = generateInterviewReport(session, {
+    flags: [],
+    domainScores: { '반응왜곡(인상관리)': { average: 4.15 } },
+    totalAverage: 3.5,
+    answeredCount: 150,
+    totalItems: 150,
+  });
+  assert.equal(imExcess.hasAuthenticityWarning, true);
+  assert.ok(imExcess.cautionReasons.some((r) => r.includes('인상관리(IM)')));
+});
+
 let passed = 0;
 for (const { name, fn } of tests) {
   try {

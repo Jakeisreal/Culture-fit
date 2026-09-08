@@ -207,7 +207,7 @@ export default async function handler(req, res) {
           (cwbAvg != null && cwbAvg < 2.8) ||
           scoreResult.imcFailedCount > 0 ||
           (scoreResult.consistency?.largeDifferencePairs || 0) >= 4 ||
-          quality.tier !== 'interpretable';
+          Boolean(report.hasAuthenticityWarning);
 
         completedCandidates.push({
           sessionId: record.sessionId,
